@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\GuruController;
 use App\Http\Controllers\LaporanKas;
 use App\Http\Controllers\MemberController;
 use App\Http\Controllers\OperatorController;
@@ -27,7 +28,8 @@ Route::middleware(['auth', 'verified'])
         Route::get('user', [UserController::class, 'index'])->name('userView');
         Route::get('petugas', [OperatorController::class, 'index'])->name('petugasView');
         Route::get('warga', [SiswaController::class, 'index'])->name('wargaAdminView');
-        Route::get('member', [MemberController::class, 'index'])->name('memberView');
+        Route::get('siswa', [SiswaController::class, 'index'])->name('siswaView');
+        Route::get('guru', [GuruController::class, 'index'])->name('guruView');
         //
         Route::get('user/export', [UserController::class, 'export'])->name('userExport');
         //
@@ -35,6 +37,13 @@ Route::middleware(['auth', 'verified'])
         Route::post('user/simpan', [UserController::class, 'simpan'])->name('userSimpan');
         Route::get('user/edit/{id}', [UserController::class, 'userEditView'])->name('userEditView');
         Route::post('user/edit/{id}', [UserController::class, 'editUser'])->name('userEdit');
+        Route::delete('user/hapus/{id}', [UserController::class, 'hapusUser'])->name('userHapus');
+        //
+        Route::get('siswa/tambah', [SiswaController::class, 'tambahView'])->name('siswaTambahView');
+        Route::post('siswa/simpan', [SiswaController::class, 'simpan'])->name('siswaSimpan');
+        Route::get('siswa/edit/{id}', [SiswaController::class, 'siswaEditView'])->name('siswaEditView');
+        Route::post('siswa/edit/{id}', [SiswaController::class, 'editSiswa'])->name('siswaEdit');
+        Route::delete('siswa/hapus/{id}', [SiswaController::class, 'hapusSiswa'])->name('siswaHapus');
     });
 
 Route::middleware(['auth', 'verified'])

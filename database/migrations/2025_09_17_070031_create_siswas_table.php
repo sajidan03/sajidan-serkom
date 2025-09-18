@@ -17,8 +17,8 @@ return new class extends Migration
             $table->string('nisn', 10);
             $table->string('nama_siswa', 40);
             $table->enum('jenis_kelamin', ['Laki-laki', 'Perempuan']);
-            $table->string('jurusan', 100)->default('Siswa');
-            $table->year(4);
+            $table->string('jurusan', 100)->default('Siswa')->nullable()    ;
+            $table->year('tahun_masuk', 4)->nullable();
         });
     }
 

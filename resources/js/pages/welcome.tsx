@@ -403,8 +403,8 @@ export default function Welcome() {
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                             <div>
                                 <div className="flex items-center mb-6">
-                                    <div className="flex h-10 w-10 items-center justify-center rounded-full bg-yellow-500 text-blue-900 mr-3">
-                                        <span className="text-xl font-bold">Y</span>
+                                    <div className="flex h-10 w-10 items-center justify-center rounded-full mr-2">
+                                                                   <img src={`/storage/assets/${profil.logo}`} alt="Logo SMK YPC" className="h-full w-full object-contain" />
                                     </div>
                                     <span className="text-2xl font-bold text-white">SMK YPC TASIKMALAYA</span>
                                 </div>

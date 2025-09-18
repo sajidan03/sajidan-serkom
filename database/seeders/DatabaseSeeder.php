@@ -7,9 +7,11 @@ use App\Models\Payment;
 use App\Models\User;
 use App\Models\Member;
 use App\Models\Category;
+use App\Models\Guru;
 use App\Models\Pemasukan;
 use App\Models\Pengeluaran;
 use App\Models\Profil_sekolah;
+use App\Models\Siswa;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
@@ -56,6 +58,18 @@ class DatabaseSeeder extends Seeder
             'username' => 'riki',
             'password' => bcrypt('123'),
             'role' => 'siswa',
+        ]);
+        Siswa::create([
+            'nisn' => '1234567890',
+            'nama_siswa' => 'Dhiya',
+            'jenis_kelamin' => 'Laki-laki',
+            'tahun_masuk' => 2023,
+        ]);
+        Guru::create([
+            'nama_guru' => 'Ujang',
+            'nip' => '0987654321',
+            'mapel' => 'Matematika',
+            'foto' => 'guru.png',
         ]);
         Profil_sekolah::create([
             'nama_sekolah' => 'SMK YPC Tasikmalaya',
