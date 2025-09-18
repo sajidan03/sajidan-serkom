@@ -45,7 +45,7 @@ class UserController extends Controller
 
     public function tambahView()
     {
-        $data['profil'] = Profil_sekolah::all();
+        $data['profil'] = Profil_sekolah::all()->first();
         return Inertia::render('Admin/User/tambah', $data);
     }
 
