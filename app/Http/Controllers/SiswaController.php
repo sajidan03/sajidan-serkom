@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Profil_sekolah;
 use App\Models\Siswa;
 use Illuminate\Http\Request;
+use Inertia\Inertia;
 
 class SiswaController extends Controller
 {
@@ -13,13 +14,13 @@ class SiswaController extends Controller
     {
         $data['profil'] = Profil_sekolah::first();
     $data['siswa'] = Siswa::all();
-        return inertia('Admin/Siswa/index', $data);
+        return Inertia::render('Admin/Siswa/index', $data);
     }
     public function tambahView()
     {
         $data['siswa'] = Siswa::all();
         $data['profil'] = Profil_sekolah::first();
-        return inertia('Admin/Siswa/tambah', $data);
+        return Inertia::render('Admin/Siswa/tambah', $data);
     }
     public function simpan(Request $request)
     {

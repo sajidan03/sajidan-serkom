@@ -23,13 +23,14 @@ Route::middleware(['auth', 'verified'])
         Route::get('siswa', [SiswaController::class, 'index'])->name('siswaView');
         Route::get('guru', [GuruController::class, 'index'])->name('guruView');
         //
+        Route::get('guru/export', [GuruController::class, 'export'])->name('guruExport');
         Route::get('user/export', [UserController::class, 'export'])->name('userExport');
         //
         Route::get('guru/tambah', [GuruController::class, 'tambahView'])->name('guruTambahView');
         Route::post('guru/simpan', [GuruController::class, 'simpan'])->name('guruSimpan');
         Route::get('guru/edit/{id}', [GuruController::class, 'guruEditView'])->name('guruEditView');
-        Route::post('guru/edit/{id}', [GuruController::class, 'editGuru'])->name('guruEdit');
-        Route::delete('guru/hapus/{id}', [GuruController::class, 'hapusGuru'])->name('guruHapus');  
+        Route::post('guru/edit/{id}', [GuruController::class, 'guruEdit'])->name('guruEdit');
+        Route::delete('guru/hapus/{id}', [GuruController::class, 'guruHapus'])->name('guruHapus');
         //
         Route::get('user/tambah', [UserController::class, 'tambahView'])->name('userTambahView');
         Route::post('user/simpan', [UserController::class, 'simpan'])->name('userSimpan');
