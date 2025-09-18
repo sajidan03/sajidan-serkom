@@ -74,7 +74,7 @@ export default function GuruIndex() {
                       <div className="w-12 h-12 rounded-full overflow-hidden bg-gray-200 flex items-center justify-center">
                         {guru.foto ? (
                           <img
-                            src={`/storage/public/assets/${guru.foto}`}
+                            src={`/storage/assets/${guru.foto}`}
                             alt={guru.nama_guru}
                             className="w-full h-full object-cover"
                           />

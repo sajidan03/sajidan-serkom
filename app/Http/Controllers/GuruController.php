@@ -36,7 +36,7 @@ class GuruController extends Controller
 
         $fileName = time() . '_' . $file->getClientOriginalName();
 
-        $file->storeAs('/public/assets', $fileName);
+        $file->storeAs('assets', $fileName);
     }
 
     Guru::create([
