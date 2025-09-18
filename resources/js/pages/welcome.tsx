@@ -7,7 +7,7 @@ import { motion } from 'framer-motion';
 export default function Welcome() {
     const { auth } = usePage<SharedData>().props;
     const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-
+    const { profil } = usePage<{ profil: { nama_sekolah: string; logo?: string , deskripsi?: string } }>().props
     return (
         <>
             <Head title="Selamat Datang di SMK YPC Tasikmalaya">
@@ -26,9 +26,9 @@ export default function Welcome() {
                         <div className="flex lg:flex-1">
                         <Link href="/" className="-m-1.5 p-1.5 flex items-center">
                             <div className="flex h-10 w-10 items-center justify-center rounded-full mr-2">
-                            <img src="/storage/assets/logo.png" alt="Logo SMK YPC" className="h-full w-full object-contain" />
+                            <img src={`/storage/assets/${profil.logo}`} alt="Logo SMK YPC" className="h-full w-full object-contain" />
                             </div>
-                            <span className="text-xl font-bold text-white">SMK YPC</span>
+                            <span className="text-xl font-bold text-white">{profil.nama_sekolah}</span>
                         </Link>
                         </div>
                         <div className="flex lg:hidden">
@@ -179,7 +179,7 @@ export default function Welcome() {
                         </div>
                         <div className="text-center">
                             <h1 className="text-5xl font-semibold tracking-tight text-balance text-white sm:text-7xl">
-                                SMK YPC TASIKMALAYA
+                                {profil.nama_sekolah}
                             </h1>
                             <p className="mt-8 text-lg font-medium text-pretty text-gray-200 sm:text-xl/8">
                                 Mencetak generasi profesional yang berkarakter, berkompeten, dan siap bersaing di era global.
@@ -317,10 +317,11 @@ export default function Welcome() {
                         <div className="mx-auto mt-16 max-w-2xl sm:mt-20 lg:mt-24 lg:max-w-4xl">
                             <div className="rounded-lg bg-white/5 p-8 backdrop-blur-sm">
                                 <p className="text-lg text-white text-justify">
-                                    SMK YPC Tasikmalaya adalah sekolah menengah kejuruan yang berkomitmen untuk mencetak lulusan
+                                    {/* SMK YPC Tasikmalaya adalah sekolah menengah kejuruan yang berkomitmen untuk mencetak lulusan
                                     yang kompeten dan siap kerja. Dengan fasilitas modern dan kurikulum yang sesuai dengan
                                     kebutuhan industri, kami mempersiapkan siswa untuk menghadapi tantangan dunia kerja
-                                    maupun melanjutkan ke perguruan tinggi.
+                                    maupun melanjutkan ke perguruan tinggi. */}
+                                    {profil.deskripsi}
                                 </p>
                                 <div className="mt-8 grid grid-cols-2 gap-4">
                                     <div className="text-center">

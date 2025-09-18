@@ -9,6 +9,7 @@ use App\Models\Member;
 use App\Models\Category;
 use App\Models\Pemasukan;
 use App\Models\Pengeluaran;
+use App\Models\Profil_sekolah;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
@@ -55,6 +56,18 @@ class DatabaseSeeder extends Seeder
             'username' => 'riki',
             'password' => bcrypt('123'),
             'role' => 'siswa',
+        ]);
+        Profil_sekolah::create([
+            'nama_sekolah' => 'SMK YPC Tasikmalaya',
+            'kepala_sekolah' => 'Drs. H. Ujang sanusi, M.M.',
+            'foto' => 'sekolah.png',
+            'logo' => 'logo.png',
+            'npsn' => '1234567890',
+            'alamat' => 'Jl. Garut-Tasikmalaya',
+            'kontak' => '08123456789',
+            'visi_misi' => 'Mewujudkan Lulusan yang Beriman, Bertaqwa, Unggul, dan Kompetitif di Bidang Teknologi Informasi dan Komunikasi',
+            'tahun_berdiri' => '2005',
+            'deskripsi' => 'SMK YPC Tasikmalaya adalah sekolah menengah kejuruan yang berfokus pada pengembangan keterampilan di bidang teknologi informasi dan komunikasi. Dengan fasilitas modern dan tenaga pengajar yang berpengalaman, kami berkomitmen untuk mencetak lulusan yang siap bersaing di dunia kerja.',
         ]);
     //    Petugas::create([
     //          'id_user' => '3',

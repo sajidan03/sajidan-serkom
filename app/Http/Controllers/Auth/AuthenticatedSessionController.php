@@ -45,10 +45,10 @@ class AuthenticatedSessionController extends Controller
     // Cek role dan redirect sesuai role
     if ($user->role === 'admin') {
         return redirect()->route('admin.dashboard');
-    } elseif ($user->role === 'warga') {
-        return redirect()->route('wargaView');
-    } elseif ($user->role === 'petugas') {
-        return redirect()->route('petugas.dashboard');
+    } elseif ($user->role === 'siswa') {
+        return redirect()->route('siswaView');
+    } elseif ($user->role === 'operator') {
+        return redirect()->route('operator.dashboard');
     }
 
     // fallback default

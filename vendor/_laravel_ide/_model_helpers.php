@@ -627,12 +627,22 @@ namespace App\Models {
     /**
      * App\Models\Ekstrakulikuler
      *
+     * @property string $gambar
+     * @property string $deskripsi
+     * @property string $jadwal_latihan
+     * @property string $pembina
+     * @property string $nama_eskul
      * @property \Illuminate\Support\Carbon|null $updated_at
      * @property \Illuminate\Support\Carbon|null $created_at
      * @property int $id
      * @method static \Illuminate\Database\Eloquent\Builder<Ekstrakulikuler>|Ekstrakulikuler whereId($value)
      * @method static \Illuminate\Database\Eloquent\Builder<Ekstrakulikuler>|Ekstrakulikuler whereCreatedAt($value)
      * @method static \Illuminate\Database\Eloquent\Builder<Ekstrakulikuler>|Ekstrakulikuler whereUpdatedAt($value)
+     * @method static \Illuminate\Database\Eloquent\Builder<Ekstrakulikuler>|Ekstrakulikuler whereNamaEskul($value)
+     * @method static \Illuminate\Database\Eloquent\Builder<Ekstrakulikuler>|Ekstrakulikuler wherePembina($value)
+     * @method static \Illuminate\Database\Eloquent\Builder<Ekstrakulikuler>|Ekstrakulikuler whereJadwalLatihan($value)
+     * @method static \Illuminate\Database\Eloquent\Builder<Ekstrakulikuler>|Ekstrakulikuler whereDeskripsi($value)
+     * @method static \Illuminate\Database\Eloquent\Builder<Ekstrakulikuler>|Ekstrakulikuler whereGambar($value)
      * @method static \Illuminate\Database\Eloquent\Builder<Ekstrakulikuler>|Ekstrakulikuler newModelQuery()
      * @method static \Illuminate\Database\Eloquent\Builder<Ekstrakulikuler>|Ekstrakulikuler newQuery()
      * @method static \Illuminate\Database\Eloquent\Builder<Ekstrakulikuler>|Ekstrakulikuler query()
