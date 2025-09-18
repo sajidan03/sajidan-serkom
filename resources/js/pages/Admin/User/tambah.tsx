@@ -25,7 +25,7 @@ export default function Create() {
     name: '',
     username: '',
     password: '',
-    role: 'warga',
+    role: 'siswa',
   })
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -36,7 +36,7 @@ export default function Create() {
   const getRoleIcon = (role: string) => {
     switch (role) {
       case 'admin': return <Shield className="w-4 h-4" />
-      case 'petugas': return <User className="w-4 h-4" />
+      case 'operator': return <User className="w-4 h-4" />
       default: return <Users className="w-4 h-4" />
     }
   }
@@ -44,7 +44,7 @@ export default function Create() {
   const getRoleColor = (role: string) => {
     switch (role) {
       case 'admin': return 'bg-red-100 text-red-700 border-red-200'
-      case 'petugas': return 'bg-blue-100 text-blue-700 border-blue-200'
+      case 'operator': return 'bg-blue-100 text-blue-700 border-blue-200'
       default: return 'bg-green-100 text-green-700 border-green-200'
     }
   }
@@ -157,13 +157,13 @@ export default function Create() {
                       <SelectItem value="warga">
                         <div className="flex items-center gap-2">
                           <Users className="w-4 h-4" />
-                          Warga
+                            Siswa
                         </div>
                       </SelectItem>
                       <SelectItem value="petugas">
                         <div className="flex items-center gap-2">
                           <User className="w-4 h-4" />
-                          Petugas
+                          Operator
                         </div>
                       </SelectItem>
                       <SelectItem value="admin">
@@ -235,7 +235,7 @@ export default function Create() {
             <div>
               <h4 className="font-medium text-yellow-800">Informasi Penting</h4>
               <p className="text-sm text-yellow-700">
-                Pastikan data yang dimasukkan sudah benar. Role yang dipilih akan menentukan 
+                Pastikan data yang dimasukkan sudah benar. Role yang dipilih akan menentukan
                 hak akses user dalam sistem.
               </p>
             </div>

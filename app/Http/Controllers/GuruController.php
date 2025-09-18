@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Exports\GuruExport;
 use App\Models\Guru;
 use App\Models\Profil_sekolah;
+use Illuminate\Contracts\Encryption\DecryptException;
 use Illuminate\Contracts\Encryption\Encrypter as EncryptionEncrypter;
 use Illuminate\Encryption\Encrypter;
 use Illuminate\Http\Request;
@@ -68,8 +69,7 @@ class GuruController extends Controller
     {
         try {
             $id = Crypt::decrypt($id);
-        } catch (\Throwable $th) {
-            //throw $th;
+        } catch (DecryptException $d) {
         }
         $data['profil'] = Profil_sekolah::first();
         $data['guru'] = Guru::findOrFail($id);

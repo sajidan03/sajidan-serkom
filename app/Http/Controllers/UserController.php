@@ -45,7 +45,8 @@ class UserController extends Controller
 
     public function tambahView()
     {
-        return Inertia::render('Admin/User/tambah');
+        $data['profil'] = Profil_sekolah::all();
+        return Inertia::render('Admin/User/tambah', $data);
     }
 
  public function simpan(Request $request)
@@ -63,6 +64,7 @@ class UserController extends Controller
         'password' => bcrypt($request->password),
         'role' => $request->role,
     ]);
+
 return redirect()->route('userView')->with('success', 'User berhasil ditambahkan.');
 }
 
