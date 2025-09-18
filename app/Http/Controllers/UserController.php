@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Exports\UsersExport;
+use App\Models\Profil_sekolah;
 use App\Models\User;
 use Illuminate\Contracts\Encryption\DecryptException;
 use Illuminate\Http\Request;
@@ -25,23 +26,21 @@ class UserController extends Controller
                 'encrypted_id' => Crypt::encrypt($user->id),
             ];
         });
-
+        $users['profil'] = Profil_sekolah::first();
         return Inertia::render('Admin/User/index', $users);
     }
 
     public function userEditView($id)
     {
+        $user['profil'] = Profil_sekolah::first();
         try {
             $id = Crypt::decrypt($id);
         } catch (DecryptException $e) {
             abort(404, 'ID tidak valid');
         }
 
-        $user = User::findOrFail($id);
-
-        return Inertia::render('Admin/User/edit', [
-            'user' => $user
-        ]);
+        $user['user'] = User::findOrFail($id);
+        return Inertia::render('Admin/User/edit', $user);
     }
 
     public function tambahView()

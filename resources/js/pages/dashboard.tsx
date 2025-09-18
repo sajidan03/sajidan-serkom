@@ -3,11 +3,17 @@ import { dashboard } from '@/routes';
 import { type BreadcrumbItem } from '@/types';
 import { Head, usePage } from '@inertiajs/react';
 import {
-    
   Calendar,
   CreditCard,
   TrendingUp,
-  TrendingDown
+  TrendingDown,
+  Users,
+  BookOpen,
+  School,
+  Newspaper,
+  Image,
+  Activity,
+  DollarSign
 } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import {
@@ -24,7 +30,7 @@ import {
 } from 'chart.js';
 import { Bar } from 'react-chartjs-2';
 
-// Register ChartJS components - INI SANGAT PENTING!
+// Register ChartJS components
 ChartJS.register(
   CategoryScale,
   LinearScale,
@@ -37,28 +43,22 @@ ChartJS.register(
   LineElement
 );
 
+// Interface untuk data dashboard
 interface DashboardData {
+  total_guru: number;
+  total_siswa: number;
+  total_berita: number;
+  total_galeri: number;
+  total_ekskul: number;
   total_users: number;
-  total_members: number;
-  total_residents: number;
-  total_officers: number;
-  total_revenue: number;
-  total_categories: number;
-  monthly_revenue: { month: string; revenue: number }[];
-  user_activity: { day: string; active: number }[];
-  recent_payments: {
+  statistik_siswa: { kelas: string; jumlah: number }[];
+  statistik_guru: { bidang: string; jumlah: number }[];
+  recent_activities: {
     id: number;
     user_name: string;
-    amount: number;
-    period: string;
+    activity: string;
     created_at: string;
   }[];
-  monthly_stats: {
-    month: string;
-    total_payments: number;
-    total_amount: number;
-  }[];
-  revenue_growth: number;
 }
 
 interface DashboardProps {
@@ -72,13 +72,67 @@ const breadcrumbs: BreadcrumbItem[] = [
   },
 ];
 
-export default function Dashboard({ dashboardData }: DashboardProps) {
+// Data contoh untuk SMK YPC
+const fakeDashboardData: DashboardData = {
+  total_guru: 42,
+  total_siswa: 586,
+  total_berita: 24,
+  total_galeri: 156,
+  total_ekskul: 12,
+  total_users: 8,
+  statistik_siswa: [
+    { kelas: "X", jumlah: 210 },
+    { kelas: "XI", jumlah: 192 },
+    { kelas: "XII", jumlah: 184 }
+  ],
+  statistik_guru: [
+    { bidang: "Matematika & IPA", jumlah: 10 },
+    { bidang: "Bahasa & Sastra", jumlah: 8 },
+    { bidang: "Teknologi Informasi", jumlah: 12 },
+    { bidang: "Teknik & Mesin", jumlah: 7 },
+    { bidang: "Seni & Budaya", jumlah: 5 }
+  ],
+  recent_activities: [
+    {
+      id: 1,
+      user_name: "Ahmad Sutisna",
+      activity: "Menambahkan berita baru 'Penerimaan Siswa Baru 2024'",
+      created_at: "2024-05-15T14:30:00"
+    },
+    {
+      id: 2,
+      user_name: "Dewi Kartika",
+      activity: "Mengupdate data guru pengajar Matematika",
+      created_at: "2024-05-15T13:15:00"
+    },
+    {
+      id: 3,
+      user_name: "Rizky Pratama",
+      activity: "Mengupload foto kegiatan ekstrakurikuler",
+      created_at: "2024-05-15T11:45:00"
+    },
+    {
+      id: 4,
+      user_name: "Siti Rahayu",
+      activity: "Memperbarui profil sekolah",
+      created_at: "2024-05-15T09:20:00"
+    },
+    {
+      id: 5,
+      user_name: "Budi Santoso",
+      activity: "Menambahkan jadwal ujian semester",
+      created_at: "2024-05-14T16:40:00"
+    }
+  ]
+};
+
+export default function Dashboard({ dashboardData = fakeDashboardData }: DashboardProps) {
   const { props } = usePage<{ dashboardData: DashboardData }>();
   const [currentTime, setCurrentTime] = useState(new Date());
   const [isClient, setIsClient] = useState(false);
 
   useEffect(() => {
-    setIsClient(true); // Pastikan kita di client-side untuk Chart.js
+    setIsClient(true);
     const timer = setInterval(() => {
       setCurrentTime(new Date());
     }, 1000);
@@ -88,14 +142,6 @@ export default function Dashboard({ dashboardData }: DashboardProps) {
 
   const formatNumber = (num: number) => {
     return new Intl.NumberFormat('id-ID').format(num);
-  };
-
-  const formatCurrency = (num: number) => {
-    return new Intl.NumberFormat('id-ID', {
-      style: 'currency',
-      currency: 'IDR',
-      minimumFractionDigits: 0,
-    }).format(num);
   };
 
   const formatDate = (dateString: string) => {
@@ -113,8 +159,8 @@ export default function Dashboard({ dashboardData }: DashboardProps) {
     });
   };
 
-  // Chart options untuk pendapatan bulanan - DIPERBAIKI
-  const revenueChartOptions = {
+  // Chart options untuk statistik siswa
+  const siswaChartOptions = {
     responsive: true,
     maintainAspectRatio: false,
     plugins: {
@@ -123,77 +169,7 @@ export default function Dashboard({ dashboardData }: DashboardProps) {
       },
       title: {
         display: true,
-        text: 'Pendapatan Bulanan',
-        font: {
-          size: 16,
-          weight: 'bold',
-        },
-        color: '#374151',
-        padding: {
-          top: 10,
-          bottom: 30
-        }
-      },
-      tooltip: {
-        callbacks: {
-          label: function(context: any) {
-            return formatCurrency(context.raw);
-          }
-        }
-      }
-    },
-    scales: {
-      y: {
-        beginAtZero: true,
-        ticks: {
-          callback: function(value: any) {
-            if (value >= 1000000) {
-              return 'Rp' + (value / 1000000).toFixed(1) + 'Jt';
-            } else if (value >= 1000) {
-              return 'Rp' + (value / 1000).toFixed(0) + 'Rb';
-            }
-            return 'Rp' + value;
-          }
-        },
-        grid: {
-          color: 'rgba(0, 0, 0, 0.1)'
-        }
-      },
-      x: {
-        grid: {
-          display: false
-        }
-      }
-    },
-  };
-
-  // Data untuk chart pendapatan bulanan - DIPERBAIKI
-  const revenueChartData = {
-    labels: dashboardData.monthly_revenue.map(item => item.month),
-    datasets: [
-      {
-        label: 'Pendapatan',
-        data: dashboardData.monthly_revenue.map(item => item.revenue),
-        backgroundColor: 'rgba(16, 185, 129, 0.8)',
-        borderColor: 'rgba(16, 185, 129, 1)',
-        borderWidth: 1,
-        borderRadius: 6,
-        hoverBackgroundColor: 'rgba(16, 185, 129, 1)',
-      },
-    ],
-  };
-
-  // Chart options untuk aktivitas pengguna - DIPERBAIKI
-  const activityChartOptions = {
-    responsive: true,
-    maintainAspectRatio: false,
-    plugins: {
-      legend: {
-        display: false,
-      },
-      title: {
-        display: true,
-        text: 'Aktivitas Pengguna',
+        text: 'Distribusi Siswa per Kelas',
         font: {
           size: 16,
           weight: 'bold',
@@ -209,7 +185,7 @@ export default function Dashboard({ dashboardData }: DashboardProps) {
       y: {
         beginAtZero: true,
         ticks: {
-          stepSize: 1,
+          stepSize: 50,
           precision: 0
         },
         grid: {
@@ -224,13 +200,13 @@ export default function Dashboard({ dashboardData }: DashboardProps) {
     },
   };
 
-  // Data untuk chart aktivitas pengguna - DIPERBAIKI
-  const activityChartData = {
-    labels: dashboardData.user_activity.map(item => item.day),
+  // Data untuk chart statistik siswa
+  const siswaChartData = {
+    labels: dashboardData.statistik_siswa.map(item => `Kelas ${item.kelas}`),
     datasets: [
       {
-        label: 'Aktivitas',
-        data: dashboardData.user_activity.map(item => item.active),
+        label: 'Jumlah Siswa',
+        data: dashboardData.statistik_siswa.map(item => item.jumlah),
         backgroundColor: 'rgba(59, 130, 246, 0.8)',
         borderColor: 'rgba(59, 130, 246, 1)',
         borderWidth: 1,
@@ -240,20 +216,56 @@ export default function Dashboard({ dashboardData }: DashboardProps) {
     ],
   };
 
-  // Hitung statistik untuk card pendapatan
-  const currentMonthRevenue = dashboardData.monthly_revenue.length > 0
-    ? dashboardData.monthly_revenue[dashboardData.monthly_revenue.length - 1].revenue
-    : 0;
+  // Chart options untuk statistik guru
+  const guruChartOptions = {
+    responsive: true,
+    maintainAspectRatio: false,
+    plugins: {
+      legend: {
+        position: 'right' as const,
+      },
+      title: {
+        display: true,
+        text: 'Distribusi Guru per Bidang',
+        font: {
+          size: 16,
+          weight: 'bold',
+        },
+        color: '#374151',
+        padding: {
+          top: 10,
+          bottom: 30
+        }
+      },
+    },
+  };
 
-  const previousMonthRevenue = dashboardData.monthly_revenue.length > 1
-    ? dashboardData.monthly_revenue[dashboardData.monthly_revenue.length - 2].revenue
-    : 0;
+  // Data untuk chart statistik guru (pie chart)
+  const guruChartData = {
+    labels: dashboardData.statistik_guru.map(item => item.bidang),
+    datasets: [
+      {
+        label: 'Jumlah Guru',
+        data: dashboardData.statistik_guru.map(item => item.jumlah),
+        backgroundColor: [
+          'rgba(255, 99, 132, 0.8)',
+          'rgba(54, 162, 235, 0.8)',
+          'rgba(255, 206, 86, 0.8)',
+          'rgba(75, 192, 192, 0.8)',
+          'rgba(153, 102, 255, 0.8)',
+        ],
+        borderColor: [
+          'rgba(255, 99, 132, 1)',
+          'rgba(54, 162, 235, 1)',
+          'rgba(255, 206, 86, 1)',
+          'rgba(75, 192, 192, 1)',
+          'rgba(153, 102, 255, 1)',
+        ],
+        borderWidth: 1,
+      },
+    ],
+  };
 
-  const revenueChange = previousMonthRevenue > 0
-    ? ((currentMonthRevenue - previousMonthRevenue) / previousMonthRevenue) * 100
-    : 0;
-
-  // Pastikan data chart tersedia sebelum render
   if (!isClient) {
     return (
       <AppLayout breadcrumbs={breadcrumbs}>
@@ -267,15 +279,15 @@ export default function Dashboard({ dashboardData }: DashboardProps) {
 
   return (
     <AppLayout breadcrumbs={breadcrumbs}>
-      <Head title="Dashboard" />
+      <Head title="Dashboard Admin SMK YPC" />
       <div className="flex flex-col gap-6 p-6">
         {/* Header dengan Waktu Real-time */}
         <div className="flex flex-col gap-2">
           <div className="flex items-center justify-between">
             <div>
-              <h1 className="text-3xl font-bold tracking-tight">Dashboard</h1>
+              <h1 className="text-3xl font-bold tracking-tight">Dashboard Admin SMK YPC</h1>
               <p className="text-muted-foreground">
-                Ringkasan data dan statistik sistem iuran warga
+                Sistem Manajemen Sekolah - SMK Yayasan Pendidikan Cendekia
               </p>
             </div>
             <div className="text-right">
@@ -295,91 +307,142 @@ export default function Dashboard({ dashboardData }: DashboardProps) {
         </div>
 
         {/* Grid Statistik */}
-        <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-          {/* Total Pendapatan Bulan Ini */}
-          <div className="rounded-lg border bg-white p-6 shadow-sm">
+        <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6">
+          {/* Total Guru */}
+          <div className="rounded-lg border bg-white p-4 shadow-sm">
             <div className="flex items-center justify-between">
               <div className="flex flex-col gap-1">
-                <h3 className="text-sm font-medium text-muted-foreground">Pendapatan Bulan Ini</h3>
-                <p className="text-2xl font-bold">{formatCurrency(currentMonthRevenue)}</p>
-                <div className={`flex items-center gap-1 text-xs ${
-                  revenueChange >= 0 ? 'text-green-600' : 'text-red-600'
-                }`}>
-                  {revenueChange >= 0 ? (
-                    <TrendingUp className="h-3 w-3" />
-                  ) : (
-                    <TrendingDown className="h-3 w-3" />
-                  )}
-                  <span>{Math.abs(revenueChange).toFixed(1)}% dari bulan lalu</span>
-                </div>
+                <h3 className="text-sm font-medium text-muted-foreground">Total Guru</h3>
+                <p className="text-2xl font-bold">{formatNumber(dashboardData.total_guru)}</p>
               </div>
-              <div className="rounded-full bg-teal-100 p-3">
-                <DollarSign className="h-5 w-5 text-teal-600" />
+              <div className="rounded-full bg-blue-100 p-2">
+                <Users className="h-5 w-5 text-blue-600" />
               </div>
             </div>
           </div>
 
-          {/* Card statistik lainnya... */}
-          {/* ... (kode card statistik lainnya tetap sama) ... */}
+          {/* Total Siswa */}
+          <div className="rounded-lg border bg-white p-4 shadow-sm">
+            <div className="flex items-center justify-between">
+              <div className="flex flex-col gap-1">
+                <h3 className="text-sm font-medium text-muted-foreground">Total Siswa</h3>
+                <p className="text-2xl font-bold">{formatNumber(dashboardData.total_siswa)}</p>
+              </div>
+              <div className="rounded-full bg-green-100 p-2">
+                <School className="h-5 w-5 text-green-600" />
+              </div>
+            </div>
+          </div>
+
+          {/* Total Berita */}
+          <div className="rounded-lg border bg-white p-4 shadow-sm">
+            <div className="flex items-center justify-between">
+              <div className="flex flex-col gap-1">
+                <h3 className="text-sm font-medium text-muted-foreground">Total Berita</h3>
+                <p className="text-2xl font-bold">{formatNumber(dashboardData.total_berita)}</p>
+              </div>
+              <div className="rounded-full bg-amber-100 p-2">
+                <Newspaper className="h-5 w-5 text-amber-600" />
+              </div>
+            </div>
+          </div>
+
+          {/* Total Galeri */}
+          <div className="rounded-lg border bg-white p-4 shadow-sm">
+            <div className="flex items-center justify-between">
+              <div className="flex flex-col gap-1">
+                <h3 className="text-sm font-medium text-muted-foreground">Galeri Foto</h3>
+                <p className="text-2xl font-bold">{formatNumber(dashboardData.total_galeri)}</p>
+              </div>
+              <div className="rounded-full bg-purple-100 p-2">
+                <Image className="h-5 w-5 text-purple-600" />
+              </div>
+            </div>
+          </div>
+
+          {/* Total Ekskul */}
+          <div className="rounded-lg border bg-white p-4 shadow-sm">
+            <div className="flex items-center justify-between">
+              <div className="flex flex-col gap-1">
+                <h3 className="text-sm font-medium text-muted-foreground">Ekstrakurikuler</h3>
+                <p className="text-2xl font-bold">{formatNumber(dashboardData.total_ekskul)}</p>
+              </div>
+              <div className="rounded-full bg-red-100 p-2">
+                <Activity className="h-5 w-5 text-red-600" />
+              </div>
+            </div>
+          </div>
+
+          {/* Total Admin */}
+          <div className="rounded-lg border bg-white p-4 shadow-sm">
+            <div className="flex items-center justify-between">
+              <div className="flex flex-col gap-1">
+                <h3 className="text-sm font-medium text-muted-foreground">Admin Sistem</h3>
+                <p className="text-2xl font-bold">{formatNumber(dashboardData.total_users)}</p>
+              </div>
+              <div className="rounded-full bg-gray-100 p-2">
+                <Users className="h-5 w-5 text-gray-600" />
+              </div>
+            </div>
+          </div>
         </div>
 
-        {/* Charts Section - DIPERBAIKI */}
+        {/* Charts Section */}
         <div className="grid gap-6 md:grid-cols-2">
-          {/* Chart Pendapatan Bulanan dengan Chart.js */}
+          {/* Chart Statistik Siswa */}
           <div className="rounded-lg border bg-white p-6 shadow-sm">
             <div className="h-80">
-              {dashboardData.monthly_revenue.length > 0 ? (
+              {dashboardData.statistik_siswa.length > 0 ? (
                 <Bar
-                  key={JSON.stringify(dashboardData.monthly_revenue)} // Force re-render on data change
-                  options={revenueChartOptions}
-                  data={revenueChartData}
+                  key={JSON.stringify(dashboardData.statistik_siswa)}
+                  options={siswaChartOptions}
+                  data={siswaChartData}
                 />
               ) : (
                 <div className="flex items-center justify-center h-full">
-                  <p className="text-gray-500">Tidak ada data pendapatan</p>
+                  <p className="text-gray-500">Tidak ada data siswa</p>
                 </div>
               )}
             </div>
           </div>
 
-          {/* Chart Aktivitas Pengguna dengan Chart.js */}
+          {/* Chart Statistik Guru */}
           <div className="rounded-lg border bg-white p-6 shadow-sm">
             <div className="h-80">
-              {dashboardData.user_activity.length > 0 ? (
+              {dashboardData.statistik_guru.length > 0 ? (
                 <Bar
-                  key={JSON.stringify(dashboardData.user_activity)} // Force re-render on data change
-                  options={activityChartOptions}
-                  data={activityChartData}
+                  key={JSON.stringify(dashboardData.statistik_guru)}
+                  options={guruChartOptions}
+                  data={guruChartData}
                 />
               ) : (
                 <div className="flex items-center justify-center h-full">
-                  <p className="text-gray-500">Tidak ada data aktivitas</p>
+                  <p className="text-gray-500">Tidak ada data guru</p>
                 </div>
               )}
             </div>
           </div>
         </div>
 
-        {/* Pembayaran Terbaru */}
+        {/* Aktivitas Terbaru */}
         <div className="rounded-lg border bg-white p-6 shadow-sm">
-          <h2 className="mb-4 text-lg font-semibold">Pembayaran Terbaru</h2>
-          {dashboardData.recent_payments.length > 0 ? (
+          <h2 className="mb-4 text-lg font-semibold">Aktivitas Terbaru</h2>
+          {dashboardData.recent_activities.length > 0 ? (
             <div className="space-y-4">
-              {dashboardData.recent_payments.map((payment) => (
-                <div key={payment.id} className="flex items-center justify-between p-3 border rounded-lg">
+              {dashboardData.recent_activities.map((activity) => (
+                <div key={activity.id} className="flex items-center justify-between p-3 border rounded-lg">
                   <div className="flex items-center gap-3">
-                    <div className="p-2 bg-green-100 rounded-full">
-                      <CreditCard className="h-4 w-4 text-green-600" />
+                    <div className="p-2 bg-blue-100 rounded-full">
+                      <Activity className="h-4 w-4 text-blue-600" />
                     </div>
                     <div>
-                      <p className="font-medium">{payment.user_name}</p>
-                      <p className="text-sm text-muted-foreground">{payment.period}</p>
+                      <p className="font-medium">{activity.user_name}</p>
+                      <p className="text-sm text-muted-foreground">{activity.activity}</p>
                     </div>
                   </div>
                   <div className="text-right">
-                    <p className="font-bold text-green-600">{formatCurrency(payment.amount)}</p>
                     <p className="text-xs text-muted-foreground">
-                      {formatDate(payment.created_at)} {formatTime(payment.created_at)}
+                      {formatDate(activity.created_at)} {formatTime(activity.created_at)}
                     </p>
                   </div>
                 </div>
@@ -388,7 +451,7 @@ export default function Dashboard({ dashboardData }: DashboardProps) {
           ) : (
             <div className="text-center py-8 text-muted-foreground">
               <Calendar className="h-12 w-12 mx-auto mb-2 opacity-50" />
-              <p>Belum ada pembayaran</p>
+              <p>Belum ada aktivitas</p>
             </div>
           )}
         </div>

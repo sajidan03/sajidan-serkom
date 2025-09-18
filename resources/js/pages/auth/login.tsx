@@ -65,7 +65,7 @@ export default function Login({ status, canResetPassword }: LoginProps) {
                             id="remember"
                             name="remember"
                             tabIndex={3}
-                            className="data-[state=checked]:bg-teal-600 data-[state=checked]:border-teal-600"
+                            className="data-[state=checked]:bg-[#30328b] data-[state=checked]:border-black-500"
                             />
                                 <Label htmlFor="remember">Ingat saya</Label>
                             </div>
@@ -73,7 +73,7 @@ export default function Login({ status, canResetPassword }: LoginProps) {
 
                             <Button
                                 type="submit"
-                                className="mt-4 w-full bg-teal-600 hover:bg-teal-700 text-white"
+                                className="mt-4 w-full bg-[#30328b] hover:bg-[#26276f] text-white"
                                 tabIndex={4}
                                 disabled={processing}
                             >

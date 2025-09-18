@@ -3436,6 +3436,7 @@ namespace App\Models {
      * App\Models\Siswa
      *
      * @property mixed $4
+     * @property string $jurusan
      * @property mixed $jenis_kelamin
      * @property string $nama_siswa
      * @property string $nisn
@@ -3448,6 +3449,7 @@ namespace App\Models {
      * @method static \Illuminate\Database\Eloquent\Builder<Siswa>|Siswa whereNisn($value)
      * @method static \Illuminate\Database\Eloquent\Builder<Siswa>|Siswa whereNamaSiswa($value)
      * @method static \Illuminate\Database\Eloquent\Builder<Siswa>|Siswa whereJenisKelamin($value)
+     * @method static \Illuminate\Database\Eloquent\Builder<Siswa>|Siswa whereJurusan($value)
      * @method static \Illuminate\Database\Eloquent\Builder<Siswa>|Siswa where4($value)
      * @method static \Illuminate\Database\Eloquent\Builder<Siswa>|Siswa newModelQuery()
      * @method static \Illuminate\Database\Eloquent\Builder<Siswa>|Siswa newQuery()

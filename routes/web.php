@@ -28,7 +28,13 @@ Route::middleware(['auth', 'verified'])
         Route::get('petugas', [OperatorController::class, 'index'])->name('petugasView');
         Route::get('warga', [SiswaController::class, 'index'])->name('wargaAdminView');
         Route::get('member', [MemberController::class, 'index'])->name('memberView');
-
+        //
+        Route::get('user/export', [UserController::class, 'export'])->name('userExport');
+        //
+        Route::get('user/tambah', [UserController::class, 'tambahView'])->name('userTambahView');
+        Route::post('user/simpan', [UserController::class, 'simpan'])->name('userSimpan');
+        Route::get('user/edit/{id}', [UserController::class, 'userEditView'])->name('userEditView');
+        Route::post('user/edit/{id}', [UserController::class, 'editUser'])->name('userEdit');
     });
 
 Route::middleware(['auth', 'verified'])

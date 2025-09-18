@@ -5,7 +5,7 @@ import { Sidebar, SidebarContent, SidebarFooter, SidebarHeader, SidebarMenu, Sid
 import { dashboard } from '@/routes';
 import { type NavItem } from '@/types';
 import { Link } from '@inertiajs/react';
-import { LayoutGrid, User, ChartColumnStacked, UserCircle, Banknote,} from 'lucide-react';
+import { LayoutGrid, User, ChartColumnStacked, UserCircle, Banknote, NewspaperIcon,} from 'lucide-react';
 import AppLogo from './app-logo';
 
 const mainNavItems: NavItem[] = [
@@ -20,40 +20,35 @@ const mainNavItems: NavItem[] = [
         icon: User,
     },
     {
-        title: 'Warga',
-        href: '/admin/warga',
+        title: 'Siswa',
+        href: '/admin/siswa',
         icon: User,
     },
     {
-        title: 'Petugas',
-        href: '/admin/petugas',
+        title: 'Guru',
+        href: '/admin/guru',
+        icon: User,
+    },
+    {
+        title: 'Galeri',
+        href: '/admin/galeri',
         icon: UserCircle,
     },
     {
-        title: 'Kategori tagihan',
-        href: '/admin/category',
-        icon: ChartColumnStacked,
+        title: 'Berita',
+        href: '/admin/berita',
+        icon: NewspaperIcon,
     },
     {
-        title: 'Kelola member',
-        href: '/admin/member',
+        title: 'Ekstrakurikuler',
+        href: '/admin/ekstrakurikuler',
         icon: User,
     },
     {
-        title: 'Laporan kas',
-        href: '/admin/kas/laporan',
+        title: 'Profil sekolah',
+        href: '/admin/kas/profil-sekolah',
         icon: Banknote,
     },
-    {
-        title: 'Kas Masuk',
-        href: '/admin/kas/pemasukan',
-        icon: Banknote,
-    },
-    {
-        title: 'Kas Keluar',
-        href: '/admin/kas/pengeluaran',
-        icon: Banknote,
-    }
 
 ];
 
