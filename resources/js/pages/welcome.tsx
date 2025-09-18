@@ -22,7 +22,8 @@ export default function Welcome() {
                 animate={{ y: 0, opacity: 1 }}
                 transition={{ duration: 1, ease: "easeOut" }}
                 className="absolute inset-x-0 top-0 z-50">
-                    <nav className="flex items-center justify-between p-6 lg:px-8">
+                    <nav className="flex items-center justify-between p-6 lg:px-10">
+                        {/* navbar */}
                         <div className="flex lg:flex-1">
                         <Link href="/" className="-m-1.5 p-1.5 flex items-center">
                             <div className="flex h-10 w-10 items-center justify-center rounded-full mr-2">

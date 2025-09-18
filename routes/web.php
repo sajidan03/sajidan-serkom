@@ -1,18 +1,10 @@
 <?php
 
-use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\GuruController;
-use App\Http\Controllers\LaporanKas;
-use App\Http\Controllers\MemberController;
 use App\Http\Controllers\OperatorController;
-use App\Http\Controllers\PaymentController;
-use App\Http\Controllers\PemasukanKas;
-use App\Http\Controllers\PengeluaranKas;
-use App\Http\Controllers\PetugasController;
 use App\Http\Controllers\SiswaController;
 use App\Http\Controllers\UserController;
-use App\Http\Controllers\WargaController;
 use App\Http\Controllers\WelcomeController;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -32,6 +24,12 @@ Route::middleware(['auth', 'verified'])
         Route::get('guru', [GuruController::class, 'index'])->name('guruView');
         //
         Route::get('user/export', [UserController::class, 'export'])->name('userExport');
+        //
+        Route::get('guru/tambah', [GuruController::class, 'tambahView'])->name('guruTambahView');
+        Route::post('guru/simpan', [GuruController::class, 'simpan'])->name('guruSimpan');
+        Route::get('guru/edit/{id}', [GuruController::class, 'guruEditView'])->name('guruEditView');
+        Route::post('guru/edit/{id}', [GuruController::class, 'editGuru'])->name('guruEdit');
+        Route::delete('guru/hapus/{id}', [GuruController::class, 'hapusGuru'])->name('guruHapus');  
         //
         Route::get('user/tambah', [UserController::class, 'tambahView'])->name('userTambahView');
         Route::post('user/simpan', [UserController::class, 'simpan'])->name('userSimpan');
