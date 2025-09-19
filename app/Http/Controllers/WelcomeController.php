@@ -14,4 +14,9 @@ class WelcomeController extends Controller
         $data['profil'] = Profil_sekolah::first();
         return Inertia::render('welcome', $data);
     }
+    public function index2()
+    {
+        $data['profil'] = Profil_sekolah::first();
+        return Inertia::render('Contoh', $data);
+    }
 }

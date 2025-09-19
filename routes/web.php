@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\GaleriController;
 use App\Http\Controllers\GuruController;
 use App\Http\Controllers\OperatorController;
 use App\Http\Controllers\SiswaController;
@@ -10,7 +11,9 @@ use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 use League\Uri\UriTemplate\Operator;
 
+// Route::get('/', [WelcomeController::class, 'index'])->name('home');
 Route::get('/', [WelcomeController::class, 'index'])->name('home');
+
 
 Route::middleware(['auth', 'verified'])
     ->prefix('admin')
@@ -25,6 +28,12 @@ Route::middleware(['auth', 'verified'])
         //
         Route::get('guru/export', [GuruController::class, 'export'])->name('guruExport');
         Route::get('user/export', [UserController::class, 'export'])->name('userExport');
+        //
+        Route::get('galeri', [GaleriController::class, 'index'])->name('galeriView');
+        Route::get('galeri/tambah', [GaleriController::class, 'tambahView'])->name('galeriView');
+        Route::post('galeri/tambah', [GaleriController::class, 'tambahView'])->name('galeriView');
+        Route::get('galeri/edit/{id}', [GaleriController::class, 'galeriEditView'])->name('galeriView');
+        Route::post('galeri/edit/{id}', [GaleriController::class, 'galeriEdit'])->name('galeriView');
         //
         Route::get('guru/tambah', [GuruController::class, 'tambahView'])->name('guruTambahView');
         Route::post('guru/simpan', [GuruController::class, 'simpan'])->name('guruSimpan');
