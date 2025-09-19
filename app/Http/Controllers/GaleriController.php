@@ -65,7 +65,7 @@ class GaleriController extends Controller
     return redirect()->route('galeriView')->with('message', 'Data galeri berhasil ditambahkan');
 }
 
-public function update(Request $request, $id)
+public function galeriEdit(Request $request, $id)
 {
     $request->validate([
         'judul' => 'required',
