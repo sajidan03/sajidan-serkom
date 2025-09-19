@@ -1,39 +1,34 @@
 import AppLayout from '@/layouts/app-layout'
 import { type BreadcrumbItem } from '@/types'
-import { Head, Link, useForm, usePage } from '@inertiajs/react'
+import { Head, Link, router, useForm, usePage } from '@inertiajs/react'
 import * as Select from '@radix-ui/react-select'
 import { ImageIcon, VideoIcon, ChevronDown, ChevronUp, Check } from 'lucide-react'
 import { useState, useEffect } from 'react'
-
-interface KategoriOption {
-  id: number
-  nama: string
-}
 
 interface GaleriData {
   id: number
   judul: string
   keterangan: string
   file: string
-  kategori_id: number
-  kategori_nama: string
+  kategori: string
   tanggal: string
+  encrypted_id: string
 }
 
 export default function EditGaleri() {
   const { props } = usePage()
-  const galeri = props.galeri as GaleriData
-  const kategoriOptions = props.kategoriOptions as KategoriOption[]
+const galeri = props.galeri as GaleriData
 
   const [previewImage, setPreviewImage] = useState<string | null>(null)
   const [currentFile, setCurrentFile] = useState<string>(galeri.file)
 
-  const { data, setData, errors, post, processing } = useForm({
+  const { data, setData, errors, processing } = useForm({
     judul: galeri.judul || '',
     keterangan: galeri.keterangan || '',
     file: null as File | null,
-    kategori: galeri.kategori_id ? galeri.kategori_id.toString() : '',
+    kategori: galeri.kategori ? galeri.kategori.toString() : '',
     tanggal: galeri.tanggal || new Date().toISOString().split('T')[0],
+    encrypted_id : galeri.encrypted_id,
     _method: 'PUT' as const,
   })
 
@@ -57,7 +52,7 @@ export default function EditGaleri() {
       formData.append('file', data.file)
     }
 
-    post(`/admin/galeri/update/${galeri.id}`, {
+    router.put(`/admin/galeri/edit/${galeri.encrypted_id}`, {
       forceFormData: true,
     })
   }
@@ -91,8 +86,11 @@ export default function EditGaleri() {
   ]
 
   return (
+
     <AppLayout breadcrumbs={breadcrumbs}>
       <Head title="Edit Galeri" />
+      <p>ID Terenkripsi: {galeri.encrypted_id}</p>
+
       <div className="p-0">
         <div className="w-full bg-white p-6 rounded-none shadow-md">
           <h1 className="text-2xl font-bold mb-6">Edit Data Galeri</h1>
@@ -120,65 +118,78 @@ export default function EditGaleri() {
                   {errors.judul && <p className="mt-1 text-sm text-red-500">{errors.judul}</p>}
                 </div>
 
-                {/* Kategori - Diperbaiki dengan styling yang benar */}
-                <div className="w-full">
-                  <label htmlFor="kategori" className="block text-sm font-medium text-gray-700 mb-1">
-                    Kategori <span className="text-red-500">*</span>
-                  </label>
-                  <Select.Root
-                    value={data.kategori}
-                    onValueChange={(value) => setData('kategori', value)}
-                  >
-                    <Select.Trigger
-                      id="kategori"
-                      className={`flex items-center justify-between w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 ${
-                        errors.kategori ? 'border-red-500' : 'border-gray-300'
-                      }`}
-                    >
-                      <Select.Value placeholder="Pilih Kategori" />
-                      <Select.Icon>
-                        <ChevronDown className="h-4 w-4 opacity-50" />
-                      </Select.Icon>
-                    </Select.Trigger>
+                {/* Kategori - statis */}
+<div className="w-full">
+  <label htmlFor="kategori" className="block text-sm font-medium text-gray-700 mb-1">
+    Kategori <span className="text-red-500">*</span>
+  </label>
+  <Select.Root
+    value={data.kategori}
+    onValueChange={(value) => setData('kategori', value)}
+  >
+    <Select.Trigger
+      id="kategori"
+      className={`flex items-center justify-between w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 ${
+        errors.kategori ? 'border-red-500' : 'border-gray-300'
+      }`}
+    >
+      <Select.Value placeholder="Pilih Kategori" />
+      <Select.Icon>
+        <ChevronDown className="h-4 w-4 opacity-50" />
+      </Select.Icon>
+    </Select.Trigger>
 
-                    <Select.Portal>
-                      <Select.Content className="overflow-hidden bg-white rounded-md shadow-lg border border-gray-200 z-50">
-                        <Select.ScrollUpButton className="flex items-center justify-center h-6 bg-white text-gray-700 cursor-default">
-                          <ChevronUp className="h-4 w-4" />
-                        </Select.ScrollUpButton>
+    <Select.Portal>
+      <Select.Content className="overflow-hidden bg-white rounded-md shadow-lg border border-gray-200 z-50">
+        <Select.ScrollUpButton className="flex items-center justify-center h-6 bg-white text-gray-700 cursor-default">
+          <ChevronUp className="h-4 w-4" />
+        </Select.ScrollUpButton>
 
-                        <Select.Viewport className="p-1">
-                          {kategoriOptions.map((kategori) => (
-                            <Select.Item
-                              key={kategori.id}
-                              value={kategori.id.toString()}
-                              className="relative flex items-center px-8 py-2 text-sm text-gray-700 rounded-md hover:bg-blue-50 hover:text-blue-700 focus:bg-blue-50 focus:text-blue-700 focus:outline-none cursor-pointer"
-                            >
-                              <Select.ItemText>
-                                <div className="flex items-center gap-2">
-                                  {kategori.nama.toLowerCase().includes('foto') ? (
-                                    <ImageIcon className="h-4 w-4" />
-                                  ) : kategori.nama.toLowerCase().includes('video') ? (
-                                    <VideoIcon className="h-4 w-4" />
-                                  ) : null}
-                                  {kategori.nama}
-                                </div>
-                              </Select.ItemText>
-                              <Select.ItemIndicator className="absolute left-2 inline-flex items-center">
-                                <Check className="h-4 w-4 text-blue-600" />
-                              </Select.ItemIndicator>
-                            </Select.Item>
-                          ))}
-                        </Select.Viewport>
+        <Select.Viewport className="p-1">
+          {/* Opsi Foto */}
+          <Select.Item
+            value="foto"
+            className="relative flex items-center px-8 py-2 text-sm text-gray-700 rounded-md hover:bg-blue-50 hover:text-blue-700 focus:bg-blue-50 focus:text-blue-700 focus:outline-none cursor-pointer"
+          >
+            <Select.ItemText>
+              <div className="flex items-center gap-2">
+                <ImageIcon className="h-4 w-4" />
+                Foto
+              </div>
+            </Select.ItemText>
+            <Select.ItemIndicator className="absolute left-2 inline-flex items-center">
+              <Check className="h-4 w-4 text-blue-600" />
+            </Select.ItemIndicator>
+          </Select.Item>
 
-                        <Select.ScrollDownButton className="flex items-center justify-center h-6 bg-white text-gray-700 cursor-default">
-                          <ChevronDown className="h-4 w-4" />
-                        </Select.ScrollDownButton>
-                      </Select.Content>
-                    </Select.Portal>
-                  </Select.Root>
-                  {errors.kategori && <p className="mt-1 text-sm text-red-500">{errors.kategori}</p>}
-                </div>
+          {/* Opsi Video */}
+          <Select.Item
+            value="video"
+            className="relative flex items-center px-8 py-2 text-sm text-gray-700 rounded-md hover:bg-blue-50 hover:text-blue-700 focus:bg-blue-50 focus:text-blue-700 focus:outline-none cursor-pointer"
+          >
+            <Select.ItemText>
+              <div className="flex items-center gap-2">
+                <VideoIcon className="h-4 w-4" />
+                Video
+              </div>
+            </Select.ItemText>
+            <Select.ItemIndicator className="absolute left-2 inline-flex items-center">
+              <Check className="h-4 w-4 text-blue-600" />
+            </Select.ItemIndicator>
+          </Select.Item>
+        </Select.Viewport>
+
+        <Select.ScrollDownButton className="flex items-center justify-center h-6 bg-white text-gray-700 cursor-default">
+          <ChevronDown className="h-4 w-4" />
+        </Select.ScrollDownButton>
+      </Select.Content>
+    </Select.Portal>
+  </Select.Root>
+  {errors.kategori && (
+    <p className="mt-1 text-sm text-red-500">{errors.kategori}</p>
+  )}
+</div>
+
 
                 {/* Tanggal */}
                 <div className="w-full">
