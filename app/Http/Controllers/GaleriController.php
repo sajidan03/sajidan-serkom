@@ -34,13 +34,13 @@ class GaleriController extends Controller
         return Inertia::render('Admin/Galeri/tambah',$data);
     }
 
-    public function simpan(Request $request)
+    public function galeriTambah(Request $request)
 {
     $request->validate([
         'judul' => 'required',
         'keterangan' => 'required',
         'file' => 'required|file|mimes:jpg,jpeg,png,gif,pdf,doc,docx|max:5120',
-        'kategori' => 'nullable|string',
+        'kategori' => '',
         'tanggal' => 'required|date',
     ]);
 

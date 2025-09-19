@@ -1,6 +1,6 @@
 import AppLayout from '@/layouts/app-layout'
 import { type BreadcrumbItem } from '@/types'
-import { Head, Link, useForm, usePage, router } from '@inertiajs/react'
+import { Head, Link, useForm, usePage} from '@inertiajs/react'
 import { useState, useEffect } from 'react'
 
 const breadcrumbs: BreadcrumbItem[] = [
@@ -21,21 +21,16 @@ interface KategoriOption {
 
 export default function TambahGaleri() {
   const { props } = usePage()
-  // Pastikan kita memiliki fallback jika props.kategoriOptions tidak tersedia
   const [kategoriOptions, setKategoriOptions] = useState<KategoriOption[]>([])
 
   useEffect(() => {
-    // Cek jika props.kategoriOptions ada dan merupakan array
     if (props.kategoriOptions && Array.isArray(props.kategoriOptions)) {
       setKategoriOptions(props.kategoriOptions)
     } else {
-      // Fallback atau data dummy jika tidak ada data
       console.warn('Kategori options tidak ditemukan dalam props, menggunakan data fallback')
       setKategoriOptions([
         { id: 1, nama: 'Foto' },
-        { id: 2, nama: 'Dokumen' },
-        { id: 3, nama: 'Video' },
-        { id: 4, nama: 'Lainnya' },
+        { id: 2, nama: 'Video' },
       ])
     }
   }, [props.kategoriOptions])
@@ -46,25 +41,23 @@ export default function TambahGaleri() {
     judul: '',
     keterangan: '',
     file: null as File | null,
-    kategori_id: '',
-    tanggal: new Date().toISOString().split('T')[0], // Default to today
+    kategori: '',
+    tanggal: new Date().toISOString().split('T')[0],
   })
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
 
-    // Pastikan kita membuat FormData untuk mengirim file
     const formData = new FormData()
     formData.append('judul', data.judul)
     formData.append('keterangan', data.keterangan)
-    formData.append('kategori_id', data.kategori_id)
+    formData.append('kategori', data.kategori)
     formData.append('tanggal', data.tanggal)
     if (data.file) {
       formData.append('file', data.file)
     }
 
-    post('/admin/galeri/simpan', {
-      data: formData,
+    post('/admin/galeri/tambah', {
       forceFormData: true,
     })
   }
@@ -122,10 +115,10 @@ export default function TambahGaleri() {
                   </label>
                   <select
                     id="kategori"
-                    value={data.kategori_id}
-                    onChange={(e) => setData('kategori_id', e.target.value)}
+                    value={data.kategori}
+                    onChange={(e) => setData('kategori', e.target.value)}
                     className={`w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 ${
-                      errors.kategori_id ? 'border-red-500' : 'border-gray-300'
+                      errors.kategori ? 'border-red-500' : 'border-gray-300'
                     }`}
                   >
                     <option value="">Pilih Kategori</option>
@@ -135,7 +128,7 @@ export default function TambahGaleri() {
                       </option>
                     ))}
                   </select>
-                  {errors.kategori_id && <p className="mt-1 text-sm text-red-500">{errors.kategori_id}</p>}
+                  {errors.kategori && <p className="mt-1 text-sm text-red-500">{errors.kategori}</p>}
                 </div>
 
                 {/* Tanggal */}

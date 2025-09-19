@@ -70,7 +70,7 @@ export default function Welcome() {
                                 href='/login'
                                 className="text-sm/6 font-semibold text-white hover:text-yellow-400"
                             >
-                                Portal Siswa <span aria-hidden="true">&rarr;</span>
+                                Login<span aria-hidden="true">&rarr;</span>
                             </Link>
                         </div>
                     </nav>
@@ -83,9 +83,9 @@ export default function Welcome() {
                                 <div className="flex items-center justify-between">
                                     <Link href="/" className="-m-1.5 p-1.5 flex items-center">
                                         <div className="flex h-10 w-10 items-center justify-center rounded-full bg-yellow-500 text-blue-900 mr-2">
-                                            <span className="text-lg font-bold">Y</span>
+                                            <img src={`/storage/assets/${profil.logo}`} alt="" />
                                         </div>
-                                        <span className="text-xl font-bold text-white">SMK YPC</span>
+                                        <span className="text-xl font-bold text-white">{profil.nama_sekolah}</span>
                                     </Link>
                                     <button
                                         type="button"
@@ -405,7 +405,7 @@ export default function Welcome() {
                             <div>
                                 <div className="flex items-center mb-6">
                                     <div className="flex h-10 w-10 items-center justify-center rounded-full mr-2">
-                                                                   <img src={`/storage/assets/${profil.logo}`} alt="Logo SMK YPC" className="h-full w-full object-contain" />
+                                    <img src={`/storage/assets/${profil.logo}`} alt="Logo SMK YPC" className="h-full w-full object-contain" />
                                     </div>
                                     <span className="text-2xl font-bold text-white">SMK YPC TASIKMALAYA</span>
                                 </div>
