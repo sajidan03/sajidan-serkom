@@ -32,10 +32,29 @@ class GaleriController extends Controller
         $data['profil'] = Profil_sekolah::all()->first();
         return Inertia::render('Admin/Galeri/tambah',$data);
     }
+    public function tambah(Request $request){
+        $request->validate([
+            'judul' => 'required',
+            'keterangan' => 'required',
+            'file' => 'file',
+            'kategori' => '',
+            'tanggal' => 'date',
+        ]
+
+        Galeri::create([
+
+        ]);
+        );
+    }
     public function galeriEditView($id){
         $id = Crypt::decrypt($id);
         $data['galeri'] = Galeri::findOrFail($id);
         $data['profil'] = Profil_sekolah::all()->first();
         return Inertia::render('Admin/Galeri/edit', $data);
+    }
+    public function galeriHapus($id){
+        $galeri = Galeri::findOrFail($id);
+        $galeri->delete();
+        return redirect()->route('galeriView');
     }
 }

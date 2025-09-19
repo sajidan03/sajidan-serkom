@@ -80,7 +80,7 @@ export default function GaleriIndex() {
                        galeri.file.toLowerCase().endsWith('.png') ||
                        galeri.file.toLowerCase().endsWith('.gif') ? (
                         <img
-                          src={`/storage/${galeri.file}`}
+                          src={`/storage/assets/${galeri.file}`}
                           alt={galeri.judul}
                           className="h-12 w-12 object-cover rounded"
                         />

@@ -30,10 +30,11 @@ Route::middleware(['auth', 'verified'])
         Route::get('user/export', [UserController::class, 'export'])->name('userExport');
         //
         Route::get('galeri', [GaleriController::class, 'index'])->name('galeriView');
-        Route::get('galeri/tambah', [GaleriController::class, 'tambahView'])->name('galeriView');
-        Route::post('galeri/tambah', [GaleriController::class, 'tambahView'])->name('galeriView');
-        Route::get('galeri/edit/{id}', [GaleriController::class, 'galeriEditView'])->name('galeriView');
-        Route::post('galeri/edit/{id}', [GaleriController::class, 'galeriEdit'])->name('galeriView');
+        Route::get('galeri/tambah', [GaleriController::class, 'tambahView'])->name('galeriTambahView');
+        Route::post('galeri/tambah', [GaleriController::class, 'tambahView'])->name('galeriTambah');
+        Route::get('galeri/edit/{id}', [GaleriController::class, 'galeriEditView'])->name('galeriEditView');
+        Route::post('galeri/edit/{id}', [GaleriController::class, 'galeriEdit'])->name('galeriEdit');
+        Route::delete('galeri/hapus/{id}', [GaleriController::class, 'galeriHapus'])->name('galeriHapus');
         //
         Route::get('guru/tambah', [GuruController::class, 'tambahView'])->name('guruTambahView');
         Route::post('guru/simpan', [GuruController::class, 'simpan'])->name('guruSimpan');
