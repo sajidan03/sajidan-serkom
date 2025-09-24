@@ -14,37 +14,19 @@ const breadcrumbs: BreadcrumbItem[] = [
   },
 ]
 
-interface UserOption {
-  id: number
-  nama: string
-}
-
 export default function TambahBerita() {
   const { props } = usePage()
-  const [userOptions, setUserOptions] = useState<UserOption[]>([])
-
-  useEffect(() => {
-    if (props.userOptions && Array.isArray(props.userOptions)) {
-      setUserOptions(props.userOptions)
-    } else {
-      console.warn('User options tidak ditemukan dalam props, menggunakan data fallback')
-      setUserOptions([
-        { id: 1, nama: 'Admin' },
-        { id: 2, nama: 'Editor' },
-      ])
-    }
-  }, [props.userOptions])
-
   const [previewImage, setPreviewImage] = useState<string | null>(null)
+
+  // Ambil data user yang login dari props
+  const authUser = props.auth?.user
 
   const { data, setData, errors, post, processing } = useForm({
     judul: '',
     isi: '',
     gambar: null as File | null,
     tanggal: new Date().toISOString().split('T')[0],
-    tg_user: '',
-    create_dt: new Date().toISOString().slice(0, 19).replace('T', ' '),
-    update_dt: new Date().toISOString().slice(0, 19).replace('T', ' '),
+    id_user: authUser?.id || '', // otomatis ambil id user yang login
   })
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -54,9 +36,7 @@ export default function TambahBerita() {
     formData.append('judul', data.judul)
     formData.append('isi', data.isi)
     formData.append('tanggal', data.tanggal)
-    formData.append('tg_user', data.tg_user)
-    formData.append('create_dt', data.create_dt)
-    formData.append('update_dt', data.update_dt)
+    formData.append('id_user', data.id_user) // otomatis dari user login
     if (data.gambar) {
       formData.append('gambar', data.gambar)
     }
@@ -89,29 +69,20 @@ export default function TambahBerita() {
         <div className="w-full bg-white p-6 rounded-none shadow-md">
           <h1 className="text-2xl font-bold mb-6">Tambah Data Berita</h1>
 
+          {/* Info User yang Login */}
+          <div className="mb-6 p-4 bg-blue-50 rounded-lg">
+            <p className="text-sm text-blue-700">
+              <strong>Ditambahkan oleh:</strong> {authUser?.name} ({authUser?.email})
+            </p>
+          </div>
+
           <form onSubmit={handleSubmit} className="w-full">
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 w-full">
 
               {/* Kolom Kiri */}
               <div className="space-y-4 w-full">
-                {/* Judul */}
-                <div className="w-full">
-                  <label htmlFor="judul" className="block text-sm font-medium text-gray-700 mb-1">
-                    Judul <span className="text-red-500">*</span>
-                  </label>
-                  <input
-                    id="judul"
-                    type="text"
-                    value={data.judul}
-                    onChange={(e) => setData('judul', e.target.value)}
-                    className={`w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 ${
-                      errors.judul ? 'border-red-500' : 'border-gray-300'
-                    }`}
-                    placeholder="Masukkan judul berita"
-                    maxLength={255}
-                  />
-                  {errors.judul && <p className="mt-1 text-sm text-red-500">{errors.judul}</p>}
-                </div>
+                {/* Judul - DIHAPUS karena tidak ada di tabel */}
+                {/* Hanya field yang ada di tabel: isi, tanggal, gambar, id_user */}
 
                 {/* Tanggal */}
                 <div className="w-full">
@@ -130,41 +101,11 @@ export default function TambahBerita() {
                   {errors.tanggal && <p className="mt-1 text-sm text-red-500">{errors.tanggal}</p>}
                 </div>
 
-                {/* User */}
-                <div className="w-full">
-                  <label htmlFor="tg_user" className="block text-sm font-medium text-gray-700 mb-1">
-                    User <span className="text-red-500">*</span>
-                  </label>
-                  <select
-                    id="tg_user"
-                    value={data.tg_user}
-                    onChange={(e) => setData('tg_user', e.target.value)}
-                    className={`w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 ${
-                      errors.tg_user ? 'border-red-500' : 'border-gray-300'
-                    }`}
-                  >
-                    <option value="">Pilih User</option>
-                    {userOptions.map((user) => (
-                      <option key={user.id} value={user.id}>
-                        {user.nama}
-                      </option>
-                    ))}
-                  </select>
-                  {errors.tg_user && <p className="mt-1 text-sm text-red-500">{errors.tg_user}</p>}
-                </div>
-
-                {/* Create Date (hidden) */}
+                {/* id_user (hidden) */}
                 <input
                   type="hidden"
-                  value={data.create_dt}
-                  onChange={(e) => setData('create_dt', e.target.value)}
-                />
-
-                {/* Update Date (hidden) */}
-                <input
-                  type="hidden"
-                  value={data.update_dt}
-                  onChange={(e) => setData('update_dt', e.target.value)}
+                  value={data.id_user}
+                  onChange={(e) => setData('id_user', e.target.value)}
                 />
               </div>
 

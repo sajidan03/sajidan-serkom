@@ -15,8 +15,8 @@ interface Berita {
   gambar: string
   tanggal: string
   id_user: string
-  create_dt: string
-  update_dt: string
+  created_at: string
+  updated_at: string
   encrypted_id: string
   user: User
 }
@@ -108,8 +108,8 @@ export default function BeritaIndex() {
                         {berita.user.name}
                       </span>
                     </td>
-                    <td className="px-4 py-3 text-sm">{berita.create_dt}</td>
-                    <td className="px-4 py-3 text-sm">{berita.update_dt}</td>
+                    <td className="px-4 py-3 text-sm">{berita.created_at}</td>
+                    <td className="px-4 py-3 text-sm">{berita.updated_at}</td>
                     <td className="px-4 py-3 flex items-center justify-center gap-2">
                       <Link
                         href={`/admin/berita/edit/${berita.encrypted_id}`}
