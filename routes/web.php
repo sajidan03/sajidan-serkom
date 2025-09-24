@@ -9,10 +9,7 @@ use App\Http\Controllers\SiswaController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\WelcomeController;
 use Illuminate\Support\Facades\Route;
-use Inertia\Inertia;
-use League\Uri\UriTemplate\Operator;
 
-// Route::get('/', [WelcomeController::class, 'index'])->name('home');
 Route::get('/', [WelcomeController::class, 'index'])->name('home');
 
 
@@ -59,6 +56,8 @@ Route::middleware(['auth', 'verified'])
         Route::get('berita/tambah', [BeritaController::class, 'beritaTambahView'])->name('beritaTambahView');
         Route::post('berita/tambah', [BeritaController::class, 'beritaTambah'])->name('beritaTambah');
         Route::get('berita/edit/{id}', [BeritaController::class, 'beritaEditView'])->name('beritaEditView');
+        Route::put('berita/edit/{id}', [BeritaController::class, 'beritaEdit'])->name('beritaEdit');
+        Route::delete('berita/hapus/{id}', [BeritaController::class, 'beritaHapus'])->name('beritaHapus');
     });
 
 Route::middleware(['auth', 'verified'])
