@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\BeritaController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\GaleriController;
 use App\Http\Controllers\GuruController;
@@ -25,11 +26,12 @@ Route::middleware(['auth', 'verified'])
         Route::get('warga', [SiswaController::class, 'index'])->name('wargaAdminView');
         Route::get('siswa', [SiswaController::class, 'index'])->name('siswaView');
         Route::get('guru', [GuruController::class, 'index'])->name('guruView');
+        Route::get('berita', [BeritaController::class, 'index'])->name('beritaView');
+        Route::get('galeri', [GaleriController::class, 'index'])->name('galeriView');
         //
         Route::get('guru/export', [GuruController::class, 'export'])->name('guruExport');
         Route::get('user/export', [UserController::class, 'export'])->name('userExport');
         //
-        Route::get('galeri', [GaleriController::class, 'index'])->name('galeriView');
         Route::get('galeri/tambah', [GaleriController::class, 'tambahView'])->name('galeriTambahView');
         Route::post('galeri/tambah', [GaleriController::class, 'galeriTambah'])->name('galeriTambah');
         Route::get('galeri/edit/{id}', [GaleriController::class, 'galeriEditView'])->name('galeriEditView');
@@ -53,6 +55,10 @@ Route::middleware(['auth', 'verified'])
         Route::get('siswa/edit/{id}', [SiswaController::class, 'siswaEditView'])->name('siswaEditView');
         Route::post('siswa/edit/{id}', [SiswaController::class, 'editSiswa'])->name('siswaEdit');
         Route::delete('siswa/hapus/{id}', [SiswaController::class, 'hapusSiswa'])->name('siswaHapus');
+        //
+        Route::get('berita/tambah', [BeritaController::class, 'tambahView'])->name('beritaTambahView');
+        Route::post('berita/simpan', [BeritaController::class, 'simpan'])->name('beritaSimpan');
+        Route::get('berita/edit/{id}', [BeritaController::class, 'beritaEditView'])->name('beritaEditView');  
     });
 
 Route::middleware(['auth', 'verified'])
