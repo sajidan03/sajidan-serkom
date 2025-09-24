@@ -7,7 +7,7 @@ import { useState, useEffect } from 'react'
 
 interface GaleriData {
   id: number
-  judul: string
+  judul: stringg
   keterangan: string
   file: string
   kategori: string

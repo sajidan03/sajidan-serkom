@@ -1,6 +1,6 @@
 import AppLayout from '@/layouts/app-layout'
 import { type BreadcrumbItem } from '@/types'
-import { Head, usePage, router } from '@inertiajs/react'
+import { Head, usePage, router, Link } from '@inertiajs/react'
 
 const breadcrumbs: BreadcrumbItem[] = [
   {
@@ -38,19 +38,21 @@ export default function GaleriIndex() {
           <h1 className="text-2xl font-bold">Daftar Galeri</h1>
 
           {/* Tombol Export + Tambah Galeri */}
-          <div className="flex items-center gap-3">
-            <a href="/admin/galeri/export">
-              <button className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700">
-                Export
-              </button>
-            </a>
-            <a
-              href="/admin/galeri/tambah"
-              className="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700"
-            >
-              + Tambah Galeri
-            </a>
-          </div>
+         <div className="flex items-center gap-3">
+        <button
+            onClick={() => router.get('/admin/galeri/export')}
+            className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700"
+        >
+            Export
+        </button>
+
+        <Link
+            href="/admin/galeri/tambah"
+            className="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700"
+        >
+            + Tambah Galeri
+        </Link>
+        </div>
         </div>
 
         {/* Table */}
