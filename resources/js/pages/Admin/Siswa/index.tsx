@@ -63,7 +63,6 @@ export default function SiswaIndex() {
                 <th className="px-4 py-3 text-left">NISN</th>
                 <th className="px-4 py-3 text-left">Nama Siswa</th>
                 <th className="px-4 py-3 text-left">Jenis Kelamin</th>
-                <th className="px-4 py-3 text-left">Jurusan</th>
                 <th className="px-4 py-3 text-left">Tahun Masuk</th>
                 <th className="px-4 py-3 text-center">Aksi</th>
               </tr>

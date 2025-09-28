@@ -35,7 +35,7 @@ class EkskulController extends Controller
         return Inertia::render('Admin/Ekstrakulikuler/tambah',$data);
     }
     public function ekskulTambah(Request $request){
-        $data = $request->validate([
+        $data['esktrakulikuler'] = $request->validate([
             'nama_eskul' => 'required|string',
             'pembina' => 'required|string',
             'deskripsi' => 'required|string',
@@ -50,7 +50,16 @@ class EkskulController extends Controller
             $file->storeAs('assets', $filename);
             $data['gambar'] = $filename;
         }
-        Ekstrakulikuler::create($data);
-        return redirect()->route('admin.ekskul.index')->with('message', 'Ekstrakulikuler berhasil ditambahkan');
+        Ekstrakulikuler::create(
+            [
+                'nama' => $request->nama_eskul,
+                'pembina' => $request->pembina,
+                'deskripsi' => $request->deskripsi,
+                'jadwal' => $request->jadwal,
+                'gambar' => $filename,
+                'guru_id' => $request->guru_id,
+            ]
+        );
+        return Inertia::render('Admin/Ekstrakulikuler/index')->with('message', 'Ekstrakulikuler berhasil ditambahkan');
     }
 }
