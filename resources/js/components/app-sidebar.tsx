@@ -41,7 +41,7 @@ const mainNavItems: NavItem[] = [
     },
     {
         title: 'Ekstrakurikuler',
-        href: '/admin/ekstrakurikuler',
+        href: '/admin/ekstrakulikuler',
         icon: User,
     },
     {
@@ -53,7 +53,7 @@ const mainNavItems: NavItem[] = [
 ];
 
 const footerNavItems: NavItem[] = [
-    
+
 ];
 
 export function AppSidebar() {

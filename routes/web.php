@@ -2,12 +2,14 @@
 
 use App\Http\Controllers\BeritaController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\EkskulController;
 use App\Http\Controllers\GaleriController;
 use App\Http\Controllers\GuruController;
 use App\Http\Controllers\OperatorController;
 use App\Http\Controllers\SiswaController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\WelcomeController;
+use App\Models\Ekstrakulikuler;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', [WelcomeController::class, 'index'])->name('home');
@@ -25,6 +27,7 @@ Route::middleware(['auth', 'verified'])
         Route::get('guru', [GuruController::class, 'index'])->name('guruView');
         Route::get('berita', [BeritaController::class, 'index'])->name('beritaView');
         Route::get('galeri', [GaleriController::class, 'index'])->name('galeriView');
+        Route::get('ekstrakulikuler', [EkskulController::class, 'index'])->name('eskkulView');
         //
         Route::get('guru/export', [GuruController::class, 'export'])->name('guruExport');
         Route::get('user/export', [UserController::class, 'export'])->name('userExport');
@@ -58,6 +61,12 @@ Route::middleware(['auth', 'verified'])
         Route::get('berita/edit/{id}', [BeritaController::class, 'beritaEditView'])->name('beritaEditView');
         Route::put('berita/edit/{id}', [BeritaController::class, 'beritaEdit'])->name('beritaEdit');
         Route::delete('berita/hapus/{id}', [BeritaController::class, 'beritaHapus'])->name('beritaHapus');
+        //
+         Route::get('ekstrakulikuler/tambah', [EkskulController::class, 'ekskulTambahView'])->name('beritaTambahView');
+        Route::post('ekstrakulikuler/tambah', [EkskulController::class, 'beritaTambah'])->name('beritaTambah');
+        Route::get('ekstrakulikuler/edit/{id}', [EkskulController::class, 'beritaEditView'])->name('beritaEditView');
+        Route::put('ekstrakulikuler/edit/{id}', [EkskulController::class, 'beritaEdit'])->name('beritaEdit');
+        Route::delete('ekstrakulikuler/hapus/{id}', [EkskulController::class, 'beritaHapus'])->name('beritaHapus');
     });
 
 Route::middleware(['auth', 'verified'])
