@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('beritas', function (Blueprint $table) {
             $table->id();
             $table->timestamps();
+            $table->string('judul', 100)->nullable();
             $table->text('isi')->nullable();
             $table->date('tanggal')->nullable();
             $table->string('gambar', 100)->nullable();

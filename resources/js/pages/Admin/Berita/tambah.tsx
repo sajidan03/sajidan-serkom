@@ -1,6 +1,8 @@
 import AppLayout from '@/layouts/app-layout'
 import { type BreadcrumbItem } from '@/types'
+import { Input } from '@headlessui/react'
 import { Head, Link, useForm, usePage } from '@inertiajs/react'
+import { Heading } from 'lucide-react'
 import { useState, useEffect } from 'react'
 
 const breadcrumbs: BreadcrumbItem[] = [
@@ -172,7 +174,25 @@ export default function TambahBerita() {
                 </div>
               </div>
             </div>
-
+            {/* isi judul */}
+            {/* Judul */}
+            <div className="w-full">
+            <label htmlFor="judul" className="block text-sm font-medium text-gray-700 mb-1 flex items-center">
+                Judul Berita <span className="text-red-500">*</span>
+            </label>
+            <input
+                id="judul"
+                name="judul"
+                type="text"
+                value={data.judul}
+                onChange={(e) => setData('judul', e.target.value)}
+                className={`w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 ${
+                errors.judul ? 'border-red-500' : 'border-gray-300'
+                }`}
+                placeholder="Masukkan judul berita"
+            />
+            {errors.judul && <p className="mt-1 text-sm text-red-500">{errors.judul}</p>}
+            </div>
             {/* Isi Berita (Full Width) */}
             <div className="mt-6 w-full">
               <label htmlFor="isi" className="block text-sm font-medium text-gray-700 mb-1">

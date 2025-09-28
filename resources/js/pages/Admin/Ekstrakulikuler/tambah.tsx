@@ -16,7 +16,10 @@ const breadcrumbs: BreadcrumbItem[] = [
 
 interface Guru {
   id: number
-  nama: string
+  nama_guru: string
+  nip: string
+  mapel: string
+  foto: string
   // Tambahkan field lain yang diperlukan dari model Guru
 }
 
@@ -122,7 +125,7 @@ export default function TambahEkstrakurikuler() {
                     <option value="">Pilih Pembina</option>
                     {guruOptions.map((guru) => (
                       <option key={guru.id} value={guru.id}>
-                        {guru.nama}
+                        {guru.nama_guru}
                       </option>
                     ))}
                   </select>

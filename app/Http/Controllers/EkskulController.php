@@ -14,7 +14,17 @@ class EkskulController extends Controller
     public function index()
     {
         $data['profil'] = Profil_sekolah::all()->first();
-        $data['ekskul'] = Ekstrakulikuler::all();
+        $eskul = Ekstrakulikuler::all();
+        $data['eskul'] = $eskul->map(function ($ekskul) {
+            $guru = Guru::find($ekskul->guru_id);
+            return [
+                'id' => $ekskul->id,
+                'nama' => $ekskul->nama,
+                'deskripsi' => $ekskul->deskripsi,
+                'jadwal' => $ekskul->jadwal,
+                'guru' => $guru ? $guru->nama : 'Tidak ada guru',
+            ];
+        })->toArray();
         return Inertia::render('Admin/Ekstrakulikuler/index',$data);
     }
     public function ekskulTambahView()

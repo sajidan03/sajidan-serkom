@@ -4,19 +4,70 @@ import { Head, Link, usePage } from '@inertiajs/react';
 import { useState } from 'react';
 import { motion } from 'framer-motion';
 
+interface Berita {
+  id: number;
+  judul: string;
+  isi: string;
+  gambar: string | null;
+  tanggal: string;
+  user_name: string;
+}
+
+interface Ekstrakulikuler {
+  id: number;
+  nama: string;
+  deskripsi: string;
+  gambar: string | null;
+  pembina: string;
+}
+
+interface Galeri {
+  id: number;
+  judul: string;
+  keterangan: string;
+  file: string;
+  kategori: string;
+  tanggal: string;
+}
+
+interface ProfilSekolah {
+  id: number;
+  nama_sekolah: string;
+  kepala_sekolah: string;
+  foto: string | null;
+  logo: string | null;
+  npsn: string;
+  alamat: string;
+  kontak: string;
+  visi_misi: string;
+  tahun_berdiri: string;
+  deskripsi: string;
+}
+
+interface WelcomeProps {
+  profil: ProfilSekolah;
+  berita: Berita[];
+  ekstrakulikuler: Ekstrakulikuler[];
+  galeri: Galeri[];
+}
+
 export default function Welcome() {
     const { auth } = usePage<SharedData>().props;
+    const { profil, berita, ekstrakulikuler, galeri } = usePage<WelcomeProps>().props;
     const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-    const { profil } = usePage<{ profil: { nama_sekolah: string; logo?: string , deskripsi?: string } }>().props
+
+    // Format visi misi jika ada
+    const visiMisiArray = profil.visi_misi ? profil.visi_misi.split('\n') : [];
+
     return (
         <>
-            <Head title="Selamat Datang di ${profil.nama_sekolah}">
+            <Head title={`Selamat Datang di ${profil.nama_sekolah}`}>
                 <link rel="preconnect" href="https://fonts.bunny.net" />
                 <link href="https://fonts.bunny.net/css?family=instrument-sans:400,500,600" rel="stylesheet" />
             </Head>
 
             <div className="bg-gradient-to-b from-blue-900 to-blue-800 min-h-screen">
-                {/* Header */}
+                {/* Header - NAVBAR ASLI ANDA */}
                 <motion.header
                 initial={{ y: 50, opacity: 0 }}
                 animate={{ y: 0, opacity: 1 }}
@@ -52,17 +103,20 @@ export default function Welcome() {
                             </button>
                         </div>
                         <div className="hidden lg:flex lg:gap-x-12">
-                            <a href="#profil" className="text-sm/6 font-semibold text-white hover:text-yellow-400">
-                                Profil
+                            <a href="#berita" className="text-sm/6 font-semibold text-white hover:text-yellow-400">
+                                Berita
                             </a>
-                            <a href="#jurusan" className="text-sm/6 font-semibold text-white hover:text-yellow-400">
-                                Jurusan
+                            <a href="#galeri" className="text-sm/6 font-semibold text-white hover:text-yellow-400">
+                                Galeri
                             </a>
-                            <a href="#prestasi" className="text-sm/6 font-semibold text-white hover:text-yellow-400">
-                                Prestasi
+                            <a href="#ekstrakulikuler" className="text-sm/6 font-semibold text-white hover:text-yellow-400">
+                                Ekstrakulikuler
                             </a>
                             <a href="#kontak" className="text-sm/6 font-semibold text-white hover:text-yellow-400">
-                                Kontak
+                                Guru
+                            </a>
+                             <a href="#profil" className="text-sm/6 font-semibold text-white hover:text-yellow-400">
+                                Profil
                             </a>
                         </div>
                         <div className="hidden lg:flex lg:flex-1 lg:justify-end">
@@ -116,18 +170,25 @@ export default function Welcome() {
                                                 Profil
                                             </a>
                                             <a
-                                                href="#jurusan"
+                                                href="#berita"
                                                 className="-mx-3 block rounded-lg px-3 py-2 text-base/7 font-semibold text-white hover:bg-white/5"
                                                 onClick={() => setMobileMenuOpen(false)}
                                             >
-                                                Jurusan
+                                                Berita
                                             </a>
                                             <a
-                                                href="#prestasi"
+                                                href="#galeri"
                                                 className="-mx-3 block rounded-lg px-3 py-2 text-base/7 font-semibold text-white hover:bg-white/5"
                                                 onClick={() => setMobileMenuOpen(false)}
                                             >
-                                                Prestasi
+                                                Galeri
+                                            </a>
+                                            <a
+                                                href="#ekstrakulikuler"
+                                                className="-mx-3 block rounded-lg px-3 py-2 text-base/7 font-semibold text-white hover:bg-white/5"
+                                                onClick={() => setMobileMenuOpen(false)}
+                                            >
+                                                Ekstrakulikuler
                                             </a>
                                             <a
                                                 href="#kontak"
@@ -152,7 +213,7 @@ export default function Welcome() {
                     )}
                 </motion.header>
 
-                {/* Main content */}
+                {/* Main Hero Section */}
                 <div className="relative isolate px-6 pt-14 lg:px-8">
                     {/* Background effects */}
                     <div
@@ -183,14 +244,14 @@ export default function Welcome() {
                                 {profil.nama_sekolah}
                             </h1>
                             <p className="mt-8 text-lg font-medium text-pretty text-gray-200 sm:text-xl/8">
-                                Mencetak generasi profesional yang berkarakter, berkompeten, dan siap bersaing di era global.
+                                {profil.deskripsi || 'Mencetak generasi profesional yang berkarakter, berkompeten, dan siap bersaing di era global.'}
                             </p>
                             <div className="mt-10 flex items-center justify-center gap-x-6">
                                 <Link
-                                    href='#jurusan'
+                                    href='#profil'
                                     className="rounded-md bg-yellow-500 px-3.5 py-2.5 text-sm font-semibold text-blue-900 shadow-xs hover:bg-yellow-400 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-yellow-500"
                                 >
-                                    Lihat Jurusan
+                                    Profil Sekolah
                                 </Link>
                                 <Link
                                     href={login()}
@@ -217,182 +278,181 @@ export default function Welcome() {
                     </div>
                 </div>
 
-                {/* Features Section - Jurusan */}
+                {/* Berita Section */}
                 <motion.section
                 initial={{ y: 50, opacity: 0 }}
                 whileInView={{ y: 0, opacity: 1 }}
                 viewport={{ once: true, amount: 0.2 }}
                 transition={{ duration: 1, ease: "easeOut" }}
-                id="jurusan" className="py-24 sm:py-32 bg-gradient-to-b from-blue-800 to-blue-900">
+                id="berita" className="py-24 sm:py-32 bg-gradient-to-b from-blue-800 to-blue-900">
                     <div className="mx-auto max-w-7xl px-6 lg:px-8">
                         <div className="mx-auto max-w-2xl lg:text-center">
-                            <h2 className="text-base/7 font-semibold text-yellow-400">Program Keahlian</h2>
+                            <h2 className="text-base/7 font-semibold text-yellow-400">Berita Terbaru</h2>
                             <p className="mt-2 text-3xl font-semibold tracking-tight text-balance text-white sm:text-4xl">
-                                Jurusan Unggulan SMK YPC Tasikmalaya
-                            </p>
-                            <p className="mt-6 text-lg/8 text-gray-200">
-                                Kami menyediakan program keahlian yang relevan dengan kebutuhan industri saat ini.
+                                Informasi Terkini {profil.nama_sekolah}
                             </p>
                         </div>
-                        <div className="mx-auto mt-16 max-w-2xl sm:mt-20 lg:mt-24 lg:max-w-none">
-                            <div className="grid max-w-xl grid-cols-1 gap-x-8 gap-y-16 lg:max-w-none lg:grid-cols-3">
-                                {/* Jurusan 1 */}
-                                <div className="flex flex-col">
-                                    <div className="mb-6 flex h-14 w-14 items-center justify-center rounded-lg bg-yellow-500">
-                                        <svg
-                                            xmlns="http://www.w3.org/2000/svg"
-                                            className="h-8 w-8 text-blue-900"
-                                            viewBox="0 0 20 20"
-                                            fill="currentColor"
-                                        >
-                                            <path
-                                                fillRule="evenodd"
-                                                d="M4 4a2 2 0 012-2h4.586A2 2 0 0112 3.586L15.414 7A2 2 0 0116 8.414V16a2 2 0 01-2 2H6a2 2 0 01-2-2V4zm2 6a1 1 0 011-1h6a1 1 0 110 2H7a1 1 0 01-1-1zm1 3a1 1 0 100 2h6a1 1 0 100-2H7z"
-                                                clipRule="evenodd"
+                        <div className="mx-auto mt-16 max-w-2xl sm:mt-20 lg:mt-24 lg:max-w-4xl">
+                            <div className="grid grid-cols-1 gap-8 lg:grid-cols-2">
+                                {berita.map((item) => (
+                                    <div key={item.id} className="bg-white/5 rounded-lg p-6 backdrop-blur-sm hover:bg-white/10 transition-colors">
+                                        {item.gambar && (
+                                            <img
+                                                src={`/storage/assets/${item.gambar}`}
+                                                alt={item.judul}
+                                                className="w-full h-48 object-cover rounded-lg mb-4"
                                             />
-                                        </svg>
+                                        )}
+                                        <h3 className="text-xl font-semibold text-white mb-2">{item.judul}</h3>
+                                        <p className="text-gray-200 text-sm mb-4 line-clamp-3">
+                                            {item.isi.substring(0, 150)}...
+                                        </p>
+                                        <div className="flex justify-between items-center text-sm text-gray-400">
+                                            <span>{new Date(item.tanggal).toLocaleDateString('id-ID')}</span>
+                                            <span>Oleh: {item.user_name}</span>
+                                        </div>
                                     </div>
-                                    <h3 className="text-base/7 font-semibold text-white">Rekayasa Perangkat Lunak</h3>
-                                    <p className="mt-2 text-sm/6 text-gray-200">
-                                        Mempelajari pemrograman, pengembangan aplikasi, dan teknologi software terkini.
-                                    </p>
-                                </div>
-
-                                {/* Jurusan 2 */}
-                                <div className="flex flex-col">
-                                    <div className="mb-6 flex h-14 w-14 items-center justify-center rounded-lg bg-yellow-500">
-                                        <svg
-                                            xmlns="http://www.w3.org/2000/svg"
-                                            className="h-8 w-8 text-blue-900"
-                                            viewBox="0 0 20 20"
-                                            fill="currentColor"
-                                        >
-                                            <path
-                                                fillRule="evenodd"
-                                                d="M2 5a2 2 0 012-2h12a2 2 0 012 2v10a2 2 0 01-2 2H4a2 2 0 01-2-2V5zm3.293 1.293a1 1 0 011.414 0l3 3a1 1 0 010 1.414l-3 3a1 1 0 01-1.414-1.414L7.586 10 5.293 7.707a1 1 0 010-1.414z"
-                                                clipRule="evenodd"
-                                            />
-                                        </svg>
-                                    </div>
-                                    <h3 className="text-base/7 font-semibold text-white">Teknik Komputer dan Jaringan</h3>
-                                    <p className="mt-2 text-sm/6 text-gray-200">
-                                        Fokus pada instalasi, maintenance, dan pengelolaan jaringan komputer.
-                                    </p>
-                                </div>
-
-                                {/* Jurusan 3 */}
-                                <div className="flex flex-col">
-                                    <div className="mb-6 flex h-14 w-14 items-center justify-center rounded-lg bg-yellow-500">
-                                        <svg
-                                            xmlns="http://www.w3.org/2000/svg"
-                                            className="h-8 w-8 text-blue-900"
-                                            viewBox="0 0 20 20"
-                                            fill="currentColor"
-                                        >
-                                            <path
-                                                fillRule="evenodd"
-                                                d="M10 2a8 8 0 00-8 8c0 3.85 2.66 7.07 6.24 7.9v-5.59H5.9V10h2.34V7.97c0-2.32 1.38-3.6 3.5-3.6 1 0 2.06.18 2.06.18v2.27h-1.16c-1.15 0-1.51.71-1.51 1.44V10h2.56l-.41 2.31h-2.15v5.59A8.002 8.002 0 0018 10a8 8 0 00-8-8z"
-                                                clipRule="evenodd"
-                                            />
-                                        </svg>
-                                    </div>
-                                    <h3 className="text-base/7 font-semibold text-white">Multimedia</h3>
-                                    <p className="mt-2 text-sm/6 text-gray-200">
-                                        Mengembangkan kreativitas dalam desain grafis, animasi, dan produksi konten digital.
-                                    </p>
-                                </div>
+                                ))}
                             </div>
+                            {berita.length === 0 && (
+                                <div className="text-center py-12">
+                                    <p className="text-gray-200 text-lg">Belum ada berita tersedia</p>
+                                </div>
+                            )}
+                        </div>
+                    </div>
+                </motion.section>
+
+                {/* Galeri Section */}
+                <motion.section
+                initial={{ y: 50, opacity: 0 }}
+                whileInView={{ y: 0, opacity: 1 }}
+                viewport={{ once: true, amount: 0.2 }}
+                transition={{ duration: 1, ease: "easeOut" }}
+                id="galeri" className="py-24 sm:py-32 bg-gradient-to-b from-blue-900 to-blue-800">
+                    <div className="mx-auto max-w-7xl px-6 lg:px-8">
+                        <div className="mx-auto max-w-2xl lg:text-center">
+                            <h2 className="text-base/7 font-semibold text-yellow-400">Galeri Sekolah</h2>
+                            <p className="mt-2 text-3xl font-semibold tracking-tight text-balance text-white sm:text-4xl">
+                                Dokumentasi Kegiatan
+                            </p>
+                        </div>
+                        <div className="mx-auto mt-16 max-w-2xl sm:mt-20 lg:mt-24 lg:max-w-4xl">
+                            <div className="grid grid-cols-2 gap-4 md:grid-cols-4">
+                                {galeri.map((item) => (
+                                    <div key={item.id} className="group relative">
+                                        <img
+                                            src={`/storage/assets/${item.file}`}
+                                            alt={item.judul}
+                                            className="w-full h-32 object-cover rounded-lg"
+                                        />
+                                        <div className="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-60 transition-opacity rounded-lg flex items-center justify-center">
+                                            <div className="text-white text-center opacity-0 group-hover:opacity-100 transition-opacity p-2">
+                                                <p className="text-sm font-semibold">{item.judul}</p>
+                                                <p className="text-xs">{item.kategori}</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                ))}
+                            </div>
+                            {galeri.length === 0 && (
+                                <div className="text-center py-12">
+                                    <p className="text-gray-200 text-lg">Belum ada galeri tersedia</p>
+                                </div>
+                            )}
+                        </div>
+                    </div>
+                </motion.section>
+
+                {/* Ekstrakulikuler Section - BARU DITAMBAHKAN */}
+                <motion.section
+                initial={{ y: 50, opacity: 0 }}
+                whileInView={{ y: 0, opacity: 1 }}
+                viewport={{ once: true, amount: 0.2 }}
+                transition={{ duration: 1, ease: "easeOut" }}
+                id="ekstrakulikuler" className="py-24 sm:py-32 bg-gradient-to-b from-blue-800 to-blue-900">
+                    <div className="mx-auto max-w-7xl px-6 lg:px-8">
+                        <div className="mx-auto max-w-2xl lg:text-center">
+                            <h2 className="text-base/7 font-semibold text-yellow-400">Ekstrakulikuler</h2>
+                            <p className="mt-2 text-3xl font-semibold tracking-tight text-balance text-white sm:text-4xl">
+                                Kegiatan Pengembangan Minat & Bakat
+                            </p>
+                            <p className="mt-6 text-lg/8 text-gray-200">
+                                Berbagai kegiatan ekstrakulikuler untuk mengembangkan potensi dan bakat siswa di luar jam pelajaran.
+                            </p>
+                        </div>
+                        <div className="mx-auto mt-16 max-w-2xl sm:mt-20 lg:mt-24 lg:max-w-4xl">
+                            <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
+                                {ekstrakulikuler.map((item) => (
+                                    <div key={item.id} className="bg-white/5 rounded-lg p-6 backdrop-blur-sm hover:bg-white/10 transition-colors">
+                                        {item.gambar && (
+                                            <img
+                                                src={`/storage/assets/${item.gambar}`}
+                                                alt={item.nama}
+                                                className="w-full h-48 object-cover rounded-lg mb-4"
+                                            />
+                                        )}
+                                        <h3 className="text-xl font-semibold text-white mb-2">{item.nama}</h3>
+                                        <p className="text-gray-200 text-sm mb-4">
+                                            {item.deskripsi}
+                                        </p>
+                                        <div className="flex justify-between items-center text-sm text-gray-400">
+                                            <span>Pembina:</span>
+                                            <span className="font-semibold text-yellow-400">{item.pembina}</span>
+                                        </div>
+                                    </div>
+                                ))}
+                            </div>
+                            {ekstrakulikuler.length === 0 && (
+                                <div className="text-center py-12">
+                                    <p className="text-gray-200 text-lg">Belum ada data ekstrakulikuler tersedia</p>
+                                </div>
+                            )}
                         </div>
                     </div>
                 </motion.section>
 
                 {/* Profil Section */}
-                <section id="profil" className="py-24 sm:py-32 bg-gradient-to-b from-blue-900 to-blue-800">
+                <section id="profil" className="py-24 sm:py-32 bg-gradient-to-b from-blue-800 to-blue-900">
                     <div className="mx-auto max-w-7xl px-6 lg:px-8">
                         <div className="mx-auto max-w-2xl lg:text-center">
                             <h2 className="text-base/7 font-semibold text-yellow-400">Profil Sekolah</h2>
                             <p className="mt-2 text-3xl font-semibold tracking-tight text-balance text-white sm:text-4xl">
-                                Mengenal SMK YPC Tasikmalaya
+                                {profil.nama_sekolah}
                             </p>
                         </div>
                         <div className="mx-auto mt-16 max-w-2xl sm:mt-20 lg:mt-24 lg:max-w-4xl">
                             <div className="rounded-lg bg-white/5 p-8 backdrop-blur-sm">
-                                <p className="text-lg text-white text-justify">
-                                    {/* SMK YPC Tasikmalaya adalah sekolah menengah kejuruan yang berkomitmen untuk mencetak lulusan
-                                    yang kompeten dan siap kerja. Dengan fasilitas modern dan kurikulum yang sesuai dengan
-                                    kebutuhan industri, kami mempersiapkan siswa untuk menghadapi tantangan dunia kerja
-                                    maupun melanjutkan ke perguruan tinggi. */}
-                                    {profil.deskripsi}
-                                </p>
-                                <div className="mt-8 grid grid-cols-2 gap-4">
-                                    <div className="text-center">
-                                        <p className="text-3xl font-bold text-yellow-400">500+</p>
-                                        <p className="text-sm text-gray-200">Siswa Aktif</p>
+                                <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                                    <div>
+                                        <h3 className="text-xl font-semibold text-white mb-4">Identitas Sekolah</h3>
+                                        <div className="space-y-3 text-gray-200">
+                                            <p><strong>NPSN:</strong> {profil.npsn}</p>
+                                            <p><strong>Kepala Sekolah:</strong> {profil.kepala_sekolah}</p>
+                                            <p><strong>Tahun Berdiri:</strong> {profil.tahun_berdiri}</p>
+                                            <p><strong>Alamat:</strong> {profil.alamat}</p>
+                                            <p><strong>Kontak:</strong> {profil.kontak}</p>
+                                        </div>
                                     </div>
-                                    <div className="text-center">
-                                        <p className="text-3xl font-bold text-yellow-400">50+</p>
-                                        <p className="text-sm text-gray-200">Tenaga Pengajar</p>
-                                    </div>
-                                    <div className="text-center">
-                                        <p className="text-3xl font-bold text-yellow-400">10+</p>
-                                        <p className="text-sm text-gray-200">Program Keahlian</p>
-                                    </div>
-                                    <div className="text-center">
-                                        <p className="text-3xl font-bold text-yellow-400">85%</p>
-                                        <p className="text-sm text-gray-200">Tingkat Penyerapan Kerja</p>
+                                    <div>
+                                        <h3 className="text-xl font-semibold text-white mb-4">Visi & Misi</h3>
+                                        <div className="text-gray-200">
+                                            {visiMisiArray.length > 0 ? (
+                                                visiMisiArray.map((item, index) => (
+                                                    <p key={index} className="mb-2">{item}</p>
+                                                ))
+                                            ) : (
+                                                <p>Visi dan misi belum tersedia</p>
+                                            )}
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                        </div>
-                    </div>
-                </section>
-
-                {/* Prestasi Section */}
-                <section id="prestasi" className="py-24 sm:py-32 bg-gradient-to-b from-blue-800 to-blue-900">
-                    <div className="mx-auto max-w-7xl px-6 lg:px-8">
-                        <div className="mx-auto max-w-2xl lg:text-center">
-                            <h2 className="text-base/7 font-semibold text-yellow-400">Prestasi</h2>
-                            <p className="mt-2 text-3xl font-semibold tracking-tight text-balance text-white sm:text-4xl">
-                                Prestasi yang Membanggakan
-                            </p>
-                        </div>
-                        <div className="mx-auto mt-16 max-w-2xl sm:mt-20 lg:mt-24 lg:max-w-4xl">
-                            <div className="rounded-lg bg-white/5 p-8 backdrop-blur-sm">
-                                <p className="text-lg italic text-white">
-                                    "Siswa SMK YPC Tasikmalaya telah meraih berbagai prestasi di tingkat regional maupun nasional
-                                    dalam bidang teknologi, seni, dan olahraga. Kami bangga dengan pencapaian mereka yang terus
-                                    mengharumkan nama sekolah."
-                                </p>
-                                <p className="mt-6 text-base font-semibold text-yellow-400">- Dr. H. Ahmad Sopian, M.Pd.</p>
-                                <p className="text-sm text-gray-200">Kepala Sekolah SMK YPC Tasikmalaya</p>
-                            </div>
-                        </div>
-                    </div>
-                </section>
-
-                {/* CTA Section */}
-                <section className="py-24 sm:py-32 bg-gradient-to-b from-blue-900 to-blue-800">
-                    <div className="mx-auto max-w-7xl px-6 lg:px-8">
-                        <div className="mx-auto max-w-2xl text-center">
-                            <h2 className="text-3xl font-semibold tracking-tight text-balance text-white sm:text-4xl">
-                                Tertarik menjadi bagian dari SMK YPC Tasikmalaya?
-                            </h2>
-                            <p className="mx-auto mt-6 max-w-xl text-lg/8 text-gray-200">
-                                Daftarkan diri Anda sekarang dan raih masa depan gemilang bersama kami.
-                            </p>
-                            <div className="mt-10 flex items-center justify-center gap-x-6">
-                                <Link
-                                    href="#kontak"
-                                    className="rounded-md bg-yellow-500 px-3.5 py-2.5 text-sm font-semibold text-blue-900 shadow-xs hover:bg-yellow-400 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-yellow-500"
-                                >
-                                    Informasi Pendaftaran
-                                </Link>
-                                <Link
-                                    href="#profil"
-                                    className="text-sm/6 font-semibold text-white hover:text-yellow-400"
-                                >
-                                    Pelajari lebih lanjut <span aria-hidden="true">→</span>
-                                </Link>
+                                {profil.deskripsi && (
+                                    <div className="mt-8">
+                                        <h3 className="text-xl font-semibold text-white mb-4">Deskripsi Sekolah</h3>
+                                        <p className="text-gray-200 text-justify">{profil.deskripsi}</p>
+                                    </div>
+                                )}
                             </div>
                         </div>
                     </div>
@@ -405,42 +465,27 @@ export default function Welcome() {
                             <div>
                                 <div className="flex items-center mb-6">
                                     <div className="flex h-10 w-10 items-center justify-center rounded-full mr-2">
-                                    <img src={`/storage/assets/${profil.logo}`} alt="Logo SMK YPC" className="h-full w-full object-contain" />
+                                        <img src={`/storage/assets/${profil.logo}`} alt={`Logo ${profil.nama_sekolah}`} className="h-full w-full object-contain" />
                                     </div>
-                                    <span className="text-2xl font-bold text-white">SMK YPC TASIKMALAYA</span>
+                                    <span className="text-2xl font-bold text-white">{profil.nama_sekolah}</span>
                                 </div>
                                 <p className="text-sm text-gray-200 mb-4">
-                                    Jl. YPC No. 123, Tasikmalaya, Jawa Barat<br/>
-                                    Telp: (0265) 123456 | Email: info@smkypc.sch.id
+                                    {profil.alamat}<br/>
+                                    Telp: {profil.kontak}
                                 </p>
                             </div>
                             <div>
-                                <h3 className="text-lg font-semibold text-white mb-4">Ikuti Kami</h3>
-                                <div className="flex space-x-4">
-                                    <a href="#" className="text-gray-200 hover:text-yellow-400">
-                                        <span className="sr-only">Facebook</span>
-                                        <svg className="h-6 w-6" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-                                            <path fillRule="evenodd" d="M22 12c0-5.523-4.477-10-10-10S2 6.477 2 12c0 4.991 3.657 9.128 8.438 9.878v-6.987h-2.54V12h2.54V9.797c0-2.506 1.492-3.89 3.777-3.89 1.094 0 2.238.195 2.238.195v2.46h-1.26c-1.243 0-1.63.771-1.63 1.562V12h2.773l-.443 2.89h-2.33v6.988C18.343 21.128 22 16.991 22 12z" clipRule="evenodd" />
-                                        </svg>
-                                    </a>
-                                    <a href="#" className="text-gray-200 hover:text-yellow-400">
-                                        <span className="sr-only">Instagram</span>
-                                        <svg className="h-6 w-6" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-                                            <path fillRule="evenodd" d="M12.315 2c2.43 0 2.784.013 3.808.06 1.064.049 1.791.218 2.427.465a4.902 4.902 0 011.772 1.153 4.902 4.902 0 011.153 1.772c.247.636.416 1.363.465 2.427.048 1.067.06 1.407.06 4.123v.08c0 2.643-.012 2.987-.06 4.043-.049 1.064-.218 1.791-.465 2.427a4.902 4.902 0 01-1.153 1.772 4.902 4.902 0 01-1.772 1.153c-.636.247-1.363.416-2.427.465-1.067.048-1.407.06-4.123.06h-.08c-2.643 0-2.987-.012-4.043-.06-1.064-.049-1.791-.218-2.427-.465a4.902 4.902 0 01-1.772-1.153 4.902 4.902 0 01-1.153-1.772c-.247-.636-.416-1.363-.465-2.427-.047-1.024-.06-1.379-.06-3.808v-.63c0-2.43.013-2.784.06-3.808.049-1.064.218-1.791.465-2.427a4.902 4.902 0 011.153-1.772A4.902 4.902 0 015.45 2.525c.636-.247 1.363-.416 2.427-.465C8.901 2.013 9.256 2 11.685 2h.63zm-.081 1.802h-.468c-2.456 0-2.784.011-3.807.058-.975.045-1.504.207-1.857.344-.467.182-.8.398-1.15.748-.35.35-.566.683-.748 1.15-.137.353-.3.882-.344 1.857-.047 1.023-.058 1.351-.058 3.807v.468c0 2.456.011 2.784.058 3.807.045.975.207 1.504.344 1.857.182.466.399.8.748 1.15.35.35.683.566 1.15.748.353.137.882.3 1.857.344 1.054.048 1.37.058 4.041.058h.08c2.597 0 2.917-.01 3.96-.058.976-.045 1.505-.207 1.858-.344.466-.182.8-.398 1.15-.748.35-.35.566-.683.748-1.15.137-.353.3-.882.344-1.857.048-1.055.058-1.37.058-4.041v-.08c0-2.597-.01-2.917-.058-3.96-.045-.976-.207-1.505-.344-1.858a3.097 3.097 0 00-.748-1.15 3.098 3.098 0 00-1.15-.748c-.353-.137-.882-.3-1.857-.344-1.023-.047-1.351-.058-3.807-.058zM12 6.865a5.135 5.135 0 110 10.27 5.135 5.135 0 010-10.27zm0 1.802a3.333 3.333 0 100 6.666 3.333 3.333 0 000-6.666zm5.338-3.205a1.2 1.2 0 110 2.4 1.2 1.2 0 010-2.4z" clipRule="evenodd" />
-                                        </svg>
-                                    </a>
-                                    <a href="#" className="text-gray-200 hover:text-yellow-400">
-                                        <span className="sr-only">YouTube</span>
-                                        <svg className="h-6 w-6" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-                                            <path fillRule="evenodd" d="M19.812 5.418c.861.23 1.538.907 1.768 1.768C21.998 8.746 22 12 22 12s0 3.255-.418 4.814a2.504 2.504 0 0 1-1.768 1.768c-1.56.419-7.814.419-7.814.419s-6.255 0-7.814-.419a2.505 2.505 0 0 1-1.768-1.768C2 15.255 2 12 2 12s0-3.255.417-4.814a2.507 2.507 0 0 1 1.768-1.768C5.744 5 11.998 5 11.998 5s6.255 0 7.814.418ZM15.194 12 10 15V9l5.194 3Z" clipRule="evenodd" />
-                                        </svg>
-                                    </a>
+                                <h3 className="text-lg font-semibold text-white mb-4">Kontak</h3>
+                                <div className="text-sm text-gray-200 space-y-2">
+                                    <p>Email: {profil.kontak}</p>
+                                    <p>Telepon: {profil.kontak}</p>
+                                    <p>Alamat: {profil.alamat}</p>
                                 </div>
                             </div>
                         </div>
                         <div className="mt-8 border-t border-white/10 pt-8">
                             <p className="text-center text-sm text-gray-400">
-                                © {new Date().getFullYear()} SMK YPC Tasikmalaya. All rights reserved.
+                                © {new Date().getFullYear()} {profil.nama_sekolah}. All rights reserved.
                             </p>
                         </div>
                     </div>

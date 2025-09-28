@@ -11,6 +11,7 @@ const breadcrumbs: BreadcrumbItem[] = [
 
 interface Berita {
   id: number
+  judul: string
   isi: string
   gambar: string
   tanggal: string
@@ -63,6 +64,7 @@ export default function BeritaIndex() {
             <thead className="bg-gray-100 text-gray-700 text-sm">
               <tr>
                 <th className="px-4 py-3 text-left">ID</th>
+                <th className="px-4-4 py-3 text-left">Judul</th>
                 <th className="px-4-4 py-3 text-left">Isi</th>
                 <th className="px-4 py-3 text-left">Gambar</th>
                 <th className="px-4 py-3 text-left">Tanggal</th>
@@ -77,6 +79,7 @@ export default function BeritaIndex() {
                 beritaList.map((berita) => (
                   <tr key={berita.id} className="border-b hover:bg-gray-50">
                     <td className="px-4 py-3">{berita.id}</td>
+                    <td className="px-4 py-3">{berita.judul}</td>
                     <td className="px-4 py-3 max-w-xs truncate" title={berita.isi}>
                       {berita.isi.length > 100 ? `${berita.isi.substring(0, 100)}...` : berita.isi}
                     </td>
