@@ -20,27 +20,28 @@ interface Guru {
   nip: string
   mapel: string
   foto: string
-  // Tambahkan field lain yang diperlukan dari model Guru
+}
+
+interface PageProps {
+  guru: Guru[]
+  profil: any
 }
 
 export default function TambahEkstrakurikuler() {
-  const { props } = usePage()
+  const { props } = usePage<PageProps>()
   const [guruOptions, setGuruOptions] = useState<Guru[]>([])
 
   useEffect(() => {
-    if (props.guruList && Array.isArray(props.guruList)) {
-      setGuruOptions(props.guruList)
-    } else {
-      console.warn('Data guru tidak ditemukan dalam props')
-      setGuruOptions([])
+    if (props.guru && Array.isArray(props.guru)) {
+      setGuruOptions(props.guru)
     }
-  }, [props.guruList])
+  }, [props.guru])
 
   const [previewImage, setPreviewImage] = useState<string | null>(null)
 
   const { data, setData, errors, post, processing } = useForm({
     nama_eskul: '',
-    pembina: '', // Ini akan berisi ID guru
+    pembina: '',
     jadwal_latihan: '',
     deskripsi: '',
     gambar: null as File | null,
@@ -67,7 +68,6 @@ export default function TambahEkstrakurikuler() {
     const file = e.target.files?.[0] || null
     setData('gambar', file)
 
-    // Create preview for image files
     if (file && file.type.startsWith('image/')) {
       const reader = new FileReader()
       reader.onload = (e) => {
@@ -125,7 +125,7 @@ export default function TambahEkstrakurikuler() {
                     <option value="">Pilih Pembina</option>
                     {guruOptions.map((guru) => (
                       <option key={guru.id} value={guru.id}>
-                        {guru.nama_guru}
+                        {guru.nama_guru} {guru.nip ? `- ${guru.nip}` : ''}
                       </option>
                     ))}
                   </select>

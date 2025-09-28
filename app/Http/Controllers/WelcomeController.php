@@ -12,11 +12,9 @@ class WelcomeController extends Controller
 {
     public function index()
     {
-        // Ambil data profil sekolah
-        $profil = Profil_sekolah::first();
+        $data['profil'] = Profil_sekolah::first();
 
-        // Ambil data berita terbaru (limit 6)
-        $berita = Berita::with('user')
+        $data['berita'] = Berita::with('user')
             ->orderBy('tanggal', 'desc')
             ->limit(6)
             ->get()
@@ -31,8 +29,7 @@ class WelcomeController extends Controller
                 ];
             });
 
-        // Ambil data ekstrakulikuler
-        $ekstrakulikuler = Ekstrakulikuler::orderBy('nama_eskul', 'asc')
+        $data['ekstrakulikuler'] = Ekstrakulikuler::orderBy('nama_eskul', 'asc')
             ->get()
             ->map(function ($item) {
                 return [
@@ -44,8 +41,7 @@ class WelcomeController extends Controller
                 ];
             });
 
-        // Ambil data galeri (limit 8)
-        $galeri = Galeri::orderBy('tanggal', 'desc')
+        $data['galeri'] = Galeri::orderBy('tanggal', 'desc')
             ->limit(8)
             ->get()
             ->map(function ($item) {
@@ -59,11 +55,6 @@ class WelcomeController extends Controller
                 ];
             });
 
-        return Inertia::render('welcome', [
-            'profil' => $profil,
-            'berita' => $berita,
-            'ekstrakulikuler' => $ekstrakulikuler,
-            'galeri' => $galeri,
-        ]);
+        return Inertia::render('welcome', $data);
     }
 }

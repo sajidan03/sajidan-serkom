@@ -25,6 +25,7 @@ class EkskulController extends Controller
                 'guru' => $guru ? $guru->nama : 'Tidak ada guru',
             ];
         })->toArray();
+        $data['guru'] = Guru::all();
         return Inertia::render('Admin/Ekstrakulikuler/index',$data);
     }
     public function ekskulTambahView()
@@ -32,5 +33,24 @@ class EkskulController extends Controller
         $data['guru'] = Guru::all();
         $data['profil'] = Profil_sekolah::all()->first();
         return Inertia::render('Admin/Ekstrakulikuler/tambah',$data);
+    }
+    public function ekskulTambah(Request $request){
+        $data = $request->validate([
+            'nama_eskul' => 'required|string',
+            'pembina' => 'required|string',
+            'deskripsi' => 'required|string',
+            'jadwal' => 'required|string',
+            'guru_id' => 'nullable|exists:guru,id',
+        ]);
+
+        $filename = null;
+        if ($request->hasFile('gambar')) {
+            $file = $request->file('gambar');
+            $filename = time() . '_' . $file->getClientOriginalName();
+            $file->storeAs('assets', $filename);
+            $data['gambar'] = $filename;
+        }
+        Ekstrakulikuler::create($data);
+        return redirect()->route('admin.ekskul.index')->with('message', 'Ekstrakulikuler berhasil ditambahkan');
     }
 }
