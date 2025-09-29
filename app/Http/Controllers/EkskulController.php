@@ -50,7 +50,6 @@ class EkskulController extends Controller
             'pembina' => 'required',
             'jadwal_latihan' => 'required|string',
             'deskripsi' => 'required|string',
-
         ]);
 
         $filename = null;
@@ -69,10 +68,10 @@ class EkskulController extends Controller
 
     Ekstrakulikuler::create([
         'nama_eskul' => $request->nama_eskul,
-        'pembina' => $request->pembina,
         'jadwal_latihan' => $request->jadwal_latihan,
         'deskripsi' => $request->deskripsi,
         'gambar' => $filename,
+        'id_guru' => $request->pembina,
     ]);
 
         return redirect()->route('ekskulView')->with('message', 'Ekstrakulikuler berhasil ditambahkan');

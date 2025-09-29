@@ -15,10 +15,11 @@ return new class extends Migration
             $table->id();
             $table->timestamps();
             $table->string('nama_eskul', 40);
-            $table->string('pembina',40);
+            // $table->string('pembina',40);
             $table->string('jadwal_latihan',40);
             $table->text('deskripsi');
             $table->string('gambar', 100);
+            $table->foreignId('id_guru')->constrained('gurus')->cascadeOnUpdate()->cascadeOnDelete();
         });
     }
 

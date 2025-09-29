@@ -8,7 +8,7 @@ class Ekstrakulikuler extends Model
 {
     //
     public function guru(){
-        return $this->belongsTo(Guru::class, 'id');
+        return $this->belongsTo(Guru::class, 'id_guru');
     }
     protected $guarded = [];
 }

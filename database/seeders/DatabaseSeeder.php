@@ -95,10 +95,11 @@ class DatabaseSeeder extends Seeder
         ]);
         Ekstrakulikuler::create([
             'nama_eskul' => 'Pramuka',
-            'pembina' => 'Ujang',
+            // 'pembina' => 'Ujang',
             'jadwal_latihan' => 'Setiap Jumat, 15.00 - 17.00',
             'deskripsi' => 'Ekstrakulikuler pramuka bertujuan untuk membentuk karakter siswa melalui kegiatan kepramukaan yang menyenangkan dan edukatif.',
             'gambar' => 'pramuka.png',
+            'id_guru' => 1
         ]);
         Berita::create([
             'judul' => 'Penerimaan Siswa Baru 2024',

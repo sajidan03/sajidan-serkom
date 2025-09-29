@@ -109,27 +109,27 @@ export default function TambahEkstrakurikuler() {
                   {errors.nama_eskul && <p className="mt-1 text-sm text-red-500">{errors.nama_eskul}</p>}
                 </div>
 
-                {/* Pembina (Guru) */}
+                            {/* Pembina (Guru) */}
                 <div className="w-full">
-                  <label htmlFor="pembina" className="block text-sm font-medium text-gray-700 mb-1">
+                <label htmlFor="pembina" className="block text-sm font-medium text-gray-700 mb-1">
                     Pembina <span className="text-red-500">*</span>
-                  </label>
-                  <select
+                </label>
+                <select
                     id="pembina"
                     value={data.pembina}
                     onChange={(e) => setData('pembina', e.target.value)}
                     className={`w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 ${
-                      errors.pembina ? 'border-red-500' : 'border-gray-300'
+                    errors.pembina ? 'border-red-500' : 'border-gray-300'
                     }`}
-                  >
+                >
                     <option value="">Pilih Pembina</option>
                     {guruOptions.map((guru) => (
-                      <option key={guru.id} value={guru.id}>
+                    <option key={guru.id} value={guru.id}>
                         {guru.nama_guru} {guru.nip ? `- ${guru.nip}` : ''}
-                      </option>
+                    </option>
                     ))}
-                  </select>
-                  {errors.pembina && <p className="mt-1 text-sm text-red-500">{errors.pembina}</p>}
+                </select>
+                {errors.pembina && <p className="mt-1 text-sm text-red-500">{errors.pembina}</p>}
                 </div>
 
                 {/* Jadwal Latihan */}
