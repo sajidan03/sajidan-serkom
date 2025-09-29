@@ -3,6 +3,7 @@ import { type SharedData } from '@/types';
 import { Head, Link, usePage } from '@inertiajs/react';
 import { useState } from 'react';
 import { motion } from 'framer-motion';
+import { Eye, FileQuestion, ImageIcon } from 'lucide-react';
 
 interface Berita {
   id: number;
@@ -339,7 +340,135 @@ export default function Welcome() {
 
                 {/* Galeri Section - DIPERBAIKI */}
 
+<motion.section
+initial={{ y: 50, opacity: 0 }}
+whileInView={{ y: 0, opacity: 1 }}
+viewport={{ once: true, amount: 0.2 }}
+transition={{ duration: 1, ease: "easeOut" }}
+id="galeri" className="py-24 sm:py-32 bg-gradient-to-b from-blue-900 to-blue-800">
+    <div className="mx-auto max-w-7xl px-6 lg:px-8">
+        <div className="mx-auto max-w-2xl lg:text-center">
+            <h2 className="text-base/7 font-semibold text-yellow-400">Galeri Sekolah</h2>
+            <p className="mt-2 text-3xl font-semibold tracking-tight text-balance text-white sm:text-4xl">
+                Dokumentasi Kegiatan
+            </p>
+            <p className="mt-4 text-lg text-gray-300">
+                Kumpulan momen berharga dan aktivitas sekolah
+            </p>
+        </div>
 
+        <div className="mx-auto mt-16 max-w-2xl sm:mt-20 lg:mt-24 lg:max-w-6xl">
+
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                {galeri.map((item) => (
+                    <div
+                        key={item.id}
+                        className="group relative bg-white/5 rounded-xl overflow-hidden backdrop-blur-sm border border-white/10 hover:border-white/20 transition-all duration-300 hover:scale-105 hover:shadow-2xl"
+                    >
+                        {/* Image Container */}
+                        <div className="relative h-48 w-full overflow-hidden bg-gradient-to-br from-gray-800 to-gray-900">
+                            {item.file ? (
+                                <>
+                                    <img
+                                        src={`/storage/assets/${item.file}`}
+                                        alt={item.judul}
+                                        className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+                                        onError={(e) => {
+                                            console.error('Image failed to load:', item.file);
+                                            e.target.style.display = 'none';
+                                            // Show fallback UI
+                                            e.target.nextElementSibling?.classList.remove('hidden');
+                                        }}
+                                    />
+
+                                    {/* Fallback ketika gambar error */}
+                                    <div className="hidden absolute inset-0 flex flex-col items-center justify-center text-gray-400 p-4">
+                                        <FileQuestion className="w-12 h-12 mb-2 opacity-50" />
+                                        <p className="text-sm text-center">Gambar tidak dapat dimuat</p>
+                                        <p className="text-xs mt-1 opacity-75">{item.file}</p>
+                                    </div>
+                                </>
+                            ) : (
+                                /* Placeholder ketika tidak ada file */
+                                <div className="absolute inset-0 flex flex-col items-center justify-center text-gray-400">
+                                    <ImageIcon className="w-12 h-12 mb-2 opacity-50" />
+                                    <p className="text-sm">Tidak ada gambar</p>
+                                </div>
+                            )}
+
+                            {/* Overlay Effect */}
+                            <div className="absolute inset-0 bg-black/0 group-hover:bg-black/60 transition-all duration-300 flex items-center justify-center">
+                                <div className="transform translate-y-4 group-hover:translate-y-0 opacity-0 group-hover:opacity-100 transition-all duration-300 flex items-center space-x-2">
+                                    <Eye className="w-5 h-5 text-white" />
+                                    <span className="text-white text-sm font-medium">Lihat Detail</span>
+                                </div>
+                            </div>
+
+                            {/* Category Badge */}
+                            {item.kategori && (
+                                <div className="absolute top-3 left-3">
+                                    <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-yellow-500/90 text-blue-900 backdrop-blur-sm">
+                                        {item.kategori}
+                                    </span>
+                                </div>
+                            )}
+                        </div>
+
+                        {/* Content */}
+                        <div className="p-4">
+                            <h3 className="font-semibold text-white text-sm line-clamp-2 mb-2 group-hover:text-yellow-300 transition-colors">
+                                {item.judul}
+                            </h3>
+
+                            {item.keterangan && (
+                                <p className="text-gray-300 text-xs line-clamp-2 mb-3">
+                                    {item.keterangan}
+                                </p>
+                            )}
+
+                            <div className="flex justify-between items-center text-xs text-gray-400">
+                                <span>
+                                    {item.tanggal ? new Date(item.tanggal).toLocaleDateString('id-ID', {
+                                        day: 'numeric',
+                                        month: 'short',
+                                        year: 'numeric'
+                                    }) : 'No date'}
+                                </span>
+                                <div className="flex items-center space-x-1">
+                                    <Eye className="w-3 h-3" />
+                                    <span>View</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        {/* Hover Border Effect */}
+                        <div className="absolute inset-0 rounded-xl border-2 border-transparent group-hover:border-yellow-400/30 transition-all duration-300 pointer-events-none"></div>
+                    </div>
+                ))}
+            </div>
+
+            {galeri.length === 0 && (
+                <div className="text-center py-16">
+                    <div className="flex flex-col items-center justify-center">
+                        <ImageIcon className="w-16 h-16 text-gray-400 mb-4 opacity-50" />
+                        <p className="text-gray-300 text-lg font-medium mb-2">Belum ada galeri tersedia</p>
+                        <p className="text-gray-400 text-sm">Galeri akan ditampilkan di sini</p>
+                    </div>
+                </div>
+            )}
+
+            {/* View All Button */}
+            {galeri.length > 0 && (
+                <div className="text-center mt-12">
+                    <button className="inline-flex items-center px-6 py-3 bg-yellow-500 hover:bg-yellow-400 text-blue-900 font-semibold rounded-lg transition-all duration-300 transform hover:scale-105 hover:shadow-lg">
+                        <Eye className="w-5 h-5 mr-2" />
+                        Lihat Semua Galeri
+                    </button>
+                </div>
+            )}
+        </div>
+    </div>
+</motion.section>
                 {/* Ekstrakulikuler Section*/}
                 <motion.section
                 initial={{ y: 50, opacity: 0 }}
