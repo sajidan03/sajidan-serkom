@@ -2,14 +2,17 @@
 
 namespace Database\Seeders;
 
+use App\Models\Berita;
 use App\Models\Petugas;
 use App\Models\Payment;
 use App\Models\User;
 use App\Models\Member;
 use App\Models\Category;
+use App\Models\Galeri;
 use App\Models\Guru;
 use App\Models\Pemasukan;
 use App\Models\Pengeluaran;
+use App\Models\Ekstrakulikuler;
 use App\Models\Profil_sekolah;
 use App\Models\Siswa;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
@@ -83,82 +86,26 @@ class DatabaseSeeder extends Seeder
             'tahun_berdiri' => '2005',
             'deskripsi' => 'SMK YPC Tasikmalaya adalah sekolah menengah kejuruan yang berfokus pada pengembangan keterampilan di bidang teknologi informasi dan komunikasi. Dengan fasilitas modern dan tenaga pengajar yang berpengalaman, kami berkomitmen untuk mencetak lulusan yang siap bersaing di dunia kerja.',
         ]);
-    //    Petugas::create([
-    //          'id_user' => '3',
-    //     ]);
-    //     Category::create([
-    //         'name' => 'Umrah',
-    //         'period' => 'Mingguan',
-    //         'nominal' => 10000,
-    //         'status' => 'active',
-    //     ]);
-    //     Category::create([
-    //         'name' => 'Kurban',
-    //         'period' => 'Bulanan',
-    //         'nominal' => 20000,
-    //         'status' => 'active',
-    //     ]);Category::create([
-    //         'name' => 'Agustusan',
-    //         'period' => 'Tahunan',
-    //         'nominal' => 10000,
-    //         'status' => 'active',
-    //     ]);
-    //     Member::create([
-    //         'id_user' => 2,
-    //         'id_category' => 1,
-    //     ]);
-    //      Member::create([
-    //         'id_user' => 4,
-    //         'id_category' => 2,
-    //     ]);
-    //      Member::create([
-    //         'id_user' => 5,
-    //         'id_category' => 3,
-    //     ]);
-    //     Member::create([
-    //         'id_user' => 6,
-    //         'id_category' => 2,
-    //     ]);
-    //     Payment::create([
-    //         'id_user' => 2,
-    //         'period' => 'mingguan',
-    //         'nominal' => 10000,
-    //         'id_petugas' => 3,
-    //         'id_member' => 2,
-    //     ]);
-    //     Payment::create([
-    //         'id_user' => 4,
-    //         'period' => 'bulan',
-    //         'nominal' => 10000,
-    //         'id_petugas' => 3,
-    //         'id_member' => 2,
-    //     ]);
-    //     Payment::create([
-    //         'id_user' => 5,
-    //         'period' => 'tahunan',
-    //         'nominal' => 10000,
-    //         'id_petugas' => 3,
-    //         'id_member' => 2,
-    //     ]);
-    //     Payment::create([
-    //         'id_user' => 6,
-    //         'created_at' => '2025-10-01 12:00:00',
-    //         'period' => 'bulan',
-    //         'nominal' => 10000,
-    //         'id_petugas' => 3,
-    //         'id_member' => 2,
-    //     ]);
-    //     Pemasukan::create([
-    //         'sumber' => 'Infaq',
-    //         'nominal' => 10000,
-    //         'tanggal' => '2025-05-01',
-    //         'keterangan' => 'Infaq Bulanan',
-    //     ]);
-    //     Pengeluaran::create([
-    //         'sumber' => 'Belanja',
-    //         'nominal' => 5000,
-    //         'tanggal' => '2025-05-01',
-    //         'keterangan' => 'Belanja Bulanan',
-    //     ]);
+        Galeri::create([
+            'judul' => 'Kegiatan Pramuka',
+            'keterangan' => 'Kegiatan pramuka diikuti oleh seluruh siswa kelas X',
+            'file' => 'pramuka.jpg',
+            'kategori' => 'foto',
+            'tanggal' => '2023-10-01',
+        ]);
+        Ekstrakulikuler::create([
+            'nama_eskul' => 'Pramuka',
+            'pembina' => 'Ujang',
+            'jadwal_latihan' => 'Setiap Jumat, 15.00 - 17.00',
+            'deskripsi' => 'Ekstrakulikuler pramuka bertujuan untuk membentuk karakter siswa melalui kegiatan kepramukaan yang menyenangkan dan edukatif.',
+            'gambar' => 'pramuka.png',
+        ]);
+        Berita::create([
+            'judul' => 'Penerimaan Siswa Baru 2024',
+            'isi' => 'Penerimaan siswa baru untuk tahun ajaran 2024/2025 telah dibuka. Silakan kunjungi website resmi kami untuk informasi lebih lanjut.',
+            'gambar' => 'psb2024.jpg',
+            'tanggal' => '2023-11-15',
+            'id_user' => 1,
+        ]);
     }
 }

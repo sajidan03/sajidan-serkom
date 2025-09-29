@@ -113,7 +113,7 @@ export default function EkstrakurikulerIndex() {
                     <td className="px-4 py-3 text-sm">{eskul.updated_at}</td>
                     <td className="px-4 py-3 flex items-center justify-center gap-2">
                       <Link
-                        href={`/admin/ekstrakurikuler/edit/${eskul.encrypted_id}`}
+                        href={`/admin/ekstrakulikuler/edit/${eskul.encrypted_id}`}
                         className="px-3 py-1 bg-blue-600 text-white text-sm rounded-md hover:bg-blue-700"
                       >
                         Edit

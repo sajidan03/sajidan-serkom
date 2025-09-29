@@ -9,8 +9,8 @@ const breadcrumbs: BreadcrumbItem[] = [
     href: '/admin/ekstrakurikuler',
   },
   {
-    title: 'Tambah Ekstrakurikuler',
-    href: '/admin/ekstrakurikuler/tambah',
+    title: 'Edit Ekstrakurikuler',
+    href: '/admin/ekstrakurikuler/edit',
   },
 ]
 
@@ -18,52 +18,88 @@ interface Guru {
   id: number
   nama_guru: string
   nip: string
-  // Tambahkan field lain yang diperlukan dari model Guru
+  mapel: string
+  foto: string
+}
+
+interface Ekstrakulikuler {
+  id: number
+  nama_eskul: string
+  pembina: string
+  jadwal_latihan: string
+  deskripsi: string
+  gambar: string | null
+  encrypted_id: string
 }
 
 interface PageProps {
-  guruList: Guru[]
+  guru: Guru[]
+  profil: any
+  ekstrakulikuler?: Ekstrakulikuler
 }
 
-export default function TambahEkstrakurikuler() {
+export default function EditEkstrakurikuler() {
   const { props } = usePage<PageProps>()
   const [guruOptions, setGuruOptions] = useState<Guru[]>([])
+  const { ekstrakulikuler } = props
+
+  // Loading state dan error handling
+  const [isLoading, setIsLoading] = useState(true)
+  const [error, setError] = useState<string | null>(null)
 
   useEffect(() => {
-    console.log('Props dari controller:', props) // Debugging
-    if (props.guruList && Array.isArray(props.guruList)) {
-      setGuruOptions(props.guruList)
-      console.log('Data guru loaded:', props.guruList) // Debugging
-    } else {
-      console.warn('Data guru tidak ditemukan dalam props:', props.guruList)
-      setGuruOptions([])
+    if (props.guru && Array.isArray(props.guru)) {
+      setGuruOptions(props.guru)
     }
-  }, [props.guruList])
 
-  const [previewImage, setPreviewImage] = useState<string | null>(null)
+    if (ekstrakulikuler) {
+      setIsLoading(false)
+    } else {
+      setError('Data ekstrakurikuler tidak ditemukan')
+      setIsLoading(false)
+    }
+  }, [props.guru, ekstrakulikuler])
 
-  const { data, setData, errors, post, processing } = useForm({
-    nama_eskul: '',
-    pembina: '', // Ini akan berisi ID guru
-    jadwal_latihan: '',
-    deskripsi: '',
+  const [previewImage, setPreviewImage] = useState<string | null>(
+    ekstrakulikuler?.gambar ? `/storage/assets/${ekstrakulikuler.gambar}` : null
+  )
+
+  const { data, setData, errors, put, processing } = useForm({
+    nama_eskul: ekstrakulikuler?.nama_eskul || '',
+    pembina: ekstrakulikuler?.pembina || '',
+    jadwal_latihan: ekstrakulikuler?.jadwal_latihan || '',
+    deskripsi: ekstrakulikuler?.deskripsi || '',
     gambar: null as File | null,
   })
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
 
+    if (!ekstrakulikuler?.encrypted_id) {
+      setError('ID ekstrakurikuler tidak valid')
+      return
+    }
+
     const formData = new FormData()
     formData.append('nama_eskul', data.nama_eskul)
     formData.append('pembina', data.pembina)
     formData.append('jadwal_latihan', data.jadwal_latihan)
     formData.append('deskripsi', data.deskripsi)
+    formData.append('_method', 'PUT')
+
     if (data.gambar) {
       formData.append('gambar', data.gambar)
     }
 
-    post('/admin/ekstrakurikuler/tambah', {
+    // Gunakan encrypted_id untuk URL
+    put(`/admin/ekstrakulikuler/edit/${ekstrakulikuler.encrypted_id}`, {
       forceFormData: true,
+      onError: (errors) => {
+        console.log('Update errors:', errors)
+      },
+      onSuccess: () => {
+        console.log('Update successful')
+      }
     })
   }
 
@@ -71,7 +107,6 @@ export default function TambahEkstrakurikuler() {
     const file = e.target.files?.[0] || null
     setData('gambar', file)
 
-    // Create preview for image files
     if (file && file.type.startsWith('image/')) {
       const reader = new FileReader()
       reader.onload = (e) => {
@@ -79,21 +114,73 @@ export default function TambahEkstrakurikuler() {
       }
       reader.readAsDataURL(file)
     } else {
-      setPreviewImage(null)
+      if (!file && ekstrakulikuler?.gambar) {
+        setPreviewImage(`/storage/assets/${ekstrakulikuler.gambar}`)
+      } else {
+        setPreviewImage(null)
+      }
     }
+  }
+
+  const removeImage = () => {
+    setData('gambar', null)
+    setPreviewImage(null)
+  }
+
+  // Loading state
+  if (isLoading) {
+    return (
+      <AppLayout breadcrumbs={breadcrumbs}>
+        <Head title="Edit Ekstrakurikuler" />
+        <div className="p-0">
+          <div className="w-full bg-white p-6 rounded-none shadow-md">
+            <div className="flex justify-center items-center py-12">
+              <div className="text-center">
+                <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto"></div>
+                <p className="mt-4 text-gray-600">Memuat data...</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </AppLayout>
+    )
+  }
+
+  // Error state
+  if (error || !ekstrakulikuler) {
+    return (
+      <AppLayout breadcrumbs={breadcrumbs}>
+        <Head title="Edit Ekstrakurikuler" />
+        <div className="p-0">
+          <div className="w-full bg-white p-6 rounded-none shadow-md">
+            <div className="text-center py-12">
+              <div className="text-red-500 text-6xl mb-4">⚠️</div>
+              <h2 className="text-xl font-bold text-gray-800 mb-2">Data Tidak Ditemukan</h2>
+              <p className="text-gray-600 mb-6">{error || 'Data ekstrakurikuler tidak tersedia'}</p>
+              <Link
+                href="/admin/ekstrakurikuler"
+                className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors"
+              >
+                Kembali ke Daftar Ekstrakurikuler
+              </Link>
+            </div>
+          </div>
+        </div>
+      </AppLayout>
+    )
   }
 
   return (
     <AppLayout breadcrumbs={breadcrumbs}>
-      <Head title="Tambah Ekstrakurikuler" />
+      <Head title="Edit Ekstrakurikuler" />
       <div className="p-0">
         <div className="w-full bg-white p-6 rounded-none shadow-md">
-          <h1 className="text-2xl font-bold mb-6">Tambah Data Ekstrakurikuler</h1>
+          <h1 className="text-2xl font-bold mb-6">Edit Data Ekstrakurikuler</h1>
 
-          {/* Debug Info */}
-          <div className="mb-4 p-3 bg-yellow-50 border border-yellow-200 rounded-md">
-            <p className="text-sm text-yellow-700">
-              <strong>Debug:</strong> {guruOptions.length} guru tersedia
+          {/* Debug Info - bisa dihapus setelah testing */}
+          <div className="mb-4 p-3 bg-blue-50 rounded-md">
+            <p className="text-sm text-blue-700">
+              Debug: Encrypted ID: {ekstrakulikuler.encrypted_id} | Regular ID: {ekstrakulikuler.id}
             </p>
           </div>
 
@@ -136,16 +223,11 @@ export default function TambahEkstrakurikuler() {
                     <option value="">Pilih Pembina</option>
                     {guruOptions.map((guru) => (
                       <option key={guru.id} value={guru.id}>
-                        {guru.nama_guru} {guru.nip ? `(${guru.nip})` : ''}
+                        {guru.nama_guru} {guru.nip ? `- ${guru.nip}` : ''}
                       </option>
                     ))}
                   </select>
                   {errors.pembina && <p className="mt-1 text-sm text-red-500">{errors.pembina}</p>}
-                  {guruOptions.length === 0 && (
-                    <p className="mt-1 text-sm text-yellow-600">
-                      Tidak ada data guru tersedia. Pastikan tabel guru memiliki data.
-                    </p>
-                  )}
                 </div>
 
                 {/* Jadwal Latihan */}
@@ -172,7 +254,7 @@ export default function TambahEkstrakurikuler() {
                 {/* Gambar Upload */}
                 <div className="w-full">
                   <label htmlFor="gambar" className="block text-sm font-medium text-gray-700 mb-1">
-                    Gambar <span className="text-red-500">*</span>
+                    Gambar
                   </label>
                   <div className="flex items-center justify-center w-full">
                     <label
@@ -189,6 +271,20 @@ export default function TambahEkstrakurikuler() {
                           <div className="absolute inset-0 bg-black bg-opacity-40 opacity-0 hover:opacity-100 flex items-center justify-center transition-opacity">
                             <span className="text-white text-sm">Ganti Gambar</span>
                           </div>
+                          {/* Remove image button */}
+                          <button
+                            type="button"
+                            onClick={(e) => {
+                              e.preventDefault()
+                              e.stopPropagation()
+                              removeImage()
+                            }}
+                            className="absolute top-2 right-2 bg-red-500 text-white rounded-full p-1 hover:bg-red-600 transition-colors"
+                          >
+                            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                            </svg>
+                          </button>
                         </div>
                       ) : (
                         <div className="flex flex-col items-center justify-center pt-5 pb-6">
@@ -227,6 +323,11 @@ export default function TambahEkstrakurikuler() {
                   {data.gambar && (
                     <p className="mt-2 text-sm text-gray-600">File terpilih: {data.gambar.name}</p>
                   )}
+                  {ekstrakulikuler.gambar && !data.gambar && (
+                    <p className="mt-2 text-sm text-gray-600">
+                      Gambar saat ini: {ekstrakulikuler.gambar}
+                    </p>
+                  )}
                 </div>
               </div>
             </div>
@@ -263,7 +364,7 @@ export default function TambahEkstrakurikuler() {
                 disabled={processing}
                 className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 disabled:opacity-50 transition-colors"
               >
-                {processing ? 'Menyimpan...' : 'Simpan'}
+                {processing ? 'Menyimpan...' : 'Simpan Perubahan'}
               </button>
             </div>
           </form>

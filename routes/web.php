@@ -64,8 +64,8 @@ Route::middleware(['auth', 'verified'])
         //
          Route::get('ekstrakulikuler/tambah', [EkskulController::class, 'ekskulTambahView'])->name('beritaTambahView');
         Route::post('ekstrakulikuler/tambah', [EkskulController::class, 'ekskulTambah'])->name('ekskulTambah');
-        Route::get('ekstrakulikuler/edit/{id}', [EkskulController::class, 'beritaEditView'])->name('beritaEditView');
-        Route::put('ekstrakulikuler/edit/{id}', [EkskulController::class, 'beritaEdit'])->name('beritaEdit');
+        Route::get('ekstrakulikuler/edit/{id}', [EkskulController::class, 'ekskulEditView'])->name('ekskulEditView');
+        Route::put('ekstrakulikuler/edit/{id}', [EkskulController::class, 'ekskulEdit'])->name('ekskulEdit');
         Route::delete('ekstrakulikuler/hapus/{id}', [EkskulController::class, 'ekskulHapus'])->name('ekskulHapus');
     });
 
