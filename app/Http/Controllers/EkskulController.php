@@ -14,29 +14,31 @@ use Inertia\Inertia;
 class EkskulController extends Controller
 {
     //
-    public function index()
-    {
-        $data['profil'] = Profil_sekolah::all()->first();
-        $eskul = Ekstrakulikuler::all();
-        $data['eskul'] = $eskul->map(function ($ekskul) {
-            $guru = Guru::find($ekskul->guru_id);
-            return [
-                'id' => $ekskul->id,
-                'created_at' => $ekskul->created_at->format('d M Y'),
-                'updated_at' => $ekskul->updated_at->format('d M Y'),
-                'nama_eskul' => $ekskul->nama_eskul,
-                'pembina' => $ekskul->guru->nama_guru,
-                'jadwal_latihan' => $ekskul->jadwal_latihan,
-                'deskripsi' => $ekskul->deskripsi,
-                'gambar' => $ekskul->gambar,
-                'encrypted_id' => Crypt::encrypt($ekskul->id),
-            ];
-        })->toArray();
-        $data['guru'] = Guru::all();
-        // dd($data['eskul']);
-        return Inertia::render('Admin/Ekstrakulikuler/index',$data);
-    }
-    public function ekskulTambahView()
+   public function index()
+{
+    $data['profil'] = Profil_sekolah::all()->first();
+
+    $eskul = Ekstrakulikuler::with('guru')->get(); // Eager load relasi guru
+
+    $data['eskul'] = $eskul->map(function ($ekskul) {
+        return [
+            'id' => $ekskul->id,
+            'created_at' => $ekskul->created_at->format('d M Y'),
+            'updated_at' => $ekskul->updated_at->format('d M Y'),
+            'nama_eskul' => $ekskul->nama_eskul,
+            'pembina' => $ekskul->guru ? $ekskul->guru->nama_guru : 'Tidak ada pembina',
+            'guru_id' => $ekskul->pembina,
+            'jadwal_latihan' => $ekskul->jadwal_latihan,
+            'deskripsi' => $ekskul->deskripsi,
+            'gambar' => $ekskul->gambar,
+            'encrypted_id' => Crypt::encrypt($ekskul->id),
+        ];
+    })->toArray();
+
+    $data['guru'] = Guru::all();
+
+    return Inertia::render('Admin/Ekstrakulikuler/index', $data);
+}    public function ekskulTambahView()
     {
         $data['guru'] = Guru::all();
         $data['profil'] = Profil_sekolah::all()->first();
@@ -45,7 +47,7 @@ class EkskulController extends Controller
   public function ekskulTambah(Request $request){
         $data = $request->validate([
             'nama_eskul' => 'required|string',
-            'pembina' => 'required|string',
+            'pembina' => 'required',
             'jadwal_latihan' => 'required|string',
             'deskripsi' => 'required|string',
 
@@ -59,13 +61,19 @@ class EkskulController extends Controller
             $data['gambar'] = $filename;
         }
 
-        Ekstrakulikuler::create([
-            'nama_eskul' => $request->nama_eskul,
-            'pembina' => $request->pembina,
-            'jadwal_latihan' => $request->jadwal_latihan,
-            'deskripsi' => $request->deskripsi,
-            'gambar' => $filename,
-        ]);
+    $guru = Guru::find($request->pembina);
+
+    if (!$guru) {
+        return back()->withErrors(['pembina' => 'Guru tidak ditemukan']);
+    }
+
+    Ekstrakulikuler::create([
+        'nama_eskul' => $request->nama_eskul,
+        'pembina' => $request->pembina,
+        'jadwal_latihan' => $request->jadwal_latihan,
+        'deskripsi' => $request->deskripsi,
+        'gambar' => $filename,
+    ]);
 
         return redirect()->route('ekskulView')->with('message', 'Ekstrakulikuler berhasil ditambahkan');
     }
@@ -81,18 +89,48 @@ class EkskulController extends Controller
         return redirect()->route('ekskulView')->with('message', 'Ekstrakulikuler berhasil dihapus');
 
     }
+    // public function ekskulEditView($id)
+    // {
+    //     try {
+    //         $id = Crypt::decrypt($id);
+    //     } catch (DecryptException $e) {
+    //         return redirect()->route('ekskulView')->with('error', 'Invalid ID');
+    //     }
+    //     $data['ekstrakulikuler'] = Ekstrakulikuler::find($id);
+    //     $data['guru'] = Guru::all();
+    //     $data['profil'] = Profil_sekolah::all()->first();
+    //     return Inertia::render('Admin/Ekstrakulikuler/edit', $data);
+    // }
+
     public function ekskulEditView($id)
-    {
-        try {
-            $id = Crypt::decrypt($id);
-        } catch (DecryptException $e) {
-            return redirect()->route('ekskulView')->with('error', 'Invalid ID');
-        }
-        $data['ekstrakulikuler'] = Ekstrakulikuler::find($id);
-        $data['guru'] = Guru::all();
-        $data['profil'] = Profil_sekolah::all()->first();
-        return Inertia::render('Admin/Ekstrakulikuler/edit', $data);
+{
+    try {
+        $id = Crypt::decrypt($id);
+    } catch (\Throwable $th) {
+        // Biarkan ID asli jika decrypt gagal
     }
+
+    $ekstrakulikuler = Ekstrakulikuler::find($id);
+
+    if (!$ekstrakulikuler) {
+        abort(404, 'Ekstrakurikuler tidak ditemukan');
+    }
+
+    $data['ekstrakulikuler'] = $ekstrakulikuler->only([
+        'id',
+        'nama_eskul',
+        'pembina',
+        'jadwal_latihan',
+        'deskripsi',
+        'gambar',
+        'encrypted_id'
+    ]);
+
+    $data['guru'] = Guru::all();
+    $data['profil'] = Profil_sekolah::all()->first();
+
+    return Inertia::render('Admin/Ekstrakulikuler/edit', $data);
+}
     public function ekskulEdit(Request $request, $id)
     {
         $request->validate([

@@ -11,13 +11,13 @@ const breadcrumbs: BreadcrumbItem[] = [
 
 interface Ekstrakurikuler {
   id: number
+    created_at: string
+  updated_at: string
   nama_eskul: string
   pembina: string
   jadwal_latihan: string
   deskripsi: string
   gambar: string
-  created_at: string
-  updated_at: string
   encrypted_id: string
   user: User
 }
