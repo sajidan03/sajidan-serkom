@@ -41,7 +41,7 @@ class WelcomeController extends Controller
                 ];
             });
 
-        $data['galeri'] = Galeri::orderBy('tanggal', 'desc')
+        $data['galeri'] = Galeri::orderBy('id', 'desc')
             ->limit(8)
             ->get()
             ->map(function ($item) {
@@ -50,12 +50,12 @@ class WelcomeController extends Controller
                     'created_at' => $item->created_at->format('d M Y'),
                     'updated_at' => $item->updated_at->format('d M Y'),
                     'judul' => $item->judul,
-                    'isi' => $item->isi,
+                    'keterangan' => $item->keterangan,
+                    'file' => $item->file,
+                    'kategori' => $item->kategori,
                     'tanggal' => $item->tanggal,
-                    'gambar' => $item->gambar,
                 ];
             });
-
         return Inertia::render('welcome', $data);
     }
 }

@@ -654,6 +654,7 @@ namespace App\Models {
      * @property \Illuminate\Support\Carbon|null $created_at
      * @property int $id
      * @property-read \App\Models\Ekstrakulikuler $ekskul
+     * @property-read \App\Models\User $user
      * @method static \Illuminate\Database\Eloquent\Builder<Galeri>|Galeri whereId($value)
      * @method static \Illuminate\Database\Eloquent\Builder<Galeri>|Galeri whereCreatedAt($value)
      * @method static \Illuminate\Database\Eloquent\Builder<Galeri>|Galeri whereUpdatedAt($value)
@@ -2242,6 +2243,8 @@ namespace App\Models {
      * @property string $username
      * @property string $name
      * @property int $id
+     * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Berita> $berita
+     * @property-read int|null $berita_count
      * @property-read \Illuminate\Database\Eloquent\Collection<int, \Illuminate\Notifications\DatabaseNotification> $notifications
      * @property-read int|null $notifications_count
      * @method static \Illuminate\Database\Eloquent\Builder<User>|User whereId($value)

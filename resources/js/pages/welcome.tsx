@@ -8,16 +8,16 @@ interface Berita {
   id: number;
   judul: string;
   isi: string;
-  gambar: string;
   tanggal: string;
-  user_name: string;
+  gambar: string;
+  username: string;
 }
 
 interface Ekstrakulikuler {
   id: number;
   nama_eskul: string;
   pembina: string;
-    jadwal_latihan: string;
+  jadwal_latihan: string;
   deskripsi: string;
   gambar: string | null;
 }
@@ -25,9 +25,10 @@ interface Ekstrakulikuler {
 interface Galeri {
   id: number;
   judul: string;
-  isi: string;
+  keterangan: string;
+  file: string;
+  kategori: string;
   tanggal: string;
-  gambar: string;
 }
 
 interface ProfilSekolah {
@@ -322,7 +323,7 @@ export default function Welcome() {
                                         </p>
                                         <div className="flex justify-between items-center text-sm text-gray-400">
                                             <span>{new Date(item.tanggal).toLocaleDateString('id-ID')}</span>
-                                            <span>Oleh: {item.user_name}</span>
+                                            <span>Oleh: {item.username}</span>
                                         </div>
                                     </div>
                                 ))}
@@ -337,71 +338,7 @@ export default function Welcome() {
                 </motion.section>
 
                 {/* Galeri Section - DIPERBAIKI */}
-                <motion.section
-                initial={{ y: 50, opacity: 0 }}
-                whileInView={{ y: 0, opacity: 1 }}
-                viewport={{ once: true, amount: 0.2 }}
-                transition={{ duration: 1, ease: "easeOut" }}
-                id="galeri" className="py-24 sm:py-32 bg-gradient-to-b from-blue-900 to-blue-800">
-                    <div className="mx-auto max-w-7xl px-6 lg:px-8">
-                        <div className="mx-auto max-w-2xl lg:text-center">
-                            <h2 className="text-base/7 font-semibold text-yellow-400">Galeri Sekolah</h2>
-                            <p className="mt-2 text-3xl font-semibold tracking-tight text-balance text-white sm:text-4xl">
-                                Dokumentasi Kegiatan
-                            </p>
-                        </div>
-                        <div className="mx-auto mt-16 max-w-2xl sm:mt-20 lg:mt-24 lg:max-w-4xl">
-                            <div className="grid grid-cols-2 gap-4 md:grid-cols-4">
-                                {galeri.map((item) => (
-                                    <div key={item.id} className="group relative">
-                                        {item.gambar && (
-                                            item.gambar.toLowerCase().endsWith('.jpg') ||
-                                            item.gambar.toLowerCase().endsWith('.jpeg') ||
-                                            item.gambar.toLowerCase().endsWith('.png') ||
-                                            item.gambar.toLowerCase().endsWith('.gif') ||
-                                            item.gambar.toLowerCase().endsWith('.webp') ||
-                                            item.gambar.toLowerCase().endsWith('.bmp') ? (
-                                                <img
-                                                    src={`/storage/assets/${item.gambar}`}
-                                                    alt={item.judul}
-                                                    className="w-full h-32 object-cover rounded-lg"
-                                                    onError={(e) => {
-                                                        e.target.style.display = 'none';
-                                                    }}
-                                                />
-                                            ) : (
-                                                <div className="w-full h-32 bg-gray-600 rounded-lg flex items-center justify-center">
-                                                    <span className="text-white text-sm">File bukan gambar</span>
-                                                </div>
-                                            )
-                                        )}
-                                        {!item.gambar && (
-                                            <div className="w-full h-32 bg-gray-700 rounded-lg flex items-center justify-center">
-                                                <span className="text-white text-sm">Tidak ada gambar</span>
-                                            </div>
-                                        )}
-                                        <div className="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-60 transition-opacity rounded-lg flex items-center justify-center">
-                                            <div className="text-white text-center opacity-0 group-hover:opacity-100 transition-opacity p-2">
-                                                <p className="text-sm font-semibold">{item.judul}</p>
-                                                {item.kategori && (
-                                                    <p className="text-xs">{item.kategori}</p>
-                                                )}
-                                                {item.isi && (
-                                                    <p className="text-xs mt-1">{item.isi.substring(0, 50)}...</p>
-                                                )}
-                                            </div>
-                                        </div>
-                                    </div>
-                                ))}
-                            </div>
-                            {galeri.length === 0 && (
-                                <div className="text-center py-12">
-                                    <p className="text-gray-200 text-lg">Belum ada galeri tersedia</p>
-                                </div>
-                            )}
-                        </div>
-                    </div>
-                </motion.section>
+
 
                 {/* Ekstrakulikuler Section*/}
                 <motion.section
@@ -432,7 +369,7 @@ export default function Welcome() {
                                             item.gambar.toLowerCase().endsWith('.webp') ? (
                                                 <img
                                                     src={`/storage/assets/${item.gambar}`}
-                                                    alt={item.nama}
+                                                    alt={item.nama_eskul}
                                                     className="w-full h-48 object-cover rounded-lg mb-4"
                                                     onError={(e) => {
                                                         e.target.style.display = 'none';

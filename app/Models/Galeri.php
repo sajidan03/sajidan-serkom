@@ -11,4 +11,7 @@ class Galeri extends Model
     public function ekskul(){
         return $this->belongsTo(Ekstrakulikuler::class, 'id');
     }
+    public function user(){
+        return $this->belongsTo(User::class, 'id');
+    }
 }

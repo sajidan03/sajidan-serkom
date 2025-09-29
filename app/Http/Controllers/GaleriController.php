@@ -45,12 +45,9 @@ class GaleriController extends Controller
     ]);
 
     $fileName = null;
-
     if ($request->hasFile('file')) {
         $file = $request->file('file');
-
         $fileName = time() . '_' . $file->getClientOriginalName();
-
         $file->storeAs('assets', $fileName);
     }
 
