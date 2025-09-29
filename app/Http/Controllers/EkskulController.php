@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Ekstrakulikuler;
 use App\Models\Guru;
 use App\Models\Profil_sekolah;
+use Illuminate\Contracts\Encryption\DecryptException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\Storage;
@@ -84,10 +85,10 @@ class EkskulController extends Controller
     {
         try {
             $id = Crypt::decrypt($id);
-        } catch (\Throwable $th) {
-            //throw $th;
+        } catch (DecryptException $e) {
+            return redirect()->route('ekskulView')->with('error', 'Invalid ID');
         }
-        $data['ekstrakulikuler'] = Ekstrakulikuler::findOrFail($id);
+        $data['ekstrakulikuler'] = Ekstrakulikuler::find($id);
         $data['guru'] = Guru::all();
         $data['profil'] = Profil_sekolah::all()->first();
         return Inertia::render('Admin/Ekstrakulikuler/edit', $data);
@@ -99,18 +100,17 @@ class EkskulController extends Controller
             'pembina' => 'required|string',
             'jadwal_latihan' => 'required|string',
             'deskripsi' => 'required|string',
-            'gambar' => 'nullable|image|mimes:jpg,jpeg,png,gif|max:5120', // Maksimal 5MB
+            'gambar' => 'nullable|image|mimes:jpg,jpeg,png,gif|max:5120',
         ]);
 
         $ekskul = Ekstrakulikuler::findOrFail($id);
-        $filename = $ekskul->gambar; // Pertahankan nama file lama jika tidak ada file baru diunggah
+        $filename = $ekskul->gambar;
 
         if ($request->hasFile('gambar')) {
             $file = $request->file('gambar');
             $filename = time() . '_' . $file->getClientOriginalName();
             $file->storeAs('assets', $filename);
 
-            // Hapus file lama jika ada
             if ($ekskul->gambar) {
                 Storage::delete('assets/' . $ekskul->gambar);
             }

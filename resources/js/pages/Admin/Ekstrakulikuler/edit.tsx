@@ -29,7 +29,7 @@ interface Ekstrakulikuler {
   jadwal_latihan: string
   deskripsi: string
   gambar: string | null
-  encrypted_id: string
+  encrypted_id?: string
 }
 
 interface PageProps {
@@ -54,6 +54,10 @@ export default function EditEkstrakurikuler() {
 
     if (ekstrakulikuler) {
       setIsLoading(false)
+      // Debug log untuk melihat data yang diterima
+      console.log('Data ekstrakulikuler:', ekstrakulikuler)
+      console.log('Encrypted ID:', ekstrakulikuler.encrypted_id)
+      console.log('Regular ID:', ekstrakulikuler.id)
     } else {
       setError('Data ekstrakurikuler tidak ditemukan')
       setIsLoading(false)
@@ -75,7 +79,10 @@ export default function EditEkstrakurikuler() {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
 
-    if (!ekstrakulikuler?.encrypted_id) {
+    // Gunakan ID biasa jika encrypted_id tidak ada
+    const identifier = ekstrakulikuler?.encrypted_id || ekstrakulikuler?.id
+
+    if (!identifier) {
       setError('ID ekstrakurikuler tidak valid')
       return
     }
@@ -91,8 +98,8 @@ export default function EditEkstrakurikuler() {
       formData.append('gambar', data.gambar)
     }
 
-    // Gunakan encrypted_id untuk URL
-    put(`/admin/ekstrakulikuler/edit/${ekstrakulikuler.encrypted_id}`, {
+    // Gunakan identifier (encrypted_id atau id biasa)
+    put(`/admin/ekstrakulikuler/${identifier}`, {
       forceFormData: true,
       onError: (errors) => {
         console.log('Update errors:', errors)
@@ -177,10 +184,10 @@ export default function EditEkstrakurikuler() {
         <div className="w-full bg-white p-6 rounded-none shadow-md">
           <h1 className="text-2xl font-bold mb-6">Edit Data Ekstrakurikuler</h1>
 
-          {/* Debug Info - bisa dihapus setelah testing */}
+          {/* Debug Info */}
           <div className="mb-4 p-3 bg-blue-50 rounded-md">
             <p className="text-sm text-blue-700">
-              Debug: Encrypted ID: {ekstrakulikuler.encrypted_id} | Regular ID: {ekstrakulikuler.id}
+              Debug: Encrypted ID: {ekstrakulikuler.encrypted_id || 'Tidak tersedia'} | Regular ID: {ekstrakulikuler.id}
             </p>
           </div>
 
