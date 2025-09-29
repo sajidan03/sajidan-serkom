@@ -59,7 +59,7 @@ export default function TambahEkstrakurikuler() {
       formData.append('gambar', data.gambar)
     }
 
-    post('/admin/ekstrakurikuler/tambah', {
+    post('/admin/ekstrakulikuler/tambah', {
       forceFormData: true,
     })
   }

@@ -22,14 +22,14 @@ interface Ekstrakurikuler {
   user: User
 }
 
+
 export default function EkstrakurikulerIndex() {
   const { props } = usePage()
-  // Tambahkan pengecekan untuk menghindari error undefined
-  const eskulList = props.ekstrakurikuler as Ekstrakurikuler[] || []
+  const eskul = props.eskul as Ekstrakurikuler[] || []
 
   const handleDelete = (id: number) => {
     if (confirm('Apakah Anda yakin ingin menghapus ekstrakurikuler ini?')) {
-      router.delete(`/admin/ekstrakurikuler/hapus/${id}`)
+      router.delete(`/admin/ekstrakulikuler/hapus/${id}`)
     }
   }
 
@@ -76,8 +76,8 @@ export default function EkstrakurikulerIndex() {
               </tr>
             </thead>
             <tbody className="text-gray-600">
-              {eskulList && eskulList.length > 0 ? (
-                eskulList.map((eskul) => (
+              {eskul && eskul.length > 0 ? (
+                eskul.map((eskul) => (
                   <tr key={eskul.id} className="border-b hover:bg-gray-50">
                     <td className="px-4 py-3">{eskul.id}</td>
                     <td className="px-4 py-3 font-medium">{eskul.nama_eskul}</td>

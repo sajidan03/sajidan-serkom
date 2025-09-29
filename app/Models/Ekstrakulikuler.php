@@ -7,4 +7,8 @@ use Illuminate\Database\Eloquent\Model;
 class Ekstrakulikuler extends Model
 {
     //
+    public function guru(){
+        return $this->belongsTo(Guru::class, 'id');
+    }
+    protected $guarded = [];
 }

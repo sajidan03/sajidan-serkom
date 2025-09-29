@@ -8,26 +8,26 @@ interface Berita {
   id: number;
   judul: string;
   isi: string;
-  gambar: string | null;
+  gambar: string;
   tanggal: string;
   user_name: string;
 }
 
 interface Ekstrakulikuler {
   id: number;
-  nama: string;
+  nama_eskul: string;
+  pembina: string;
+    jadwal_latihan: string;
   deskripsi: string;
   gambar: string | null;
-  pembina: string;
 }
 
 interface Galeri {
   id: number;
   judul: string;
-  keterangan: string;
-  gambar: string;
-  kategori: string;
+  isi: string;
   tanggal: string;
+  gambar: string;
 }
 
 interface ProfilSekolah {
@@ -52,7 +52,7 @@ interface WelcomeProps {
 }
 
 export default function Welcome() {
-    const { auth } = usePage<SharedData>().props;
+    // const { auth } = usePage<SharedData>().props;
     const { profil, berita, ekstrakulikuler, galeri } = usePage<WelcomeProps>().props;
     const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
@@ -278,7 +278,7 @@ export default function Welcome() {
                     </div>
                 </div>
 
-                {/* Berita Section */}
+                {/* Berita Section - DIPERBAIKI */}
                 <motion.section
                 initial={{ y: 50, opacity: 0 }}
                 whileInView={{ y: 0, opacity: 1 }}
@@ -297,15 +297,28 @@ export default function Welcome() {
                                 {berita.map((item) => (
                                     <div key={item.id} className="bg-white/5 rounded-lg p-6 backdrop-blur-sm hover:bg-white/10 transition-colors">
                                         {item.gambar && (
-                                            <img
-                                                src={`/storage/assets/${item.gambar}`}
-                                                alt={item.judul}
-                                                className="w-full h-48 object-cover rounded-lg mb-4"
-                                            />
+                                            item.gambar.toLowerCase().endsWith('.jpg') ||
+                                            item.gambar.toLowerCase().endsWith('.jpeg') ||
+                                            item.gambar.toLowerCase().endsWith('.png') ||
+                                            item.gambar.toLowerCase().endsWith('.gif') ||
+                                            item.gambar.toLowerCase().endsWith('.webp') ? (
+                                                <img
+                                                    src={`/storage/assets/${item.gambar}`}
+                                                    alt={item.judul}
+                                                    className="w-full h-48 object-cover rounded-lg mb-4"
+                                                    onError={(e) => {
+                                                        e.target.style.display = 'none';
+                                                    }}
+                                                />
+                                            ) : (
+                                                <div className="w-full h-48 bg-gray-600 rounded-lg mb-4 flex items-center justify-center">
+                                                    <span className="text-white">File bukan gambar</span>
+                                                </div>
+                                            )
                                         )}
                                         <h3 className="text-xl font-semibold text-white mb-2">{item.judul}</h3>
                                         <p className="text-gray-200 text-sm mb-4 line-clamp-3">
-                                            {item.isi.substring(0, 150)}...
+                                            {item.isi && item.isi.length > 150 ? `${item.isi.substring(0, 150)}...` : item.isi}
                                         </p>
                                         <div className="flex justify-between items-center text-sm text-gray-400">
                                             <span>{new Date(item.tanggal).toLocaleDateString('id-ID')}</span>
@@ -323,7 +336,7 @@ export default function Welcome() {
                     </div>
                 </motion.section>
 
-                {/* Galeri Section */}
+                {/* Galeri Section - DIPERBAIKI */}
                 <motion.section
                 initial={{ y: 50, opacity: 0 }}
                 whileInView={{ y: 0, opacity: 1 }}
@@ -339,42 +352,47 @@ export default function Welcome() {
                         </div>
                         <div className="mx-auto mt-16 max-w-2xl sm:mt-20 lg:mt-24 lg:max-w-4xl">
                             <div className="grid grid-cols-2 gap-4 md:grid-cols-4">
-                               {galeri.map((item) => (
-                                <div key={item.id} className="group relative">
-                                    {item.gambar && (
-                                        item.gambar.toLowerCase().endsWith('.jpg') ||
-                                        item.gambar.toLowerCase().endsWith('.jpeg') ||
-                                        item.gambar.toLowerCase().endsWith('.png') ||
-                                        item.gambar.toLowerCase().endsWith('.gif') ||
-                                        item.gambar.toLowerCase().endsWith('.webp') ||
-                                        item.gambar.toLowerCase().endsWith('.bmp') ? (
-                                            <img
-                                                src={`/storage/assets/${item.gambar}`}
-                                                alt={item.judul}
-                                                className="w-full h-32 object-cover rounded-lg"
-                                                onError={(e) => {
-                                                    e.target.style.display = 'none';
-                                                }}
-                                            />
-                                        ) : (
-                                            <div className="w-full h-32 bg-gray-600 rounded-lg flex items-center justify-center">
-                                                <span className="text-white text-sm">File bukan gambar</span>
+                                {galeri.map((item) => (
+                                    <div key={item.id} className="group relative">
+                                        {item.gambar && (
+                                            item.gambar.toLowerCase().endsWith('.jpg') ||
+                                            item.gambar.toLowerCase().endsWith('.jpeg') ||
+                                            item.gambar.toLowerCase().endsWith('.png') ||
+                                            item.gambar.toLowerCase().endsWith('.gif') ||
+                                            item.gambar.toLowerCase().endsWith('.webp') ||
+                                            item.gambar.toLowerCase().endsWith('.bmp') ? (
+                                                <img
+                                                    src={`/storage/assets/${item.gambar}`}
+                                                    alt={item.judul}
+                                                    className="w-full h-32 object-cover rounded-lg"
+                                                    onError={(e) => {
+                                                        e.target.style.display = 'none';
+                                                    }}
+                                                />
+                                            ) : (
+                                                <div className="w-full h-32 bg-gray-600 rounded-lg flex items-center justify-center">
+                                                    <span className="text-white text-sm">File bukan gambar</span>
+                                                </div>
+                                            )
+                                        )}
+                                        {!item.gambar && (
+                                            <div className="w-full h-32 bg-gray-700 rounded-lg flex items-center justify-center">
+                                                <span className="text-white text-sm">Tidak ada gambar</span>
                                             </div>
-                                        )
-                                    )}
-                                    {!item.file && (
-                                        <div className="w-full h-32 bg-gray-700 rounded-lg flex items-center justify-center">
-                                            <span className="text-white text-sm">Tidak ada gambar</span>
-                                        </div>
-                                    )}
-                                    <div className="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-60 transition-opacity rounded-lg flex items-center justify-center">
-                                        <div className="text-white text-center opacity-0 group-hover:opacity-100 transition-opacity p-2">
-                                            <p className="text-sm font-semibold">{item.judul}</p>
-                                            <p className="text-xs">{item.kategori}</p>
+                                        )}
+                                        <div className="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-60 transition-opacity rounded-lg flex items-center justify-center">
+                                            <div className="text-white text-center opacity-0 group-hover:opacity-100 transition-opacity p-2">
+                                                <p className="text-sm font-semibold">{item.judul}</p>
+                                                {item.kategori && (
+                                                    <p className="text-xs">{item.kategori}</p>
+                                                )}
+                                                {item.isi && (
+                                                    <p className="text-xs mt-1">{item.isi.substring(0, 50)}...</p>
+                                                )}
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
-                            ))}
+                                ))}
                             </div>
                             {galeri.length === 0 && (
                                 <div className="text-center py-12">
@@ -385,7 +403,7 @@ export default function Welcome() {
                     </div>
                 </motion.section>
 
-                {/* Ekstrakulikuler Section - BARU DITAMBAHKAN */}
+                {/* Ekstrakulikuler Section*/}
                 <motion.section
                 initial={{ y: 50, opacity: 0 }}
                 whileInView={{ y: 0, opacity: 1 }}
@@ -407,13 +425,26 @@ export default function Welcome() {
                                 {ekstrakulikuler.map((item) => (
                                     <div key={item.id} className="bg-white/5 rounded-lg p-6 backdrop-blur-sm hover:bg-white/10 transition-colors">
                                         {item.gambar && (
-                                            <img
-                                                src={`/storage/assets/${item.gambar}`}
-                                                alt={item.nama}
-                                                className="w-full h-48 object-cover rounded-lg mb-4"
-                                            />
+                                            item.gambar.toLowerCase().endsWith('.jpg') ||
+                                            item.gambar.toLowerCase().endsWith('.jpeg') ||
+                                            item.gambar.toLowerCase().endsWith('.png') ||
+                                            item.gambar.toLowerCase().endsWith('.gif') ||
+                                            item.gambar.toLowerCase().endsWith('.webp') ? (
+                                                <img
+                                                    src={`/storage/assets/${item.gambar}`}
+                                                    alt={item.nama}
+                                                    className="w-full h-48 object-cover rounded-lg mb-4"
+                                                    onError={(e) => {
+                                                        e.target.style.display = 'none';
+                                                    }}
+                                                />
+                                            ) : (
+                                                <div className="w-full h-48 bg-gray-600 rounded-lg mb-4 flex items-center justify-center">
+                                                    <span className="text-white">File bukan gambar</span>
+                                                </div>
+                                            )
                                         )}
-                                        <h3 className="text-xl font-semibold text-white mb-2">{item.nama}</h3>
+                                        <h3 className="text-xl font-semibold text-white mb-2">{item.nama_eskul}</h3>
                                         <p className="text-gray-200 text-sm mb-4">
                                             {item.deskripsi}
                                         </p>

@@ -34,10 +34,10 @@ class WelcomeController extends Controller
             ->map(function ($item) {
                 return [
                     'id' => $item->id,
-                    'nama_eskul' => $item->nama,
+                    'nama_eskul' => $item->nama_eskul,
+                    'pembina' => $item->guru->nama_guru ?? 'Tidak ada pembina',
                     'deskripsi' => $item->deskripsi,
                     'gambar' => $item->gambar,
-                    'pembina' => $item->pembina,
                 ];
             });
 
@@ -47,11 +47,12 @@ class WelcomeController extends Controller
             ->map(function ($item) {
                 return [
                     'id' => $item->id,
+                    'created_at' => $item->created_at->format('d M Y'),
+                    'updated_at' => $item->updated_at->format('d M Y'),
                     'judul' => $item->judul,
-                    'keterangan' => $item->keterangan,
-                    'file' => $item->file,
-                    'kategori' => $item->kategori,
+                    'isi' => $item->isi,
                     'tanggal' => $item->tanggal,
+                    'gambar' => $item->gambar,
                 ];
             });
 

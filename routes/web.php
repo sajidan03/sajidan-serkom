@@ -27,7 +27,7 @@ Route::middleware(['auth', 'verified'])
         Route::get('guru', [GuruController::class, 'index'])->name('guruView');
         Route::get('berita', [BeritaController::class, 'index'])->name('beritaView');
         Route::get('galeri', [GaleriController::class, 'index'])->name('galeriView');
-        Route::get('ekstrakulikuler', [EkskulController::class, 'index'])->name('eskkulView');
+        Route::get('ekstrakulikuler', [EkskulController::class, 'index'])->name('ekskulView');
         //
         Route::get('guru/export', [GuruController::class, 'export'])->name('guruExport');
         Route::get('user/export', [UserController::class, 'export'])->name('userExport');
@@ -63,10 +63,10 @@ Route::middleware(['auth', 'verified'])
         Route::delete('berita/hapus/{id}', [BeritaController::class, 'beritaHapus'])->name('beritaHapus');
         //
          Route::get('ekstrakulikuler/tambah', [EkskulController::class, 'ekskulTambahView'])->name('beritaTambahView');
-        Route::post('ekstrakulikuler/tambah', [EkskulController::class, 'beritaTambah'])->name('beritaTambah');
+        Route::post('ekstrakulikuler/tambah', [EkskulController::class, 'ekskulTambah'])->name('ekskulTambah');
         Route::get('ekstrakulikuler/edit/{id}', [EkskulController::class, 'beritaEditView'])->name('beritaEditView');
         Route::put('ekstrakulikuler/edit/{id}', [EkskulController::class, 'beritaEdit'])->name('beritaEdit');
-        Route::delete('ekstrakulikuler/hapus/{id}', [EkskulController::class, 'beritaHapus'])->name('beritaHapus');
+        Route::delete('ekstrakulikuler/hapus/{id}', [EkskulController::class, 'ekskulHapus'])->name('ekskulHapus');
     });
 
 Route::middleware(['auth', 'verified'])

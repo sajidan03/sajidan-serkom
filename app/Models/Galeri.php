@@ -8,4 +8,7 @@ class Galeri extends Model
 {
     //
     protected $guarded = [];
+    public function ekskul(){
+        return $this->belongsTo(Ekstrakulikuler::class, 'id');
+    }
 }
