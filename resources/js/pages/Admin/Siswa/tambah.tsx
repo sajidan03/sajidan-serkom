@@ -29,7 +29,6 @@ export default function TambahSiswa() {
     nisn: '',
     nama_siswa: '',
     jenis_kelamin: '',
-    jurusan: '',
     tahun_masuk: '',
   })
 
@@ -91,23 +90,6 @@ export default function TambahSiswa() {
                     errors.nama_siswa ? 'border-red-500' : 'border-gray-300'
                   }`}
                   placeholder="Masukkan nama lengkap siswa"
-                />
-                {errors.nama_siswa && <p className="mt-1 text-sm text-red-500">{errors.nama_siswa}</p>}
-              </div>
-
-              <div>
-                <label htmlFor="jurusan" className="block text-sm font-medium text-gray-700 mb-1">
-                 Jurusan <span className="text-red-500">*</span>
-                </label>
-                <input
-                  type="text"
-                  id="jurusan"
-                  value={data.jurusan}
-                  onChange={(e) => setData('jurusan', e.target.value)}
-                  className={`w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 ${
-                    errors.nama_siswa ? 'border-red-500' : 'border-gray-300'
-                  }`}
-                  placeholder="Jurusan"
                 />
                 {errors.nama_siswa && <p className="mt-1 text-sm text-red-500">{errors.nama_siswa}</p>}
               </div>

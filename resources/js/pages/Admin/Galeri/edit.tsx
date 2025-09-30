@@ -23,6 +23,7 @@ const galeri = props.galeri as GaleriData
   const [currentFile, setCurrentFile] = useState<string>(galeri.file)
 
   const { data, setData, post ,errors, processing } = useForm({
+    id: galeri.id || 0,
     judul: galeri.judul || '',
     keterangan: galeri.keterangan || '',
     file: null as File | null,
@@ -40,7 +41,10 @@ const galeri = props.galeri as GaleriData
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
-
+    post(`/admin/galeri/edit/${data.id}`, {
+      forceFormData: true,
+      preserveScroll: true,
+    })
     // const formData = new FormData()
     // formData.append('judul', data.judul)
     // formData.append('keterangan', data.keterangan)
@@ -52,9 +56,7 @@ const galeri = props.galeri as GaleriData
     //   formData.append('file', data.file)
     // }
 
-    post(`/admin/galeri/edit/${galeri.encrypted_id}`, {
-      forceFormData: true,
-    })
+
   }
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -89,7 +91,7 @@ const galeri = props.galeri as GaleriData
 
     <AppLayout breadcrumbs={breadcrumbs}>
       <Head title="Edit Galeri" />
-      <p>ID Terenkripsi: {galeri.encrypted_id}</p>
+      {/* <p>ID Terenkripsi: {galeri.encrypted_id}</p> */}
 
       <div className="p-0">
         <div className="w-full bg-white p-6 rounded-none shadow-md">

@@ -28,24 +28,14 @@ export default function EditBerita({ berita }: EditBeritaProps) {
 
   const authUser = props.auth?.user
 
-  // Safe data initialization
-  const safeBerita = berita || {
-    id: 0,
-    judul: '',
-    isi: '',
-    gambar: null,
-    tanggal: new Date().toISOString().split('T')[0],
-    id_user: 0,
-    user: undefined
-  }
-
-  const { data, setData, errors, put, processing, reset } = useForm({
-    judul: safeBerita.judul || '',
-    isi: safeBerita.isi || '',
+  const { data, setData, errors, post, processing, reset } = useForm({
+    id: berita.id || 0,
+    judul: berita.judul || '',
+    isi: berita.isi || '',
     gambar: null as File | null,
-    tanggal: safeBerita.tanggal || new Date().toISOString().split('T')[0],
-    id_user: authUser?.id || safeBerita.id_user,
-    _method: 'PUT' as const,
+    tanggal: berita.tanggal || new Date().toISOString().split('T')[0],
+    id_user: authUser?.id || berita.id_user,
+    _method: 'POST' as const,
   })
 
   const breadcrumbs: BreadcrumbItem[] = [
@@ -54,34 +44,21 @@ export default function EditBerita({ berita }: EditBeritaProps) {
       href: '/admin/berita',
     },
     {
-      title: `Edit Berita: ${safeBerita.judul || 'Untitled'}`,
-      href: `/admin/berita/${safeBerita.id}/edit`,
+      title: `Edit Berita: ${berita.judul || 'Untitled'}`,
+      href: `/admin/berita/${berita.id}/edit`,
     },
   ]
 
-  // Set preview image dari gambar yang sudah ada - PERBAIKAN DI SINI
   useEffect(() => {
-    if (safeBerita.gambar) {
-      // Gunakan path yang benar: /storage/assets/
-      setPreviewImage(`/storage/assets/${safeBerita.gambar}`)
+    if (berita.gambar) {
+      setPreviewImage(`/storage/assets/${berita.gambar}`)
     }
-  }, [safeBerita.gambar])
+  }, [berita.gambar])
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
 
-    const formData = new FormData()
-    formData.append('judul', data.judul)
-    formData.append('isi', data.isi)
-    formData.append('tanggal', data.tanggal)
-    formData.append('id_user', data.id_user.toString())
-    formData.append('_method', 'PUT')
-
-    if (data.gambar) {
-      formData.append('gambar', data.gambar)
-    }
-
-    put(`/admin/berita/${safeBerita.id}`, {
+    post(`/admin/berita/edit/${data.id}`, {
       forceFormData: true,
     })
   }
@@ -97,9 +74,9 @@ export default function EditBerita({ berita }: EditBeritaProps) {
         setPreviewImage(e.target?.result as string)
       }
       reader.readAsDataURL(file)
-    } else if (!file && safeBerita.gambar) {
-      // Jika file dihapus, kembalikan ke gambar lama - PERBAIKAN DI SINI
-      setPreviewImage(`/storage/assets/${safeBerita.gambar}`)
+    } else if (!file && berita.gambar) {
+      // Jika file dihapus, kembalikan ke gambar lama
+      setPreviewImage(`/storage/assets/${berita.gambar}`)
     } else {
       setPreviewImage(null)
     }
@@ -107,9 +84,9 @@ export default function EditBerita({ berita }: EditBeritaProps) {
 
   const hapusGambar = () => {
     setData('gambar', null)
-    // Kembalikan ke gambar lama saat hapus - PERBAIKAN DI SINI
-    if (safeBerita.gambar) {
-      setPreviewImage(`/storage/assets/${safeBerita.gambar}`)
+    // Kembalikan ke gambar lama saat hapus
+    if (berita.gambar) {
+      setPreviewImage(`/storage/assets/${berita.gambar}`)
     } else {
       setPreviewImage(null)
     }
@@ -117,7 +94,7 @@ export default function EditBerita({ berita }: EditBeritaProps) {
 
   return (
     <AppLayout breadcrumbs={breadcrumbs}>
-      <Head title={`Edit Berita: ${safeBerita.judul || 'Untitled'}`} />
+      <Head title={`Edit Berita: ${berita.judul || 'Untitled'}`} />
       <div className="p-0">
         <div className="w-full bg-white p-6 rounded-none shadow-md">
           <h1 className="text-2xl font-bold mb-6">Edit Data Berita</h1>
@@ -125,7 +102,7 @@ export default function EditBerita({ berita }: EditBeritaProps) {
           {/* Info User yang Login dan pembuat berita */}
           <div className="mb-6 p-4 bg-blue-50 rounded-lg">
             <p className="text-sm text-blue-700">
-              <strong>Ditambahkan oleh:</strong> {safeBerita.user?.name || authUser?.name || 'Unknown User'}
+              <strong>Ditambahkan oleh:</strong> {berita.user?.name || authUser?.name || 'Unknown User'}
             </p>
             <p className="text-sm text-blue-700 mt-1">
               <strong>Diedit oleh:</strong> {authUser?.name || 'Unknown User'}
@@ -176,7 +153,7 @@ export default function EditBerita({ berita }: EditBeritaProps) {
                 <input
                   type="hidden"
                   value={data.id_user}
-                  onChange={(e) => setData('id_user', e.target.value)}
+                  onChange={(e) => setData('id_user', parseInt(e.target.value))}
                 />
               </div>
 
@@ -185,7 +162,7 @@ export default function EditBerita({ berita }: EditBeritaProps) {
                 {/* Gambar Upload */}
                 <div className="w-full">
                   <label htmlFor="gambar" className="block text-sm font-medium text-gray-700 mb-1">
-                    Gambar {!safeBerita.gambar && <span className="text-red-500">*</span>}
+                    Gambar {!berita.gambar && <span className="text-red-500">*</span>}
                   </label>
                   <div className="flex items-center justify-center w-full">
                     <label
@@ -249,9 +226,9 @@ export default function EditBerita({ berita }: EditBeritaProps) {
                       </button>
                     </div>
                   )}
-                  {safeBerita.gambar && !data.gambar && (
+                  {berita.gambar && !data.gambar && (
                     <p className="mt-2 text-sm text-gray-600">
-                      Gambar saat ini: {safeBerita.gambar}
+                      Gambar saat ini: {berita.gambar}
                     </p>
                   )}
                 </div>

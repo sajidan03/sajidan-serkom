@@ -81,4 +81,40 @@ public function index(){
         $data['profil'] = Profil_sekolah::all()->first();
         return Inertia::render('Admin/Berita/edit',$data);
     }
+    public function beritaEdit(Request $request, $id){
+        $berita = Berita::findOrFail($id);
+
+        $request->validate([
+            'judul' => 'required',
+            'isi' => 'required',
+            'tanggal' => 'required|date',
+            'gambar' => 'nullable|file|mimes:jpg,jpeg,png,gif|max:5120',
+            'id_user' => 'nullable|exists:users,id',
+        ]);
+
+        $fileName = $berita->gambar;
+
+        if ($request->hasFile('gambar')) {
+            $file = $request->file('gambar');
+            $fileName = time() . '_' . $file->getClientOriginalName();
+            $file->storeAs('assets', $fileName);
+        }
+
+        $berita->update([
+            'updated_at' => now(),
+            'judul' => $request->judul,
+            'isi' => $request->isi,
+            'gambar' => $fileName,
+            'tanggal' => $request->tanggal,
+            'id_user' => Auth::user()->id,
+        ]);
+
+        return redirect()->route('beritaView')->with('success', 'Berita berhasil diperbarui.');
+    }
+    public function beritaHapus($id){
+        $berita = Berita::findOrFail($id);
+        $berita->delete();
+
+        return redirect()->route('beritaView')->with('success', 'Berita berhasil dihapus.');
+    }
 }

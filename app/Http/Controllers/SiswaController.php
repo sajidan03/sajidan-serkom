@@ -39,7 +39,6 @@ class SiswaController extends Controller
             'nisn' => 'required|unique:siswas,nisn',
             'nama_siswa' => 'required',
             'jenis_kelamin' => 'required',
-            'jurusan' => 'nullable|string|max:100',
             'tahun_masuk' => 'nullable|digits:4|integer|min:1900|max:' . (date('Y')),
         ]);
 
@@ -47,7 +46,6 @@ class SiswaController extends Controller
             'nisn' => $request->nisn,
             'nama_siswa' => $request->nama_siswa,
             'jenis_kelamin' => $request->jenis_kelamin,
-            'jurusan' => $request->jurusan,
             'tahun_masuk' => $request->tahun_masuk,
         ]);
 

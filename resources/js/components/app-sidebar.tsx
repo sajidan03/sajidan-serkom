@@ -46,7 +46,7 @@ const mainNavItems: NavItem[] = [
     },
     {
         title: 'Profil sekolah',
-        href: '/admin/kas/profil-sekolah',
+        href: '/admin/profil-sekolah',
         icon: Banknote,
     },
 

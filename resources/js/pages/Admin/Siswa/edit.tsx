@@ -31,6 +31,7 @@ export default function EditSiswa() {
   const { errors, siswa } = props
 
   const { data, setData, post, processing } = useForm({
+    id: siswa?.id || 0,
     encrypted_id: siswa?.encrypted_id || '',
     nisn: siswa?.nisn || '',
     nama_siswa: siswa?.nama_siswa || '',
@@ -84,7 +85,7 @@ export default function EditSiswa() {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
-    post(`/admin/siswa/edit/${data.encrypted_id}`, {
+    post(`/admin/siswa/edit/${data.id}`, {
       onError: (errors) => {
         console.log('Errors:', errors)
       },

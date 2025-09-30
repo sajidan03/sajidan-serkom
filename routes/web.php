@@ -6,6 +6,7 @@ use App\Http\Controllers\EkskulController;
 use App\Http\Controllers\GaleriController;
 use App\Http\Controllers\GuruController;
 use App\Http\Controllers\OperatorController;
+use App\Http\Controllers\ProfilSekolahController;
 use App\Http\Controllers\SiswaController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\WelcomeController;
@@ -21,13 +22,11 @@ Route::middleware(['auth', 'verified'])
         Route::get('dashboard', [DashboardController::class, 'index'])->name('admin.dashboard');
         //
         Route::get('user', [UserController::class, 'index'])->name('userView');
-        Route::get('petugas', [OperatorController::class, 'index'])->name('petugasView');
-        Route::get('warga', [SiswaController::class, 'index'])->name('wargaAdminView');
-        Route::get('siswa', [SiswaController::class, 'index'])->name('siswaView');
         Route::get('guru', [GuruController::class, 'index'])->name('guruView');
         Route::get('berita', [BeritaController::class, 'index'])->name('beritaView');
         Route::get('galeri', [GaleriController::class, 'index'])->name('galeriView');
         Route::get('ekstrakulikuler', [EkskulController::class, 'index'])->name('ekskulView');
+        Route::get('profil-sekolah', [ProfilSekolahController::class, 'index'])->name('profilView');
         //
         Route::get('guru/export', [GuruController::class, 'export'])->name('guruExport');
         Route::get('user/export', [UserController::class, 'export'])->name('userExport');
@@ -67,24 +66,18 @@ Route::middleware(['auth', 'verified'])
         Route::get('ekstrakulikuler/edit/{id}', [EkskulController::class, 'ekskulEditView'])->name('ekskulEditView');
         Route::post('ekstrakulikuler/edit/{id}', [EkskulController::class, 'ekskulEdit'])->name('ekskulEdit');
         Route::delete('ekstrakulikuler/hapus/{id}', [EkskulController::class, 'ekskulHapus'])->name('ekskulHapus');
+        //
+        Route::get('profil-sekolah/tambah', [ProfilSekolahController::class, 'tambahView'])->name('profilTambahView');
+        Route::post('profil-sekolah/tambah', [ProfilSekolahController::class, 'simpan'])->name('profilSimpan');
+        Route::get('profil-sekolah/edit/{id}', [ProfilSekolahController::class, 'profilEditView'])->name('profilEditView');
+        Route::post('profil-sekolah/edit/{id}', [ProfilSekolahController::class, 'profilEdit'])->name('profilEdit');
+        Route::delete('profil-sekolah/hapus/{id}', [ProfilSekolahController::class, 'hapusProfil'])->name('profilHapus');
     });
 
 Route::middleware(['auth', 'verified'])
-    ->prefix('siswa')
+    ->prefix('operator')
     ->group(function () {
-        Route::get('export', [SiswaController::class, 'export'])->name('paymentExport');
-        Route::get('export/{id}', [SiswaController::class, 'exportWarga'])->name('paymentExport');
-        Route::get('dashboard', [SiswaController::class, 'wargaView'])->name('SiswaView');
-    });
-
-Route::middleware(['auth', 'verified'])
-    ->prefix('petugas')
-    ->group(function () {
-        Route::get('dashboard', [OperatorController::class, 'petugasView'])->name('operator.dashboard');
-        Route::get('payment', [OperatorController::class, 'payment'])->name('petugas.payment');
-        Route::post('payment/{id}', [OperatorController::class, 'paymentDetail'])->name('petugasPaymentDetailPost');
-        Route::get('payment/{id}', [OperatorController::class, 'paymentDetail'])->name('petugasPaymentDetailGet');
-        Route::post('bayar/{member}', [OperatorController::class, 'bayar'])->name('officer.bayar');
+        Route::get('dashboard', [OperatorController::class, 'index'])->name('operator.dashboard');
     });
 
 require __DIR__ . '/settings.php';
