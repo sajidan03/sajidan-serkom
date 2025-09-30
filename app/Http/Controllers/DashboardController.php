@@ -15,7 +15,6 @@ class DashboardController extends Controller
 {
     public function index()
     {
-        // Total
         $total_guru = Guru::count();
         $total_siswa = Siswa::count();
         $total_berita = Berita::count();
@@ -23,7 +22,6 @@ class DashboardController extends Controller
         $total_ekskul = Ekstrakulikuler::count();
         $total_users = User::count();
 
-        // Statistik siswa (per tahun_masuk -> anggap X, XI, XII)
         $statistik_siswa = Siswa::selectRaw('tahun_masuk, COUNT(*) as jumlah')
             ->groupBy('tahun_masuk')
             ->get()
@@ -40,7 +38,6 @@ class DashboardController extends Controller
                 ];
             });
 
-        // Statistik guru berdasarkan mapel
         $statistik_guru = Guru::selectRaw('mapel, COUNT(*) as jumlah')
             ->groupBy('mapel')
             ->get()
@@ -51,7 +48,6 @@ class DashboardController extends Controller
                 ];
             });
 
-        // Recent activities (contoh dari berita)
         $recent_activities = Berita::with('user')
             ->latest()
             ->take(5)
@@ -64,8 +60,10 @@ class DashboardController extends Controller
                     'created_at' => $berita->created_at,
                 ];
             });
+        $guru['guru'] = Guru::all();
         $profil['profil'] = Profil_sekolah::all()->first();
         return Inertia::render('dashboard', [
+            'guru' => $guru['guru'],
             'profil' => $profil['profil'],
             'dashboardData' => [
                 'total_guru' => $total_guru,

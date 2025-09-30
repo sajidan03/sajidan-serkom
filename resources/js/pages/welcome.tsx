@@ -3,7 +3,7 @@ import { type SharedData } from '@/types';
 import { Head, Link, usePage } from '@inertiajs/react';
 import { useState } from 'react';
 import { motion } from 'framer-motion';
-import { Eye, FileQuestion, ImageIcon, Play } from 'lucide-react';
+import { Eye, FileQuestion, ImageIcon, Play, User } from 'lucide-react';
 
 interface Berita {
   id: number;
@@ -46,22 +46,28 @@ interface ProfilSekolah {
   deskripsi: string;
 }
 
+interface Guru {
+  id: number;
+  nama_guru: string;
+  mapel: string;
+  foto: string | null;
+}
+
 interface WelcomeProps {
   profil: ProfilSekolah;
   berita: Berita[];
   ekstrakulikuler: Ekstrakulikuler[];
   galeri: Galeri[];
+  guru: Guru[];
 }
 
 export default function Welcome() {
-    const { profil, berita, ekstrakulikuler, galeri } = usePage<WelcomeProps>().props;
+    const { profil, berita, ekstrakulikuler, galeri, guru } = usePage<WelcomeProps>().props;
     const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
     const [playingVideo, setPlayingVideo] = useState<number | null>(null);
 
-    // Format visi misi jika ada
     const visiMisiArray = profil.visi_misi ? profil.visi_misi.split('\n') : [];
 
-    // Fungsi untuk deteksi tipe file
     const isImage = (filename: string) => {
         const imageExtensions = ['.jpg', '.jpeg', '.png', '.gif', '.webp'];
         return imageExtensions.some(ext =>
@@ -137,7 +143,7 @@ export default function Welcome() {
                             <a href="#ekstrakulikuler" className="text-sm/6 font-semibold text-white hover:text-yellow-400">
                                 Ekstrakulikuler
                             </a>
-                            <a href="#kontak" className="text-sm/6 font-semibold text-white hover:text-yellow-400">
+                            <a href="#guru" className="text-sm/6 font-semibold text-white hover:text-yellow-400">
                                 Guru
                             </a>
                              <a href="#profil" className="text-sm/6 font-semibold text-white hover:text-yellow-400">
@@ -216,11 +222,11 @@ export default function Welcome() {
                                                 Ekstrakulikuler
                                             </a>
                                             <a
-                                                href="#kontak"
+                                                href="#guru"
                                                 className="-mx-3 block rounded-lg px-3 py-2 text-base/7 font-semibold text-white hover:bg-white/5"
                                                 onClick={() => setMobileMenuOpen(false)}
                                             >
-                                                Kontak
+                                                Guru
                                             </a>
                                         </div>
                                         <div className="py-6">
@@ -228,7 +234,7 @@ export default function Welcome() {
                                                 href={login()}
                                                 className="-mx-3 block rounded-lg px-3 py-2.5 text-base/7 font-semibold text-white hover:bg-white/5"
                                             >
-                                                Portal Siswa
+                                                Login
                                             </Link>
                                         </div>
                                     </div>
@@ -238,7 +244,7 @@ export default function Welcome() {
                     )}
                 </motion.header>
 
-                {/* Main Hero Section */}
+                {/* Main Hero Section - TITLE DIATASKAN */}
                 <div className="relative isolate px-6 pt-14 lg:px-8">
                     {/* Background effects */}
                     <div
@@ -254,10 +260,23 @@ export default function Welcome() {
                         />
                     </div>
 
-                    <div className="mx-auto max-w-2xl py-32 sm:py-48 lg:py-56">
+                    {/* Background Image dari profil.foto */}
+                    {profil.foto && (
+                        <div className="absolute inset-0 -z-10 overflow-hidden">
+                            <img
+                                src={`/storage/assets/${profil.foto}`}
+                                alt={`Foto ${profil.nama_sekolah}`}
+                                className="w-full h-full object-cover opacity-100"
+                            />
+                            <div className="absolute inset-0 bg-gradient-to-b from-blue-900/80 to-blue-800/80"></div>
+                        </div>
+                    )}
+
+                    {/* TITLE DIATASKAN - py dikurangi */}
+                    <div className="mx-auto max-w-2xl py-20 sm:py-32 lg:py-40 relative z-10">
                         <div className="hidden sm:mb-8 sm:flex sm:justify-center">
                             <div className="relative rounded-full px-3 py-1 text-sm/6 text-gray-200 ring-1 ring-white/10 hover:ring-white/20">
-                                Sekolah Menengah Kejuruan Unggulan di Tasikmalaya{' '}
+                                Sekolah {profil.nama_sekolah}
                                 <a href="#profil" className="font-semibold text-yellow-400">
                                     <span aria-hidden="true" className="absolute inset-0" />
                                     Pelajari lebih lanjut <span aria-hidden="true">&rarr;</span>
@@ -282,7 +301,7 @@ export default function Welcome() {
                                     href={login()}
                                     className="text-sm/6 font-semibold text-white hover:text-yellow-400"
                                 >
-                                    Portal Siswa <span aria-hidden="true">→</span>
+                                    Login <span aria-hidden="true">→</span>
                                 </Link>
                             </div>
                         </div>
@@ -303,7 +322,7 @@ export default function Welcome() {
                     </div>
                 </div>
 
-                {/* Berita Section - DIPERBAIKI */}
+                {/* Berita Section */}
                 <motion.section
                 initial={{ y: 50, opacity: 0 }}
                 whileInView={{ y: 0, opacity: 1 }}
@@ -361,7 +380,7 @@ export default function Welcome() {
                     </div>
                 </motion.section>
 
-                {/* Galeri Section - DIPERBAIKI DENGAN VIDEO PLAYER */}
+                {/* Galeri Section */}
                 <motion.section
                 initial={{ y: 50, opacity: 0 }}
                 whileInView={{ y: 0, opacity: 1 }}
@@ -589,6 +608,97 @@ export default function Welcome() {
                             {ekstrakulikuler.length === 0 && (
                                 <div className="text-center py-12">
                                     <p className="text-gray-200 text-lg">Belum ada data ekstrakulikuler tersedia</p>
+                                </div>
+                            )}
+                        </div>
+                    </div>
+                </motion.section>
+
+                {/* Guru Section - BARU DITAMBAHKAN */}
+                <motion.section
+                initial={{ y: 50, opacity: 0 }}
+                whileInView={{ y: 0, opacity: 1 }}
+                viewport={{ once: true, amount: 0.2 }}
+                transition={{ duration: 1, ease: "easeOut" }}
+                id="guru" className="py-24 sm:py-32 bg-gradient-to-b from-blue-900 to-blue-800">
+                    <div className="mx-auto max-w-7xl px-6 lg:px-8">
+                        <div className="mx-auto max-w-2xl lg:text-center">
+                            <h2 className="text-base/7 font-semibold text-yellow-400">Tenaga Pendidik</h2>
+                            <p className="mt-2 text-3xl font-semibold tracking-tight text-balance text-white sm:text-4xl">
+                                Guru & Staff Pengajar
+                            </p>
+                            <p className="mt-4 text-lg text-gray-300">
+                                Para pendidik profesional yang berdedikasi dalam mencerdaskan generasi bangsa
+                            </p>
+                        </div>
+
+                        <div className="mx-auto mt-16 max-w-2xl sm:mt-20 lg:mt-24 lg:max-w-6xl">
+                            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+                                {guru.map((guruItem) => (
+                                    <div
+                                        key={guruItem.id}
+                                        className="group relative bg-white/5 rounded-xl overflow-hidden backdrop-blur-sm border border-white/10 hover:border-white/20 transition-all duration-300 hover:scale-105 hover:shadow-2xl"
+                                    >
+                                        {/* Foto Guru */}
+                                        <div className="relative h-64 w-full overflow-hidden bg-gradient-to-br from-gray-800 to-gray-900">
+                                            {guruItem.foto ? (
+                                                <img
+                                                    src={`/storage/assets/${guruItem.foto}`}
+                                                    alt={guruItem.nama_guru}
+                                                    className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+                                                    onError={(e) => {
+                                                        e.target.style.display = 'none';
+                                                        e.target.nextElementSibling?.classList.remove('hidden');
+                                                    }}
+                                                />
+                                            ) : (
+                                                <div className="absolute inset-0 flex flex-col items-center justify-center text-gray-400">
+                                                    <User className="w-16 h-16 mb-2 opacity-50" />
+                                                    <p className="text-sm">Tidak ada foto</p>
+                                                </div>
+                                            )}
+
+                                            {/* Fallback ketika foto error */}
+                                            <div className="hidden absolute inset-0 flex flex-col items-center justify-center text-gray-400">
+                                                <User className="w-16 h-16 mb-2 opacity-50" />
+                                                <p className="text-sm">Foto tidak dapat dimuat</p>
+                                            </div>
+
+                                            {/* Overlay Effect */}
+                                            <div className="absolute inset-0 bg-black/0 group-hover:bg-black/60 transition-all duration-300 flex items-center justify-center">
+                                                <div className="transform translate-y-4 group-hover:translate-y-0 opacity-0 group-hover:opacity-100 transition-all duration-300">
+                                                    <User className="w-8 h-8 text-white" />
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        {/* Content */}
+                                        <div className="p-6 text-center">
+                                            <h3 className="font-semibold text-white text-lg mb-2 group-hover:text-yellow-300 transition-colors">
+                                                {guruItem.nama_guru}
+                                            </h3>
+                                            <p className="text-gray-300 text-sm mb-4">
+                                                {guruItem.mapel}
+                                            </p>
+                                            <div className="flex justify-center items-center text-xs text-gray-400">
+                                                <User className="w-4 h-4 mr-1" />
+                                                <span>Guru</span>
+                                            </div>
+                                        </div>
+
+                                        {/* Hover Border Effect */}
+                                        <div className="absolute inset-0 rounded-xl border-2 border-transparent group-hover:border-yellow-400/30 transition-all duration-300 pointer-events-none"></div>
+                                    </div>
+                                ))}
+                            </div>
+
+                            {guru.length === 0 && (
+                                <div className="text-center py-16">
+                                    <div className="flex flex-col items-center justify-center">
+                                        <User className="w-16 h-16 text-gray-400 mb-4 opacity-50" />
+                                        <p className="text-gray-300 text-lg font-medium mb-2">Belum ada data guru tersedia</p>
+                                        <p className="text-gray-400 text-sm">Data guru akan ditampilkan di sini</p>
+                                    </div>
                                 </div>
                             )}
                         </div>

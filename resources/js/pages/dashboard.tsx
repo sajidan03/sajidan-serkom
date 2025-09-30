@@ -1,7 +1,7 @@
 import AppLayout from '@/layouts/app-layout';
 import { dashboard } from '@/routes';
 import { type BreadcrumbItem } from '@/types';
-import { Head, usePage } from '@inertiajs/react';
+import { Head, useForm, usePage } from '@inertiajs/react';
 import {
   Calendar,
   Users,
@@ -55,20 +55,45 @@ interface DashboardData {
   }[];
 }
 
+interface ProfilSekolah {
+    id: number
+    nama_sekolah: string
+    alamat: string
+    email: string
+    telepon: string
+    visi_misi: string
+    foto: string
+    created_at: string
+    updated_at: string
+}
+interface PageProps{
+    profil?:  ProfilSekolah
+}
 const breadcrumbs: BreadcrumbItem[] = [
   {
     title: 'Dashboard',
     href: dashboard().url,
   },
 ];
-
 export default function Dashboard() {
-  const { props } = usePage<{ dashboardData: DashboardData }>();
+  const { props } = usePage<{ dashboardData: DashboardData, p}>();
   const dashboardData = props.dashboardData;
 
   const [currentTime, setCurrentTime] = useState(new Date());
   const [isClient, setIsClient] = useState(false);
-
+    // const { data } = useForm({
+    //     id: '',
+    //   nama_sekolah: '',
+    //   kepala_sekolah: '',
+    //   npsn: '',
+    //   alamat: '',
+    //   kontak: '',
+    //   visi_misi: '',
+    //   tahun_berdiri: '',
+    //   deskripsi: '',
+    //   logo: null as File | null,
+    //   foto: null as File | null,
+    // })
   useEffect(() => {
     setIsClient(true);
     const timer = setInterval(() => setCurrentTime(new Date()), 1000);
@@ -165,10 +190,7 @@ export default function Dashboard() {
         {/* Header */}
         <div className="flex justify-between items-center">
           <div>
-            <h1 className="text-3xl font-bold">Dashboard Admin SMK YPC</h1>
-            <p className="text-muted-foreground">
-              Sistem Manajemen Sekolah - SMK Yayasan Pendidikan Cendekia
-            </p>
+            <h1 className="text-3xl font-bold">Dashboard Admin {}</h1>
           </div>
           <div className="text-right">
             <div className="text-2xl font-mono text-blue-600">
