@@ -67,6 +67,25 @@ class SiswaController extends Controller
         $data['siswa'] = Siswa::findOrFail($id);
         return Inertia::render('Admin/Siswa/edit', $data);
     }
+    public function siswaEdit(Request $request, $id){
+        $siswa = Siswa::findOrFail($id);
+
+        $request->validate([
+            'nisn' => 'required|unique:siswas,nisn,' . $siswa->id,
+            'nama_siswa' => 'required',
+            'jenis_kelamin' => 'required',
+            'tahun_masuk' => 'nullable|digits:4|integer|min:1900|max:' . (date('Y')),
+        ]);
+
+        $siswa->update([
+            'nisn' => $request->nisn,
+            'nama_siswa' => $request->nama_siswa,
+            'jenis_kelamin' => $request->jenis_kelamin,
+            'tahun_masuk' => $request->tahun_masuk,
+        ]);
+
+        return redirect()->route('siswaView')->with('message', 'Data siswa berhasil diupdate.');
+    }
 
     public function siswaHapus($id){
         $siswa = Siswa::findOrFail($id);

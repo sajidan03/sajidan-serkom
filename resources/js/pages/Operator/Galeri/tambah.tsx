@@ -1,58 +1,63 @@
 import AppLayout from '@/layouts/app-layout'
 import { type BreadcrumbItem } from '@/types'
-import { Head, Link, router, useForm, usePage } from '@inertiajs/react'
-import * as Select from '@radix-ui/react-select'
-import { ImageIcon, VideoIcon, ChevronDown, ChevronUp, Check } from 'lucide-react'
+import { Head, Link, useForm, usePage} from '@inertiajs/react'
 import { useState, useEffect } from 'react'
 
-interface GaleriData {
+const breadcrumbs: BreadcrumbItem[] = [
+  {
+    title: 'Kelola Galeri',
+    href: '/admin/galeri',
+  },
+  {
+    title: 'Tambah Galeri',
+    href: '/admin/galeri/tambah',
+  },
+]
+
+interface KategoriOption {
   id: number
-  judul: stringg
-  keterangan: string
-  file: string
-  kategori: string
-  tanggal: string
-  encrypted_id: string
+  nama: string
 }
 
-export default function EditGaleri() {
+export default function TambahGaleri() {
   const { props } = usePage()
-const galeri = props.galeri as GaleriData
-
-  const [previewImage, setPreviewImage] = useState<string | null>(null)
-  const [currentFile, setCurrentFile] = useState<string>(galeri.file)
-
-  const { data, setData, post ,errors, processing } = useForm({
-    judul: galeri.judul || '',
-    keterangan: galeri.keterangan || '',
-    file: null as File | null,
-    kategori: galeri.kategori ? galeri.kategori.toString() : '',
-    tanggal: galeri.tanggal || new Date().toISOString().split('T')[0],
-    encrypted_id : galeri.encrypted_id,
-    _method: 'POST' as const,
-  })
+  const [kategoriOptions, setKategoriOptions] = useState<KategoriOption[]>([])
 
   useEffect(() => {
-    if (galeri.file) {
-      setCurrentFile(galeri.file)
+    if (props.kategoriOptions && Array.isArray(props.kategoriOptions)) {
+      setKategoriOptions(props.kategoriOptions)
+    } else {
+      console.warn('Kategori options tidak ditemukan dalam props, menggunakan data fallback')
+      setKategoriOptions([
+        { id: 1, nama: 'Foto' },
+        { id: 2, nama: 'Video' },
+      ])
     }
-  }, [galeri.file])
+  }, [props.kategoriOptions])
+
+  const [previewImage, setPreviewImage] = useState<string | null>(null)
+
+  const { data, setData, errors, post, processing } = useForm({
+    judul: '',
+    keterangan: '',
+    file: null as File | null,
+    kategori: '',
+    tanggal: new Date().toISOString().split('T')[0],
+  })
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
 
-    // const formData = new FormData()
-    // formData.append('judul', data.judul)
-    // formData.append('keterangan', data.keterangan)
-    // formData.append('kategori', data.kategori)
-    // formData.append('tanggal', data.tanggal)
-    // formData.append('_method', 'PUT')
+    const formData = new FormData()
+    formData.append('judul', data.judul)
+    formData.append('keterangan', data.keterangan)
+    formData.append('kategori', data.kategori)
+    formData.append('tanggal', data.tanggal)
+    if (data.file) {
+      formData.append('file', data.file)
+    }
 
-    // if (data.file) {
-    //   formData.append('file', data.file)
-    // }
-
-    post(`/admin/galeri/edit/${galeri.encrypted_id}`, {
+    post('/admin/galeri/tambah', {
       forceFormData: true,
     })
   }
@@ -60,7 +65,6 @@ const galeri = props.galeri as GaleriData
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0] || null
     setData('file', file)
-    setCurrentFile('')
 
     // Create preview for image files
     if (file && file.type.startsWith('image/')) {
@@ -74,31 +78,17 @@ const galeri = props.galeri as GaleriData
     }
   }
 
-  const breadcrumbs: BreadcrumbItem[] = [
-    {
-      title: 'Kelola Galeri',
-      href: '/admin/galeri',
-    },
-    {
-      title: 'Edit Galeri',
-      href: `/admin/galeri/edit/${galeri.id}`,
-    },
-  ]
-
   return (
-
     <AppLayout breadcrumbs={breadcrumbs}>
-      <Head title="Edit Galeri" />
-      <p>ID Terenkripsi: {galeri.encrypted_id}</p>
+      <Head title="Tambah Galeri" />
+      <div className="p-0"> {/* Menghapus padding container utama */}
+        <div className="w-full bg-white p-6 rounded-none shadow-md"> {/* Mengubah menjadi rounded-none dan width full */}
+          <h1 className="text-2xl font-bold mb-6">Tambah Data Galeri</h1>
 
-      <div className="p-0">
-        <div className="w-full bg-white p-6 rounded-none shadow-md">
-          <h1 className="text-2xl font-bold mb-6">Edit Data Galeri</h1>
+          <form onSubmit={handleSubmit} className="w-full"> {/* Menambahkan w-full pada form */}
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 w-full"> {/* Menambahkan w-full dan mengubah responsive breakpoint */}
 
-          <form onSubmit={handleSubmit} className="w-full">
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 w-full">
-
-              {/* Kolom Kiri */}
+              {/* Kolom Kiri - FULL WIDTH pada mobile, 1/2 pada desktop */}
               <div className="space-y-4 w-full">
                 {/* Judul */}
                 <div className="w-full">
@@ -118,78 +108,28 @@ const galeri = props.galeri as GaleriData
                   {errors.judul && <p className="mt-1 text-sm text-red-500">{errors.judul}</p>}
                 </div>
 
-                {/* Kategori - statis */}
-<div className="w-full">
-  <label htmlFor="kategori" className="block text-sm font-medium text-gray-700 mb-1">
-    Kategori <span className="text-red-500">*</span>
-  </label>
-  <Select.Root
-    value={data.kategori}
-    onValueChange={(value) => setData('kategori', value)}
-  >
-    <Select.Trigger
-      id="kategori"
-      className={`flex items-center justify-between w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 ${
-        errors.kategori ? 'border-red-500' : 'border-gray-300'
-      }`}
-    >
-      <Select.Value placeholder="Pilih Kategori" />
-      <Select.Icon>
-        <ChevronDown className="h-4 w-4 opacity-50" />
-      </Select.Icon>
-    </Select.Trigger>
-
-    <Select.Portal>
-      <Select.Content className="overflow-hidden bg-white rounded-md shadow-lg border border-gray-200 z-50">
-        <Select.ScrollUpButton className="flex items-center justify-center h-6 bg-white text-gray-700 cursor-default">
-          <ChevronUp className="h-4 w-4" />
-        </Select.ScrollUpButton>
-
-        <Select.Viewport className="p-1">
-          {/* Opsi Foto */}
-          <Select.Item
-            value="foto"
-            className="relative flex items-center px-8 py-2 text-sm text-gray-700 rounded-md hover:bg-blue-50 hover:text-blue-700 focus:bg-blue-50 focus:text-blue-700 focus:outline-none cursor-pointer"
-          >
-            <Select.ItemText>
-              <div className="flex items-center gap-2">
-                <ImageIcon className="h-4 w-4" />
-                Foto
-              </div>
-            </Select.ItemText>
-            <Select.ItemIndicator className="absolute left-2 inline-flex items-center">
-              <Check className="h-4 w-4 text-blue-600" />
-            </Select.ItemIndicator>
-          </Select.Item>
-
-          {/* Opsi Video */}
-          <Select.Item
-            value="video"
-            className="relative flex items-center px-8 py-2 text-sm text-gray-700 rounded-md hover:bg-blue-50 hover:text-blue-700 focus:bg-blue-50 focus:text-blue-700 focus:outline-none cursor-pointer"
-          >
-            <Select.ItemText>
-              <div className="flex items-center gap-2">
-                <VideoIcon className="h-4 w-4" />
-                Video
-              </div>
-            </Select.ItemText>
-            <Select.ItemIndicator className="absolute left-2 inline-flex items-center">
-              <Check className="h-4 w-4 text-blue-600" />
-            </Select.ItemIndicator>
-          </Select.Item>
-        </Select.Viewport>
-
-        <Select.ScrollDownButton className="flex items-center justify-center h-6 bg-white text-gray-700 cursor-default">
-          <ChevronDown className="h-4 w-4" />
-        </Select.ScrollDownButton>
-      </Select.Content>
-    </Select.Portal>
-  </Select.Root>
-  {errors.kategori && (
-    <p className="mt-1 text-sm text-red-500">{errors.kategori}</p>
-  )}
-</div>
-
+                {/* Kategori */}
+                <div className="w-full">
+                  <label htmlFor="kategori" className="block text-sm font-medium text-gray-700 mb-1">
+                    Kategori <span className="text-red-500">*</span>
+                  </label>
+                  <select
+                    id="kategori"
+                    value={data.kategori}
+                    onChange={(e) => setData('kategori', e.target.value)}
+                    className={`w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 ${
+                      errors.kategori ? 'border-red-500' : 'border-gray-300'
+                    }`}
+                  >
+                    <option value="">Pilih Kategori</option>
+                    {kategoriOptions.map((kategori) => (
+                      <option key={kategori.id} value={kategori.id}>
+                        {kategori.nama}
+                      </option>
+                    ))}
+                  </select>
+                  {errors.kategori && <p className="mt-1 text-sm text-red-500">{errors.kategori}</p>}
+                </div>
 
                 {/* Tanggal */}
                 <div className="w-full">
@@ -209,12 +149,12 @@ const galeri = props.galeri as GaleriData
                 </div>
               </div>
 
-              {/* Kolom Kanan */}
+              {/* Kolom Kanan - FULL WIDTH pada mobile, 1/2 pada desktop */}
               <div className="space-y-4 w-full">
                 {/* File Upload */}
                 <div className="w-full">
                   <label htmlFor="file" className="block text-sm font-medium text-gray-700 mb-1">
-                    File
+                    File <span className="text-red-500">*</span>
                   </label>
                   <div className="flex items-center justify-center w-full">
                     <label
@@ -229,29 +169,7 @@ const galeri = props.galeri as GaleriData
                             className="w-full h-full object-contain rounded-lg"
                           />
                           <div className="absolute inset-0 bg-black bg-opacity-40 opacity-0 hover:opacity-100 flex items-center justify-center transition-opacity">
-                            <span className="text-white text-sm">Ganti File</span>
-                          </div>
-                        </div>
-                      ) : currentFile ? (
-                        <div className="relative w-full h-full">
-                          {currentFile.toLowerCase().endsWith('.jpg') ||
-                           currentFile.toLowerCase().endsWith('.jpeg') ||
-                           currentFile.toLowerCase().endsWith('.png') ||
-                           currentFile.toLowerCase().endsWith('.gif') ? (
-                            <img
-                              src={`/storage/assets/${currentFile}`}
-                              alt="Current file"
-                              className="w-full h-full object-contain rounded-lg"
-                            />
-                          ) : (
-                            <div className="flex flex-col items-center justify-center pt-5 pb-6">
-                              <div className="text-4xl mb-4">📄</div>
-                              <p className="text-sm text-gray-600">File saat ini: {currentFile}</p>
-                              <p className="text-xs text-gray-500 mt-2">Klik untuk mengubah file</p>
-                            </div>
-                          )}
-                          <div className="absolute inset-0 bg-black bg-opacity-40 opacity-0 hover:opacity-100 flex items-center justify-center transition-opacity">
-                            <span className="text-white text-sm">Ganti File</span>
+                            <span className="text-white text-sm">Ganti Gambar</span>
                           </div>
                         </div>
                       ) : (
@@ -289,10 +207,7 @@ const galeri = props.galeri as GaleriData
                   </div>
                   {errors.file && <p className="mt-1 text-sm text-red-500">{errors.file}</p>}
                   {data.file && (
-                    <p className="mt-2 text-sm text-gray-600">File baru: {data.file.name}</p>
-                  )}
-                  {currentFile && !data.file && (
-                    <p className="mt-2 text-sm text-gray-600">File saat ini: {currentFile}</p>
+                    <p className="mt-2 text-sm text-gray-600">File terpilih: {data.file.name}</p>
                   )}
                 </div>
               </div>
@@ -330,7 +245,7 @@ const galeri = props.galeri as GaleriData
                 disabled={processing}
                 className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 disabled:opacity-50 transition-colors"
               >
-                {processing ? 'Menyimpan...' : 'Simpan Perubahan'}
+                {processing ? 'Menyimpan...' : 'Simpan'}
               </button>
             </div>
           </form>

@@ -53,7 +53,7 @@ Route::middleware(['auth', 'verified'])
         Route::get('siswa/tambah', [SiswaController::class, 'tambahView'])->name('siswaTambahView');
         Route::post('siswa/simpan', [SiswaController::class, 'simpan'])->name('siswaSimpan');
         Route::get('siswa/edit/{id}', [SiswaController::class, 'siswaEditView'])->name('siswaEditView');
-        Route::post('siswa/edit/{id}', [SiswaController::class, 'editSiswa'])->name('siswaEdit');
+        Route::post('siswa/edit/{id}', [SiswaController::class, 'siswaEdit'])->name('siswaEdit');
         Route::delete('siswa/hapus/{id}', [SiswaController::class, 'hapusSiswa'])->name('siswaHapus');
         //
         Route::get('berita/tambah', [BeritaController::class, 'beritaTambahView'])->name('beritaTambahView');

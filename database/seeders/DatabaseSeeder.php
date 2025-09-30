@@ -36,19 +36,19 @@ class DatabaseSeeder extends Seeder
             'name' => 'Dhiya',
             'username' => 'diya',
             'password' => bcrypt('123'),
-            'role' => 'siswa',
+            'role' => 'operator',
         ]);
         User::create([
             'name' => 'Rahman',
             'username' => 'rahman',
             'password' => bcrypt('123'),
-            'role' => 'siswa',
+            'role' => 'operator',
         ]);
         User::create([
             'name' => 'Danis',
             'username' => 'danis',
             'password' => bcrypt('123'),
-            'role' => 'siswa',
+            'role' => 'operator',
         ]);
         User::create([
             'name' => 'Hamdi',
@@ -60,7 +60,7 @@ class DatabaseSeeder extends Seeder
             'name' => 'Riki',
             'username' => 'riki',
             'password' => bcrypt('123'),
-            'role' => 'siswa',
+            'role' => 'operator',
         ]);
         Siswa::create([
             'nisn' => '1234567890',
