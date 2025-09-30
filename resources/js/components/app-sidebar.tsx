@@ -59,32 +59,32 @@ const operatorNavItems: NavItem[] = [
     },
     {
         title: 'Siswa',
-        href: '/admin/siswa',
+        href: '/operator/siswa',
         icon: User,
     },
     {
         title: 'Guru',
-        href: '/admin/guru',
+        href: '/operator/guru',
         icon: User,
     },
     {
         title: 'Galeri',
-        href: '/admin/galeri',
+        href: '/operator/galeri',
         icon: UserCircle,
     },
     {
         title: 'Berita',
-        href: '/admin/berita',
+        href: '/operator/berita',
         icon: NewspaperIcon,
     },
     {
         title: 'Ekstrakurikuler',
-        href: '/admin/ekstrakulikuler',
+        href: '/operator/ekstrakulikuler',
         icon: User,
     },
     {
         title: 'Profil sekolah',
-        href: '/admin/profil-sekolah',
+        href: '/operator/profil-sekolah',
         icon: Banknote,
     },
 ];

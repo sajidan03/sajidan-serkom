@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\Storage;
 use Inertia\Inertia;
 
-class GaleriController extends Controller
+class OperatorGaleri extends Controller
 {
     //
     public function index(){
@@ -25,13 +25,13 @@ class GaleriController extends Controller
             ];
         });
         $data['profil'] = Profil_sekolah::all()->first();
-        return Inertia::render('Admin/Galeri/index', $data);
+        return Inertia::render('Operator/Galeri/index', $data);
     }
 
     public function galeriTambahView(){
         $data['galeri'] = Galeri::all();
         $data['profil'] = Profil_sekolah::all()->first();
-        return Inertia::render('Admin/Galeri/tambah',$data);
+        return Inertia::render('Operator/Galeri/tambah',$data);
     }
 
     public function galeriTambah(Request $request)
@@ -101,7 +101,7 @@ public function galeriEdit(Request $request, $id)
         $id = Crypt::decrypt($id);
         $data['galeri'] = Galeri::findOrFail($id);
         $data['profil'] = Profil_sekolah::all()->first();
-        return Inertia::render('Admin/Galeri/edit', $data);
+        return Inertia::render('Operator/Galeri/edit', $data);
     }
     public function galeriHapus($id){
         $galeri = Galeri::findOrFail($id);
