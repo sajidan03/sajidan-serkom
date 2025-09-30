@@ -39,7 +39,7 @@ class GaleriController extends Controller
     $request->validate([
         'judul' => 'required',
         'keterangan' => 'required',
-        'file' => 'required|file|mimes:jpg,jpeg,png,gif,pdf,doc,docx|max:5120',
+        'file' => 'required|file|mimes:jpg,jpeg,png,gif,pdf,doc,docx,mp4,avi,mov',
         'kategori' => '',
         'tanggal' => 'required|date',
     ]);
@@ -67,7 +67,7 @@ public function galeriEdit(Request $request, $id)
     $request->validate([
         'judul' => 'required',
         'keterangan' => 'required',
-        'file' => 'nullable|file|mimes:jpg,jpeg,png,gif,pdf,doc,docx|max:5120',
+        'file' => 'nullable|file|mimes:jpg,jpeg,png,gif,pdf,doc,docx,mp4,avi,mov',
         'kategori' => 'nullable|string',
         'tanggal' => 'required|date',
     ]);

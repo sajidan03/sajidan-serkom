@@ -35,7 +35,8 @@ export default function TambahGaleri() {
     }
   }, [props.kategoriOptions])
 
-  const [previewImage, setPreviewImage] = useState<string | null>(null)
+  const [preview, setPreview] = useState<string | null>(null)
+  const [fileType, setFileType] = useState<'image' | 'video' | 'other' | null>(null)
 
   const { data, setData, errors, post, processing } = useForm({
     judul: '',
@@ -66,29 +67,51 @@ export default function TambahGaleri() {
     const file = e.target.files?.[0] || null
     setData('file', file)
 
-    // Create preview for image files
-    if (file && file.type.startsWith('image/')) {
-      const reader = new FileReader()
-      reader.onload = (e) => {
-        setPreviewImage(e.target?.result as string)
+    // Reset preview
+    setPreview(null)
+    setFileType(null)
+
+    if (file) {
+      // Determine file type
+      if (file.type.startsWith('image/')) {
+        setFileType('image')
+        // Create preview for image files
+        const reader = new FileReader()
+        reader.onload = (e) => {
+          setPreview(e.target?.result as string)
+        }
+        reader.readAsDataURL(file)
+      } else if (file.type.startsWith('video/')) {
+        setFileType('video')
+        // Create preview for video files
+        const videoUrl = URL.createObjectURL(file)
+        setPreview(videoUrl)
+      } else {
+        setFileType('other')
       }
-      reader.readAsDataURL(file)
-    } else {
-      setPreviewImage(null)
     }
   }
+
+  // Clean up video URL when component unmounts
+  useEffect(() => {
+    return () => {
+      if (preview && fileType === 'video') {
+        URL.revokeObjectURL(preview)
+      }
+    }
+  }, [preview, fileType])
 
   return (
     <AppLayout breadcrumbs={breadcrumbs}>
       <Head title="Tambah Galeri" />
-      <div className="p-0"> {/* Menghapus padding container utama */}
-        <div className="w-full bg-white p-6 rounded-none shadow-md"> {/* Mengubah menjadi rounded-none dan width full */}
+      <div className="p-0">
+        <div className="w-full bg-white p-6 rounded-none shadow-md">
           <h1 className="text-2xl font-bold mb-6">Tambah Data Galeri</h1>
 
-          <form onSubmit={handleSubmit} className="w-full"> {/* Menambahkan w-full pada form */}
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 w-full"> {/* Menambahkan w-full dan mengubah responsive breakpoint */}
+          <form onSubmit={handleSubmit} className="w-full">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 w-full">
 
-              {/* Kolom Kiri - FULL WIDTH pada mobile, 1/2 pada desktop */}
+              {/* Kolom Kiri */}
               <div className="space-y-4 w-full">
                 {/* Judul */}
                 <div className="w-full">
@@ -149,7 +172,7 @@ export default function TambahGaleri() {
                 </div>
               </div>
 
-              {/* Kolom Kanan - FULL WIDTH pada mobile, 1/2 pada desktop */}
+              {/* Kolom Kanan - File Upload */}
               <div className="space-y-4 w-full">
                 {/* File Upload */}
                 <div className="w-full">
@@ -159,21 +182,48 @@ export default function TambahGaleri() {
                   <div className="flex items-center justify-center w-full">
                     <label
                       htmlFor="file"
-                      className="flex flex-col items-center justify-center w-full h-48 border-2 border-dashed rounded-lg cursor-pointer border-gray-300 hover:border-gray-400"
+                      className={`flex flex-col items-center justify-center w-full border-2 border-dashed rounded-lg cursor-pointer border-gray-300 hover:border-gray-400 ${
+                        preview ? '' : 'h-48'
+                      }`}
                     >
-                      {previewImage ? (
-                        <div className="relative w-full h-full">
-                          <img
-                            src={previewImage}
-                            alt="Preview"
-                            className="w-full h-full object-contain rounded-lg"
-                          />
-                          <div className="absolute inset-0 bg-black bg-opacity-40 opacity-0 hover:opacity-100 flex items-center justify-center transition-opacity">
-                            <span className="text-white text-sm">Ganti Gambar</span>
-                          </div>
+                      {preview ? (
+                        <div className="w-full">
+                          {fileType === 'image' && (
+                            <img
+                              src={preview}
+                              alt="Preview"
+                              className="w-full max-h-96 object-contain rounded-lg"
+                            />
+                          )}
+                          {fileType === 'video' && (
+                            <video
+                              src={preview}
+                              className="w-full max-h-96 object-contain rounded-lg"
+                              controls
+                              controlsList="nodownload"
+                            />
+                          )}
+                          {fileType === 'other' && (
+                            <div className="flex flex-col items-center justify-center w-full h-48">
+                              <svg
+                                className="w-12 h-12 text-gray-400 mb-2"
+                                fill="none"
+                                stroke="currentColor"
+                                viewBox="0 0 24 24"
+                              >
+                                <path
+                                  strokeLinecap="round"
+                                  strokeLinejoin="round"
+                                  strokeWidth={2}
+                                  d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
+                                />
+                              </svg>
+                              <span className="text-sm text-gray-500">File terpilih</span>
+                            </div>
+                          )}
                         </div>
                       ) : (
-                        <div className="flex flex-col items-center justify-center pt-5 pb-6">
+                        <div className="flex flex-col items-center justify-center pt-5 pb-6 h-48">
                           <svg
                             className="w-8 h-8 mb-4 text-gray-500"
                             aria-hidden="true"
@@ -192,7 +242,9 @@ export default function TambahGaleri() {
                           <p className="mb-2 text-sm text-gray-500">
                             <span className="font-semibold">Klik untuk upload</span> atau drag and drop
                           </p>
-                          <p className="text-xs text-gray-500">SVG, PNG, JPG, GIF, atau PDF (MAX. 5MB)</p>
+                          <p className="text-xs text-gray-500">
+                            JPG, JPEG, PNG, GIF, MP4, AVI, PDF, DOC, DOCX (MAX. 5MB)
+                          </p>
                         </div>
                       )}
                       <input
@@ -201,13 +253,17 @@ export default function TambahGaleri() {
                         type="file"
                         onChange={handleFileChange}
                         className="hidden"
-                        accept="image/*,.pdf,.doc,.docx"
+                        accept="image/*,video/*,.pdf,.doc,.docx"
                       />
                     </label>
                   </div>
                   {errors.file && <p className="mt-1 text-sm text-red-500">{errors.file}</p>}
                   {data.file && (
-                    <p className="mt-2 text-sm text-gray-600">File terpilih: {data.file.name}</p>
+                    <div className="mt-2 text-sm text-gray-600">
+                      <p>File terpilih: {data.file.name}</p>
+                      <p>Tipe: {data.file.type}</p>
+                      <p>Ukuran: {(data.file.size / (1024 * 1024)).toFixed(2)} MB</p>
+                    </div>
                   )}
                 </div>
               </div>

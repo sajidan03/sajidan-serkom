@@ -42,7 +42,8 @@ export default function EditProfilSekolah() {
 
   const profil = props.profil_sekolah
 
-  const { data, setData, put, errors, processing } = useForm({
+  const { data, setData, post, errors, processing } = useForm({
+    id: profil?.id || 0,
     nama_sekolah: profil?.nama_sekolah || '',
     kepala_sekolah: profil?.kepala_sekolah || '',
     npsn: profil?.npsn || '',
@@ -55,7 +56,6 @@ export default function EditProfilSekolah() {
     foto: null as File | null,
   })
 
-  // Set preview images from existing data
   useEffect(() => {
     if (profil?.logo) {
       setPreviewLogo(`/storage/assets/${profil.logo}`)
@@ -67,10 +67,7 @@ export default function EditProfilSekolah() {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
-
-    if (!profil?.encrypted_id) return
-
-    put(`/admin/profil-sekolah/edit/${profil.encrypted_id}`, {
+    post(`/admin/profil-sekolah/edit/${data.id}`, {
       forceFormData: true,
       preserveScroll: true,
     })
@@ -126,6 +123,12 @@ export default function EditProfilSekolah() {
     } else {
       setPreviewFoto(null)
     }
+  }
+
+  // Fungsi untuk validasi input tahun
+  const handleYearChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value.replace(/\D/g, '').slice(0, 4) // Hanya angka dan max 4 digit
+    setData('tahun_berdiri', value)
   }
 
   if (!profil) {
@@ -242,17 +245,21 @@ export default function EditProfilSekolah() {
                   </label>
                   <input
                     id="tahun_berdiri"
-                    type="number"
+                    type="text"
+                    inputMode="numeric"
+                    pattern="[0-9]{4}"
+                    maxLength={4}
                     value={data.tahun_berdiri}
-                    onChange={(e) => setData('tahun_berdiri', e.target.value)}
+                    onChange={handleYearChange}
                     className={`w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 ${
                       errors.tahun_berdiri ? 'border-red-500' : 'border-gray-300'
                     }`}
-                    placeholder="Masukkan tahun berdiri"
-                    min="1900"
-                    max="2099"
+                    placeholder="Masukkan tahun berdiri (contoh: 2024)"
                   />
                   {errors.tahun_berdiri && <p className="mt-1 text-sm text-red-500">{errors.tahun_berdiri}</p>}
+                  <p className="mt-1 text-xs text-gray-500">
+                    Format: 4 digit angka (contoh: 1990, 2024)
+                  </p>
                 </div>
               </div>
 

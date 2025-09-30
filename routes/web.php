@@ -27,6 +27,7 @@ Route::middleware(['auth', 'verified'])
         Route::get('galeri', [GaleriController::class, 'index'])->name('galeriView');
         Route::get('ekstrakulikuler', [EkskulController::class, 'index'])->name('ekskulView');
         Route::get('profil-sekolah', [ProfilSekolahController::class, 'index'])->name('profilView');
+        Route::get('siswa', [SiswaController::class, 'index'])->name('siswaView');
         //
         Route::get('guru/export', [GuruController::class, 'export'])->name('guruExport');
         Route::get('user/export', [UserController::class, 'export'])->name('userExport');
