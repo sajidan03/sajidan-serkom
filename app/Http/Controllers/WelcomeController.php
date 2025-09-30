@@ -7,6 +7,7 @@ use App\Models\Ekstrakulikuler;
 use App\Models\Galeri;
 use App\Models\Guru;
 use App\Models\Profil_sekolah;
+use App\Models\User;
 use Inertia\Inertia;
 
 class WelcomeController extends Controller
@@ -57,6 +58,7 @@ class WelcomeController extends Controller
                     'tanggal' => $item->tanggal,
                 ];
             });
+        $data['user'] = User::all();
         $data['guru'] = Guru::all();
         return Inertia::render('welcome', $data);
     }

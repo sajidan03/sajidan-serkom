@@ -130,39 +130,6 @@ export default function ProfilSekolah() {
             </tbody>
           </table>
         </div>
-
-        {/* Info tambahan untuk data yang tidak ditampilkan di tabel */}
-        <div className="mt-6 p-4 bg-blue-50 rounded-lg">
-          <h3 className="text-lg font-semibold text-blue-800 mb-2">Informasi Tambahan:</h3>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm text-blue-700">
-            <div>
-              <strong>Field yang tersedia:</strong>
-              <ul className="mt-1 list-disc list-inside">
-                <li>Nama Sekolah</li>
-                <li>Kepala Sekolah</li>
-                <li>Foto</li>
-                <li>Logo</li>
-                <li>NPSN</li>
-                <li>Alamat</li>
-                <li>Kontak</li>
-                <li>Visi & Misi</li>
-                <li>Tahun Berdiri</li>
-                <li>Deskripsi</li>
-              </ul>
-            </div>
-            <div>
-              <strong>Field yang ditampilkan di tabel:</strong>
-              <ul className="mt-1 list-disc list-inside">
-                <li>Nama Sekolah</li>
-                <li>Kepala Sekolah</li>
-                <li>NPSN</li>
-                <li>Kontak</li>
-                <li>Tahun Berdiri</li>
-                <li>Tanggal dibuat & diupdate</li>
-              </ul>
-            </div>
-          </div>
-        </div>
       </div>
     </AppLayout>
   )

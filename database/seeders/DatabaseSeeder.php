@@ -159,21 +159,21 @@ class DatabaseSeeder extends Seeder
             'isi' => 'Kita sama sama tahu',
             'gambar' => 'seni.jpg',
             'tanggal' => '2023-11-15',
-            'id_user' => 1,
+            'id_user' => 2,
         ]);
         Berita::create([
             'judul' => 'Manggung keliling Band SMK YPC',
             'isi' => 'Kita sama sama tahu',
             'gambar' => 'seni.jpg',
             'tanggal' => '2023-11-15',
-            'id_user' => 1,
+            'id_user' => 2,
         ]);
         Berita::create([
             'judul' => 'Manggung keliling Band SMK YPC',
             'isi' => 'Kita sama sama tahu',
             'gambar' => 'seni.jpg',
             'tanggal' => '2023-11-15',
-            'id_user' => 1,
+            'id_user' => 2,
         ]);
     }
 }

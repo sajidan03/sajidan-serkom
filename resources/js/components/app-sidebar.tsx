@@ -5,7 +5,17 @@ import { Sidebar, SidebarContent, SidebarFooter, SidebarHeader, SidebarMenu, Sid
 import { dashboard } from '@/routes';
 import { type NavItem } from '@/types';
 import { Link, usePage } from '@inertiajs/react';
-import { LayoutGrid, User, UserCircle, Banknote, NewspaperIcon } from 'lucide-react';
+import {
+    LayoutGrid,
+    User,
+    Users,
+    Banknote,
+    Newspaper,
+    BookOpen,
+    School,
+    GalleryVerticalEnd,
+    UserCircle
+} from 'lucide-react';
 import AppLogo from './app-logo';
 
 const adminNavItems: NavItem[] = [
@@ -17,7 +27,7 @@ const adminNavItems: NavItem[] = [
     {
         title: 'User',
         href: '/admin/user',
-        icon: User,
+        icon: Users,
     },
     {
         title: 'Siswa',
@@ -27,27 +37,27 @@ const adminNavItems: NavItem[] = [
     {
         title: 'Guru',
         href: '/admin/guru',
-        icon: User,
+        icon: School,
     },
     {
         title: 'Galeri',
         href: '/admin/galeri',
-        icon: UserCircle,
+        icon: GalleryVerticalEnd,
     },
     {
         title: 'Berita',
         href: '/admin/berita',
-        icon: NewspaperIcon,
+        icon: Newspaper,
     },
     {
         title: 'Ekstrakurikuler',
         href: '/admin/ekstrakulikuler',
-        icon: User,
+        icon: BookOpen,
     },
     {
         title: 'Profil sekolah',
         href: '/admin/profil-sekolah',
-        icon: Banknote,
+        icon: UserCircle,
     },
 ];
 
@@ -65,22 +75,22 @@ const operatorNavItems: NavItem[] = [
     {
         title: 'Guru',
         href: '/operator/guru',
-        icon: User,
+        icon: School,
     },
     {
         title: 'Galeri',
         href: '/operator/galeri',
-        icon: UserCircle,
+        icon: GalleryVerticalEnd,
     },
     {
         title: 'Berita',
         href: '/operator/berita',
-        icon: NewspaperIcon,
+        icon: Newspaper,
     },
     {
         title: 'Ekstrakurikuler',
         href: '/operator/ekstrakulikuler',
-        icon: User,
+        icon: BookOpen,
     },
     {
         title: 'Profil sekolah',

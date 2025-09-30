@@ -24,6 +24,7 @@ import {
   LineElement,
 } from 'chart.js';
 import { Bar } from 'react-chartjs-2';
+import { text } from 'stream/consumers';
 
 // Register ChartJS components
 ChartJS.register(
@@ -137,7 +138,7 @@ export default function Dashboard() {
       legend: { display: false },
       title: {
         display: true,
-        text: 'Distribusi Siswa per Kelas',
+        text: `Distribusi Siswa per Kelas, Jumlah siswa ${dashboardData.total_siswa}`,
       },
     },
   };
@@ -167,8 +168,9 @@ export default function Dashboard() {
       legend: { position: 'right' as const },
       title: {
         display: true,
-        text: 'Distribusi Guru per Bidang',
+        text: `Distribusi Guru per Bidang, Jumlah guru : ${dashboardData.total_guru}`,
       },
+
     },
   };
 

@@ -1,5 +1,4 @@
 import { login } from '@/routes';
-import { type SharedData } from '@/types';
 import { Head, Link, usePage } from '@inertiajs/react';
 import { useState } from 'react';
 import { motion } from 'framer-motion';
@@ -11,9 +10,13 @@ interface Berita {
   isi: string;
   tanggal: string;
   gambar: string;
-  username: string;
+  user?: User
 }
 
+interface User{
+    id: number
+    name: string
+}
 interface Ekstrakulikuler {
   id: number;
   nama_eskul: string;
@@ -366,7 +369,7 @@ export default function Welcome() {
                                         </p>
                                         <div className="flex justify-between items-center text-sm text-gray-400">
                                             <span>{new Date(item.tanggal).toLocaleDateString('id-ID')}</span>
-                                            <span>Oleh: {item.username}</span>
+                                            <span>Oleh: {item.user?.name}</span>
                                         </div>
                                     </div>
                                 ))}
