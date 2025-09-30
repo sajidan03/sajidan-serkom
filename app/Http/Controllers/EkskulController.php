@@ -101,12 +101,12 @@ class EkskulController extends Controller
     //     return Inertia::render('Admin/Ekstrakulikuler/edit', $data);
     // }
 
-    public function ekskulEditView($id)
+ public function ekskulEditView($id)
 {
     try {
         $id = Crypt::decrypt($id);
-    } catch (\Throwable $th) {
-        // Biarkan ID asli jika decrypt gagal
+    } catch (DecryptException $e) {
+        return redirect()->route('ekskulView')->with('error', 'Invalid ID');
     }
 
     $ekstrakulikuler = Ekstrakulikuler::find($id);
@@ -115,6 +115,8 @@ class EkskulController extends Controller
         abort(404, 'Ekstrakurikuler tidak ditemukan');
     }
 
+    $encrypt = Crypt::encrypt($ekstrakulikuler->id);
+
     $data['ekstrakulikuler'] = $ekstrakulikuler->only([
         'id',
         'nama_eskul',
@@ -122,8 +124,9 @@ class EkskulController extends Controller
         'jadwal_latihan',
         'deskripsi',
         'gambar',
-        'encrypted_id'
     ]);
+
+    $data['ekstrakulikuler']['encrypted_id'] = $encrypt;
 
     $data['guru'] = Guru::all();
     $data['profil'] = Profil_sekolah::all()->first();
@@ -132,12 +135,13 @@ class EkskulController extends Controller
 }
     public function ekskulEdit(Request $request, $id)
     {
+        $id = Crypt::decrypt($id);
         $request->validate([
             'nama_eskul' => 'required|string',
-            'pembina' => 'required|string',
+            'pembina' => 'required|exist:gurus,id',
             'jadwal_latihan' => 'required|string',
             'deskripsi' => 'required|string',
-            'gambar' => 'nullable|image|mimes:jpg,jpeg,png,gif|max:5120',
+            'gambar' => 'nullable|image|mimes:jpg,jpeg,png,gif',
         ]);
 
         $ekskul = Ekstrakulikuler::findOrFail($id);
@@ -155,10 +159,10 @@ class EkskulController extends Controller
 
         $ekskul->update([
             'nama_eskul' => $request->nama_eskul,
-            'pembina' => $request->pembina,
             'jadwal_latihan' => $request->jadwal_latihan,
             'deskripsi' => $request->deskripsi,
             'gambar' => $filename,
+            'id_guru' => $request->pembina,
         ]);
 
         return redirect()->route('ekskulView')->with('message', 'Ekstrakulikuler berhasil diperbarui');

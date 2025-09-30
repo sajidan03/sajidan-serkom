@@ -25,11 +25,11 @@ interface Guru {
 interface Ekstrakulikuler {
   id: number
   nama_eskul: string
-  pembina: string
   jadwal_latihan: string
   deskripsi: string
   gambar: string | null
-  encrypted_id?: string
+  id_guru : number
+  encrypted_id: string
 }
 
 interface PageProps {
@@ -70,7 +70,7 @@ export default function EditEkstrakurikuler() {
 
   const { data, setData, errors, put, processing } = useForm({
     nama_eskul: ekstrakulikuler?.nama_eskul || '',
-    pembina: ekstrakulikuler?.pembina || '',
+    pembina: ekstrakulikuler?.id_guru || '',
     jadwal_latihan: ekstrakulikuler?.jadwal_latihan || '',
     deskripsi: ekstrakulikuler?.deskripsi || '',
     gambar: null as File | null,
@@ -89,7 +89,7 @@ export default function EditEkstrakurikuler() {
 
     const formData = new FormData()
     formData.append('nama_eskul', data.nama_eskul)
-    formData.append('pembina', data.pembina)
+    formData.append('pembina', data.id_guru.toString())
     formData.append('jadwal_latihan', data.jadwal_latihan)
     formData.append('deskripsi', data.deskripsi)
     formData.append('_method', 'PUT')
@@ -98,8 +98,7 @@ export default function EditEkstrakurikuler() {
       formData.append('gambar', data.gambar)
     }
 
-    // Gunakan identifier (encrypted_id atau id biasa)
-    put(`/admin/ekstrakulikuler/${identifier}`, {
+    put(`/admin/ekstrakulikuler/edit/${ekstrakulikuler.encrypted_id}}`, {
       forceFormData: true,
       onError: (errors) => {
         console.log('Update errors:', errors)
