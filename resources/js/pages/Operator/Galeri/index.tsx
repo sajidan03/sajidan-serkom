@@ -5,7 +5,7 @@ import { Head, usePage, router, Link } from '@inertiajs/react'
 const breadcrumbs: BreadcrumbItem[] = [
   {
     title: 'Kelola Galeri',
-    href: '/galeri',
+    href: '/operator/galeri',
   },
 ]
 
@@ -25,7 +25,7 @@ export default function GaleriIndex() {
 
   const handleDelete = (id: number) => {
     if (confirm('Apakah Anda yakin ingin menghapus item galeri ini?')) {
-      router.delete(`/admin/galeri/hapus/${id}`)
+      router.delete(`/operator/galeri/hapus/${id}`)
     }
   }
 
@@ -40,14 +40,14 @@ export default function GaleriIndex() {
           {/* Tombol Export + Tambah Galeri */}
          <div className="flex items-center gap-3">
         <button
-            onClick={() => router.get('/admin/galeri/export')}
+            onClick={() => router.get('/operator/galeri/export')}
             className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700"
         >
             Export
         </button>
 
         <Link
-            href="/admin/galeri/tambah"
+            href="/operator/galeri/tambah"
             className="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700"
         >
             + Tambah Galeri
@@ -105,7 +105,7 @@ export default function GaleriIndex() {
                     <td className="px-4 py-3">{galeri.tanggal}</td>
                     <td className="px-4 py-3 flex items-center justify-center gap-2">
                       <a
-                        href={`/admin/galeri/edit/${galeri.encrypted_id}`}
+                        href={`/operator/galeri/edit/${galeri.encrypted_id}`}
                         className="px-3 py-1 bg-blue-600 text-white text-sm rounded-md hover:bg-blue-700"
                       >
                         Edit

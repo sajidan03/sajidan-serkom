@@ -7,11 +7,11 @@ import { useState, useEffect } from 'react'
 const breadcrumbs: BreadcrumbItem[] = [
   {
     title: 'Kelola Ekstrakurikuler',
-    href: '/admin/ekstrakurikuler',
+    href: '/operator/ekstrakurikuler',
   },
   {
     title: 'Edit Ekstrakurikuler',
-    href: '/admin/ekstrakurikuler/edit',
+    href: '/operator/ekstrakurikuler/edit',
   },
 ]
 
@@ -78,13 +78,13 @@ export default function EditEkstrakurikuler() {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
-     post(`/admin/ekstrakulikuler/edit/${data.id}`, {
+     post(`/operator/ekstrakulikuler/edit/${data.id}`, {
           forceFormData: true,
           onError: (errors) => {
             console.log('Errors:', errors)
           },
           onSuccess: () => {
-            router.visit('/admin/guru')
+            router.visit('/operator/guru')
           }
         })
   }
@@ -142,7 +142,7 @@ export default function EditEkstrakurikuler() {
               <h2 className="text-xl font-bold text-gray-800 mb-2">Data Tidak Ditemukan</h2>
               <p className="text-gray-600 mb-6">{error || 'Data ekstrakurikuler tidak tersedia'}</p>
               <Link
-                href="/admin/ekstrakurikuler"
+                href="/operator/ekstrakurikuler"
                 className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors"
               >
                 Kembali ke Daftar Ekstrakurikuler
@@ -338,7 +338,7 @@ export default function EditEkstrakurikuler() {
             {/* Action Buttons */}
             <div className="flex justify-end mt-8 space-x-4 w-full">
               <Link
-                href="/admin/ekstrakurikuler"
+                href="/operator/ekstrakurikuler"
                 className="px-4 py-2 bg-gray-500 text-white rounded-md hover:bg-gray-600 transition-colors"
               >
                 Batal

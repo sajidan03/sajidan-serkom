@@ -5,7 +5,7 @@ import { Head, Link, usePage, router } from '@inertiajs/react'
 const breadcrumbs: BreadcrumbItem[] = [
   {
     title: 'Kelola Guru',
-    href: '/guru',
+    href: '/operator/guru',
   },
 ]
 
@@ -24,7 +24,7 @@ export default function GuruIndex() {
 
   const handleDelete = (id: number) => {
     if (confirm('Apakah Anda yakin ingin menghapus guru ini?')) {
-      router.delete(`/admin/guru/hapus/${id}`)
+      router.delete(`/operator/guru/hapus/${id}`)
     }
   }
 
@@ -38,13 +38,13 @@ export default function GuruIndex() {
 
           {/* Tombol Export + Tambah Guru */}
           <div className="flex items-center gap-3">
-            <a href="/admin/guru/export">
+            <a href="/operator/guru/export">
               <button className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700">
                 Export
               </button>
             </a>
             <Link
-              href="/admin/guru/tambah"
+              href="/operator/guru/tambah"
               className="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700"
             >
               + Tambah Guru
@@ -92,7 +92,7 @@ export default function GuruIndex() {
                     </td>
                     <td className="px-4 py-3 flex items-center justify-center gap-2">
                       <Link
-                        href={`/admin/guru/edit/${guru.encrypted_id}`}
+                        href={`/operator/guru/edit/${guru.encrypted_id}`}
                         className="px-3 py-1 bg-blue-600 text-white text-sm rounded-md hover:bg-blue-700"
                       >
                         Edit

@@ -1,12 +1,11 @@
 import AppLayout from '@/layouts/app-layout'
-// import Sidebar from '@/components/admin-sidebar'
 import { type BreadcrumbItem } from '@/types'
 import { Head, Link, usePage, router } from '@inertiajs/react'
 
 const breadcrumbs: BreadcrumbItem[] = [
   {
     title: 'Kelola Siswa',
-    href: '/siswa',
+    href: '/operator/siswa',
   },
 ]
 
@@ -26,7 +25,7 @@ export default function SiswaIndex() {
 
   const handleDelete = (id: number) => {
     if (confirm('Apakah Anda yakin ingin menghapus siswa ini?')) {
-      router.delete(`/admin/siswa/hapus/${id}`)
+      router.delete(`/operator/siswa/hapus/${id}`)
     }
   }
 
@@ -40,13 +39,13 @@ export default function SiswaIndex() {
 
           {/* Tombol Export + Tambah Siswa */}
           <div className="flex items-center gap-3">
-            <a href="/admin/siswa/export">
+            <a href="/operator/siswa/export">
               <button className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700">
                 Export
               </button>
             </a>
             <Link
-              href="/admin/siswa/tambah"
+              href="/operator/siswa/tambah"
               className="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700"
             >
               + Tambah Siswa
@@ -88,7 +87,7 @@ export default function SiswaIndex() {
                     <td className="px-4 py-3">{siswa.tahun_masuk}</td>
                     <td className="px-4 py-3 flex items-center justify-center gap-2">
                       <Link
-                        href={`/admin/siswa/edit/${siswa.encrypted_id}`}
+                        href={`/operator/siswa/edit/${siswa.encrypted_id}`}
                         className="px-3 py-1 bg-blue-600 text-white text-sm rounded-md hover:bg-blue-700"
                       >
                         Edit

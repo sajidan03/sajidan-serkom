@@ -8,11 +8,11 @@ import { useState, useEffect } from 'react'
 const breadcrumbs: BreadcrumbItem[] = [
   {
     title: 'Kelola Berita',
-    href: '/admin/berita',
+    href: '/operator/berita',
   },
   {
     title: 'Tambah Berita',
-    href: '/admin/berita/tambah',
+    href: '/operator/berita/tambah',
   },
 ]
 
@@ -20,7 +20,6 @@ export default function TambahBerita() {
   const { props } = usePage()
   const [previewImage, setPreviewImage] = useState<string | null>(null)
 
-  // Ambil data user yang login dari props
   const authUser = props.auth?.user
 
   const { data, setData, errors, post, processing } = useForm({
@@ -28,7 +27,7 @@ export default function TambahBerita() {
     isi: '',
     gambar: null as File | null,
     tanggal: new Date().toISOString().split('T')[0],
-    id_user: authUser?.id || '', // otomatis ambil id user yang login
+    id_user: authUser?.id || '',
   })
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -38,12 +37,12 @@ export default function TambahBerita() {
     formData.append('judul', data.judul)
     formData.append('isi', data.isi)
     formData.append('tanggal', data.tanggal)
-    formData.append('id_user', data.id_user) // otomatis dari user login
+    formData.append('id_user', data.id_user)
     if (data.gambar) {
       formData.append('gambar', data.gambar)
     }
 
-    post('/admin/berita/tambah', {
+    post('/operator/berita/tambah', {
       forceFormData: true,
     })
   }
@@ -52,7 +51,6 @@ export default function TambahBerita() {
     const file = e.target.files?.[0] || null
     setData('gambar', file)
 
-    // Create preview for image files
     if (file && file.type.startsWith('image/')) {
       const reader = new FileReader()
       reader.onload = (e) => {
@@ -215,7 +213,7 @@ export default function TambahBerita() {
             {/* Action Buttons */}
             <div className="flex justify-end mt-8 space-x-4 w-full">
               <Link
-                href="/admin/berita"
+                href="/operator/berita"
                 className="px-4 py-2 bg-gray-500 text-white rounded-md hover:bg-gray-600 transition-colors"
               >
                 Batal

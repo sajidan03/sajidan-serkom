@@ -5,7 +5,7 @@ import { Head, usePage, router, Link } from '@inertiajs/react'
 const breadcrumbs: BreadcrumbItem[] = [
   {
     title: 'Kelola Ekstrakurikuler',
-    href: '/admin/ekstrakurikuler',
+    href: '/operator/ekstrakurikuler',
   },
 ]
 
@@ -29,7 +29,7 @@ export default function EkstrakurikulerIndex() {
 
   const handleDelete = (id: number) => {
     if (confirm('Apakah Anda yakin ingin menghapus ekstrakurikuler ini?')) {
-      router.delete(`/admin/ekstrakulikuler/hapus/${id}`)
+      router.delete(`/operator/ekstrakulikuler/hapus/${id}`)
     }
   }
 
@@ -44,14 +44,14 @@ export default function EkstrakurikulerIndex() {
           {/* Tombol Export + Tambah Ekstrakurikuler */}
           <div className="flex items-center gap-3">
             <button
-              onClick={() => router.get('/admin/ekstrakurikuler/export')}
+              onClick={() => router.get('/operator/ekstrakurikuler/export')}
               className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700"
             >
               Export
             </button>
 
             <Link
-              href="/admin/ekstrakulikuler/tambah"
+              href="/operator/ekstrakulikuler/tambah"
               className="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700"
             >
               + Tambah Ekstrakurikuler
@@ -113,7 +113,7 @@ export default function EkstrakurikulerIndex() {
                     <td className="px-4 py-3 text-sm">{eskul.updated_at}</td>
                     <td className="px-4 py-3 flex items-center justify-center gap-2">
                       <Link
-                        href={`/admin/ekstrakulikuler/edit/${eskul.encrypted_id}`}
+                        href={`/operator/ekstrakulikuler/edit/${eskul.encrypted_id}`}
                         className="px-3 py-1 bg-blue-600 text-white text-sm rounded-md hover:bg-blue-700"
                       >
                         Edit

@@ -59,7 +59,7 @@ export default function EditSiswa() {
             <div className="text-center text-red-500">
               <p>Data siswa tidak ditemukan</p>
               <button
-                onClick={() => router.get('/admin/siswa')}
+                onClick={() => router.get('/operator/siswa')}
                 className="mt-4 px-4 py-2 bg-blue-600 text-white rounded-md"
               >
                 Kembali ke Daftar Siswa
@@ -74,22 +74,22 @@ export default function EditSiswa() {
   const breadcrumbs: BreadcrumbItem[] = [
     {
       title: 'Kelola Siswa',
-      href: '/admin/siswa',
+      href: '/operator/siswa',
     },
     {
       title: `Edit Siswa - ${siswa.nama_siswa}`,
-      href: `/admin/siswa/edit/${siswa.encrypted_id}`,
+      href: `/operator/siswa/edit/${siswa.encrypted_id}`,
     },
   ]
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
-    post(`/admin/siswa/edit/${data.encrypted_id}`, {
+    post(`/operator/siswa/edit/${data.encrypted_id}`, {
       onError: (errors) => {
         console.log('Errors:', errors)
       },
       onSuccess: () => {
-        router.visit('/admin/siswa')
+        router.visit('/operator/siswa')
       }
     })
   }
@@ -217,7 +217,7 @@ export default function EditSiswa() {
             <div className="flex justify-end mt-8 space-x-4">
               <button
                 type="button"
-                onClick={() => router.get('/admin/siswa')}
+                onClick={() => router.get('/operator/siswa')}
                 className="px-6 py-2 border border-gray-300 rounded-md text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-blue-500"
               >
                 Batal

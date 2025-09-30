@@ -5,7 +5,7 @@ import { Head, usePage, router, Link } from '@inertiajs/react'
 const breadcrumbs: BreadcrumbItem[] = [
   {
     title: 'Kelola Berita',
-    href: '/admin/berita',
+    href: '/operator/berita',
   },
 ]
 
@@ -28,7 +28,7 @@ export default function BeritaIndex() {
 
   const handleDelete = (id: number) => {
     if (confirm('Apakah Anda yakin ingin menghapus berita ini?')) {
-      router.delete(`/admin/berita/hapus/${id}`)
+      router.delete(`/operator/berita/hapus/${id}`)
     }
   }
 
@@ -43,14 +43,14 @@ export default function BeritaIndex() {
           {/* Tombol Export + Tambah Berita */}
           <div className="flex items-center gap-3">
             <button
-              onClick={() => router.get('/admin/berita/export')}
+              onClick={() => router.get('/operator/berita/export')}
               className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700"
             >
               Export
             </button>
 
             <Link
-              href="/admin/berita/tambah"
+              href="/operator/berita/tambah"
               className="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700"
             >
               + Tambah Berita
@@ -115,7 +115,7 @@ export default function BeritaIndex() {
                     <td className="px-4 py-3 text-sm">{berita.updated_at}</td>
                     <td className="px-4 py-3 flex items-center justify-center gap-2">
                       <Link
-                        href={`/admin/berita/edit/${berita.encrypted_id}`}
+                        href={`/operator/berita/edit/${berita.encrypted_id}`}
                         className="px-3 py-1 bg-blue-600 text-white text-sm rounded-md hover:bg-blue-700"
                       >
                         Edit

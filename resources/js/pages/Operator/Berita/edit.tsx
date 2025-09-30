@@ -51,11 +51,11 @@ export default function EditBerita({ berita }: EditBeritaProps) {
   const breadcrumbs: BreadcrumbItem[] = [
     {
       title: 'Kelola Berita',
-      href: '/admin/berita',
+      href: '/operator/berita',
     },
     {
       title: `Edit Berita: ${safeBerita.judul || 'Untitled'}`,
-      href: `/admin/berita/${safeBerita.id}/edit`,
+      href: `/operator/berita/${safeBerita.id}/edit`,
     },
   ]
 
@@ -81,7 +81,7 @@ export default function EditBerita({ berita }: EditBeritaProps) {
       formData.append('gambar', data.gambar)
     }
 
-    put(`/admin/berita/${safeBerita.id}`, {
+    put(`/operator/berita/${safeBerita.id}`, {
       forceFormData: true,
     })
   }
@@ -280,7 +280,7 @@ export default function EditBerita({ berita }: EditBeritaProps) {
             {/* Action Buttons */}
             <div className="flex justify-end mt-8 space-x-4 w-full">
               <Link
-                href="/admin/berita"
+                href="/operator/berita"
                 className="px-4 py-2 bg-gray-500 text-white rounded-md hover:bg-gray-600 transition-colors"
               >
                 Batal

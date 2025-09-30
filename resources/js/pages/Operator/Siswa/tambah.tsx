@@ -47,7 +47,7 @@ export default function TambahSiswa() {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
-    post('/admin/siswa/simpan')
+    post('/operator/siswa/simpan')
   }
 
   return (
@@ -172,7 +172,7 @@ export default function TambahSiswa() {
             <div className="flex justify-end mt-8 space-x-4">
               <button
                 type="button"
-                onClick={() => router.get('/admin/siswa')}
+                onClick={() => router.get('/operator/siswa')}
                 className="px-4 py-2 border border-gray-300 rounded-md text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-blue-500"
               >
                 Batal

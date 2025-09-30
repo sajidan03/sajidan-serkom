@@ -56,7 +56,7 @@ export default function EditGuru() {
             <div className="text-center text-red-500">
               <p>Data guru tidak ditemukan</p>
               <button
-                onClick={() => router.get('/admin/guru')}
+                onClick={() => router.get('/operator/guru')}
                 className="mt-4 px-4 py-2 bg-blue-600 text-white rounded-md"
               >
                 Kembali ke Daftar Guru
@@ -71,11 +71,11 @@ export default function EditGuru() {
   const breadcrumbs: BreadcrumbItem[] = [
     {
       title: 'Kelola Guru',
-      href: '/admin/guru',
+      href: '/operator/guru',
     },
     {
       title: `Edit Guru - ${guru.nama_guru}`,
-      href: `/admin/guru/edit/${guru.id}`,
+      href: `/operator/guru/edit/${guru.id}`,
     },
   ]
 
@@ -96,13 +96,13 @@ export default function EditGuru() {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
-    post(`/admin/guru/edit/${data.id}`, {
+    post(`/operator/guru/edit/${data.id}`, {
       forceFormData: true,
       onError: (errors) => {
         console.log('Errors:', errors)
       },
       onSuccess: () => {
-        router.visit('/admin/guru')
+        router.visit('/operator/guru')
       }
     })
   }
@@ -216,7 +216,7 @@ export default function EditGuru() {
             <div className="flex justify-end mt-8 space-x-4">
               <button
                 type="button"
-                onClick={() => router.get('/admin/guru')}
+                onClick={() => router.get('/operator/guru')}
                 className="px-6 py-2 border border-gray-300 rounded-md text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-blue-500"
               >
                 Batal

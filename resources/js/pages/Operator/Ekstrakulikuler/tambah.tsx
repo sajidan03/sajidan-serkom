@@ -6,11 +6,11 @@ import { useState, useEffect } from 'react'
 const breadcrumbs: BreadcrumbItem[] = [
   {
     title: 'Kelola Ekstrakurikuler',
-    href: '/admin/ekstrakurikuler',
+    href: '/operator/ekstrakurikuler',
   },
   {
     title: 'Tambah Ekstrakurikuler',
-    href: '/admin/ekstrakurikuler/tambah',
+    href: '/operator/ekstrakurikuler/tambah',
   },
 ]
 
@@ -59,7 +59,7 @@ export default function TambahEkstrakurikuler() {
       formData.append('gambar', data.gambar)
     }
 
-    post('/admin/ekstrakulikuler/tambah', {
+    post('/operator/ekstrakulikuler/tambah', {
       forceFormData: true,
     })
   }
@@ -237,7 +237,7 @@ export default function TambahEkstrakurikuler() {
             {/* Action Buttons */}
             <div className="flex justify-end mt-8 space-x-4 w-full">
               <Link
-                href="/admin/ekstrakurikuler"
+                href="/operator/ekstrakurikuler"
                 className="px-4 py-2 bg-gray-500 text-white rounded-md hover:bg-gray-600 transition-colors"
               >
                 Batal

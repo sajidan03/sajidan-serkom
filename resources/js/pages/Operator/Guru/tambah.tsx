@@ -6,11 +6,11 @@ import { useState } from 'react'
 const breadcrumbs: BreadcrumbItem[] = [
   {
     title: 'Kelola Guru',
-    href: '/guru',
+    href: '/operator/guru',
   },
   {
     title: 'Tambah Guru',
-    href: '/guru/tambah',
+    href: '/operator/guru/tambah',
   },
 ]
 
@@ -51,7 +51,7 @@ export default function TambahGuru() {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
-    post('/admin/guru/simpan', {
+    post('/operator/guru/simpan', {
       forceFormData: true,
     })
   }
@@ -180,7 +180,7 @@ export default function TambahGuru() {
             <div className="flex justify-end mt-8 space-x-4">
               <button
                 type="button"
-                onClick={() => router.get('/admin/guru')}
+                onClick={() => router.get('/operator/guru')}
                 className="px-4 py-2 border border-gray-300 rounded-md text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-blue-500"
               >
                 Batal

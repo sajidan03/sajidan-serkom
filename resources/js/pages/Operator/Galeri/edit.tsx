@@ -52,7 +52,7 @@ const galeri = props.galeri as GaleriData
     //   formData.append('file', data.file)
     // }
 
-    post(`/admin/galeri/edit/${galeri.encrypted_id}`, {
+    post(`/operator/galeri/edit/${galeri.encrypted_id}`, {
       forceFormData: true,
     })
   }
@@ -62,7 +62,6 @@ const galeri = props.galeri as GaleriData
     setData('file', file)
     setCurrentFile('')
 
-    // Create preview for image files
     if (file && file.type.startsWith('image/')) {
       const reader = new FileReader()
       reader.onload = (e) => {
@@ -77,11 +76,11 @@ const galeri = props.galeri as GaleriData
   const breadcrumbs: BreadcrumbItem[] = [
     {
       title: 'Kelola Galeri',
-      href: '/admin/galeri',
+      href: '/operator/galeri',
     },
     {
       title: 'Edit Galeri',
-      href: `/admin/galeri/edit/${galeri.id}`,
+      href: `/operator/galeri/edit/${galeri.id}`,
     },
   ]
 
@@ -320,7 +319,7 @@ const galeri = props.galeri as GaleriData
             {/* Action Buttons */}
             <div className="flex justify-end mt-8 space-x-4 w-full">
               <Link
-                href="/admin/galeri"
+                href="/operator/galeri"
                 className="px-4 py-2 bg-gray-500 text-white rounded-md hover:bg-gray-600 transition-colors"
               >
                 Batal
