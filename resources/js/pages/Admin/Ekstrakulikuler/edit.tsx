@@ -1,5 +1,6 @@
 import AppLayout from '@/layouts/app-layout'
 import { type BreadcrumbItem } from '@/types'
+import { router } from '@inertiajs/core'
 import { Head, Link, useForm, usePage } from '@inertiajs/react'
 import { useState, useEffect } from 'react'
 
@@ -28,13 +29,13 @@ interface Ekstrakulikuler {
   jadwal_latihan: string
   deskripsi: string
   gambar: string | null
-  id_guru : number
+  id_guru: number
   encrypted_id: string
 }
 
 interface PageProps {
   guru: Guru[]
-  profil: any
+//   profil: any
   ekstrakulikuler?: Ekstrakulikuler
 }
 
@@ -43,7 +44,6 @@ export default function EditEkstrakurikuler() {
   const [guruOptions, setGuruOptions] = useState<Guru[]>([])
   const { ekstrakulikuler } = props
 
-  // Loading state dan error handling
   const [isLoading, setIsLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
 
@@ -54,10 +54,7 @@ export default function EditEkstrakurikuler() {
 
     if (ekstrakulikuler) {
       setIsLoading(false)
-      // Debug log untuk melihat data yang diterima
       console.log('Data ekstrakulikuler:', ekstrakulikuler)
-      console.log('Encrypted ID:', ekstrakulikuler.encrypted_id)
-      console.log('Regular ID:', ekstrakulikuler.id)
     } else {
       setError('Data ekstrakurikuler tidak ditemukan')
       setIsLoading(false)
@@ -68,45 +65,28 @@ export default function EditEkstrakurikuler() {
     ekstrakulikuler?.gambar ? `/storage/assets/${ekstrakulikuler.gambar}` : null
   )
 
-  const { data, setData, errors, put, processing } = useForm({
+  const { data, setData, post, errors, processing } = useForm({
+    id: ekstrakulikuler?.id,
     nama_eskul: ekstrakulikuler?.nama_eskul || '',
-    pembina: ekstrakulikuler?.id_guru || '',
     jadwal_latihan: ekstrakulikuler?.jadwal_latihan || '',
     deskripsi: ekstrakulikuler?.deskripsi || '',
     gambar: null as File | null,
+    id_guru: ekstrakulikuler?.id_guru || '',
+    encrypted_id : ekstrakulikuler?.encrypted_id,
+    _method: 'POST' as const,
   })
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
-
-    // Gunakan ID biasa jika encrypted_id tidak ada
-    const identifier = ekstrakulikuler?.encrypted_id || ekstrakulikuler?.id
-
-    if (!identifier) {
-      setError('ID ekstrakurikuler tidak valid')
-      return
-    }
-
-    const formData = new FormData()
-    formData.append('nama_eskul', data.nama_eskul)
-    formData.append('pembina', data.id_guru.toString())
-    formData.append('jadwal_latihan', data.jadwal_latihan)
-    formData.append('deskripsi', data.deskripsi)
-    formData.append('_method', 'PUT')
-
-    if (data.gambar) {
-      formData.append('gambar', data.gambar)
-    }
-
-    put(`/admin/ekstrakulikuler/edit/${ekstrakulikuler.encrypted_id}}`, {
-      forceFormData: true,
-      onError: (errors) => {
-        console.log('Update errors:', errors)
-      },
-      onSuccess: () => {
-        console.log('Update successful')
-      }
-    })
+     post(`/admin/ekstrakulikuler/edit/${data.id}`, {
+          forceFormData: true,
+          onError: (errors) => {
+            console.log('Errors:', errors)
+          },
+          onSuccess: () => {
+            router.visit('/admin/guru')
+          }
+        })
   }
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -130,10 +110,9 @@ export default function EditEkstrakurikuler() {
 
   const removeImage = () => {
     setData('gambar', null)
-    setPreviewImage(null)
+    setPreviewImage(ekstrakulikuler?.gambar ? `/storage/assets/${ekstrakulikuler.gambar}` : null)
   }
 
-  // Loading state
   if (isLoading) {
     return (
       <AppLayout breadcrumbs={breadcrumbs}>
@@ -152,7 +131,6 @@ export default function EditEkstrakurikuler() {
     )
   }
 
-  // Error state
   if (error || !ekstrakulikuler) {
     return (
       <AppLayout breadcrumbs={breadcrumbs}>
@@ -186,13 +164,14 @@ export default function EditEkstrakurikuler() {
           {/* Debug Info */}
           <div className="mb-4 p-3 bg-blue-50 rounded-md">
             <p className="text-sm text-blue-700">
-              Debug: Encrypted ID: {ekstrakulikuler.encrypted_id || 'Tidak tersedia'} | Regular ID: {ekstrakulikuler.id}
+              Debug: Encrypted ID: {ekstrakulikuler.encrypted_id || 'Tidak tersedia'} |
+              Regular ID: {ekstrakulikuler.id} |
+              Pembina Value: {data.id_guru || 'Belum dipilih'}
             </p>
           </div>
 
           <form onSubmit={handleSubmit} className="w-full">
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 w-full">
-
               {/* Kolom Kiri */}
               <div className="space-y-4 w-full">
                 {/* Nama Ekstrakurikuler */}
@@ -215,15 +194,15 @@ export default function EditEkstrakurikuler() {
 
                 {/* Pembina (Guru) */}
                 <div className="w-full">
-                  <label htmlFor="pembina" className="block text-sm font-medium text-gray-700 mb-1">
+                  <label htmlFor="id_guru" className="block text-sm font-medium text-gray-700 mb-1">
                     Pembina <span className="text-red-500">*</span>
                   </label>
                   <select
-                    id="pembina"
-                    value={data.pembina}
-                    onChange={(e) => setData('pembina', e.target.value)}
+                    id="id_guru"
+                    value={data.id_guru}
+                    onChange={(e) => setData('id_guru', e.target.value)}
                     className={`w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 ${
-                      errors.pembina ? 'border-red-500' : 'border-gray-300'
+                      errors.id_guru ? 'border-red-500' : 'border-gray-300'
                     }`}
                   >
                     <option value="">Pilih Pembina</option>
@@ -233,7 +212,7 @@ export default function EditEkstrakurikuler() {
                       </option>
                     ))}
                   </select>
-                  {errors.pembina && <p className="mt-1 text-sm text-red-500">{errors.pembina}</p>}
+                  {errors.id_guru && <p className="mt-1 text-sm text-red-500">{errors.id_guru}</p>}
                 </div>
 
                 {/* Jadwal Latihan */}
@@ -277,7 +256,6 @@ export default function EditEkstrakurikuler() {
                           <div className="absolute inset-0 bg-black bg-opacity-40 opacity-0 hover:opacity-100 flex items-center justify-center transition-opacity">
                             <span className="text-white text-sm">Ganti Gambar</span>
                           </div>
-                          {/* Remove image button */}
                           <button
                             type="button"
                             onClick={(e) => {

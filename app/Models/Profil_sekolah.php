@@ -7,4 +7,5 @@ use Illuminate\Database\Eloquent\Model;
 class Profil_sekolah extends Model
 {
     //
+    protected $guarded = [];
 }

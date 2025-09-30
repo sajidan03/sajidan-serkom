@@ -35,7 +35,7 @@ Route::middleware(['auth', 'verified'])
         Route::get('galeri/tambah', [GaleriController::class, 'tambahView'])->name('galeriTambahView');
         Route::post('galeri/tambah', [GaleriController::class, 'galeriTambah'])->name('galeriTambah');
         Route::get('galeri/edit/{id}', [GaleriController::class, 'galeriEditView'])->name('galeriEditView');
-        Route::put('galeri/edit/{id}', [GaleriController::class, 'galeriEdit'])->name('galeriEdit');
+        Route::post('galeri/edit/{id}', [GaleriController::class, 'galeriEdit'])->name('galeriEdit');
         Route::delete('galeri/hapus/{id}', [GaleriController::class, 'galeriHapus'])->name('galeriHapus');
         //
         Route::get('guru/tambah', [GuruController::class, 'tambahView'])->name('guruTambahView');
@@ -59,13 +59,13 @@ Route::middleware(['auth', 'verified'])
         Route::get('berita/tambah', [BeritaController::class, 'beritaTambahView'])->name('beritaTambahView');
         Route::post('berita/tambah', [BeritaController::class, 'beritaTambah'])->name('beritaTambah');
         Route::get('berita/edit/{id}', [BeritaController::class, 'beritaEditView'])->name('beritaEditView');
-        Route::put('berita/edit/{id}', [BeritaController::class, 'beritaEdit'])->name('beritaEdit');
+        Route::post('berita/edit/{id}', [BeritaController::class, 'beritaEdit'])->name('beritaEdit');
         Route::delete('berita/hapus/{id}', [BeritaController::class, 'beritaHapus'])->name('beritaHapus');
         //
          Route::get('ekstrakulikuler/tambah', [EkskulController::class, 'ekskulTambahView'])->name('beritaTambahView');
         Route::post('ekstrakulikuler/tambah', [EkskulController::class, 'ekskulTambah'])->name('ekskulTambah');
         Route::get('ekstrakulikuler/edit/{id}', [EkskulController::class, 'ekskulEditView'])->name('ekskulEditView');
-        Route::put('ekstrakulikuler/edit/{id}', [EkskulController::class, 'ekskulEdit'])->name('ekskulEdit');
+        Route::post('ekstrakulikuler/edit/{id}', [EkskulController::class, 'ekskulEdit'])->name('ekskulEdit');
         Route::delete('ekstrakulikuler/hapus/{id}', [EkskulController::class, 'ekskulHapus'])->name('ekskulHapus');
     });
 

@@ -88,19 +88,6 @@ class EkskulController extends Controller
         return redirect()->route('ekskulView')->with('message', 'Ekstrakulikuler berhasil dihapus');
 
     }
-    // public function ekskulEditView($id)
-    // {
-    //     try {
-    //         $id = Crypt::decrypt($id);
-    //     } catch (DecryptException $e) {
-    //         return redirect()->route('ekskulView')->with('error', 'Invalid ID');
-    //     }
-    //     $data['ekstrakulikuler'] = Ekstrakulikuler::find($id);
-    //     $data['guru'] = Guru::all();
-    //     $data['profil'] = Profil_sekolah::all()->first();
-    //     return Inertia::render('Admin/Ekstrakulikuler/edit', $data);
-    // }
-
  public function ekskulEditView($id)
 {
     try {
@@ -117,14 +104,15 @@ class EkskulController extends Controller
 
     $encrypt = Crypt::encrypt($ekstrakulikuler->id);
 
-    $data['ekstrakulikuler'] = $ekstrakulikuler->only([
-        'id',
-        'nama_eskul',
-        'pembina',
-        'jadwal_latihan',
-        'deskripsi',
-        'gambar',
-    ]);
+    $data['ekstrakulikuler'] = [
+        'id' => $ekstrakulikuler->id,
+        'nama_eskul' => $ekstrakulikuler->nama_eskul,
+        'jadwal_latihan' => $ekstrakulikuler->jadwal_latihan,
+        'deskripsi' => $ekstrakulikuler->deskripsi,
+        'gambar' => $ekstrakulikuler->gambar,
+        'id_guru' => $ekstrakulikuler->id_guru,
+        // 'encrypted_id' => Crypt::encrypt($ekstrakulikuler->id),
+    ];
 
     $data['ekstrakulikuler']['encrypted_id'] = $encrypt;
 
@@ -133,38 +121,48 @@ class EkskulController extends Controller
 
     return Inertia::render('Admin/Ekstrakulikuler/edit', $data);
 }
+
+
     public function ekskulEdit(Request $request, $id)
-    {
-        $id = Crypt::decrypt($id);
-        $request->validate([
-            'nama_eskul' => 'required|string',
-            'pembina' => 'required|exist:gurus,id',
-            'jadwal_latihan' => 'required|string',
-            'deskripsi' => 'required|string',
-            'gambar' => 'nullable|image|mimes:jpg,jpeg,png,gif',
-        ]);
+{
+    $ekskul = Ekstrakulikuler::find($id);
 
-        $ekskul = Ekstrakulikuler::findOrFail($id);
-        $filename = $ekskul->gambar;
+    // try {
+    //     $id = Crypt::decrypt($id);
+    // } catch (DecryptException $e) {
+    //     return redirect()->route('ekskulView')->with('error', 'Invalid ID');
+    // }
 
-        if ($request->hasFile('gambar')) {
-            $file = $request->file('gambar');
-            $filename = time() . '_' . $file->getClientOriginalName();
-            $file->storeAs('assets', $filename);
 
-            if ($ekskul->gambar) {
-                Storage::delete('assets/' . $ekskul->gambar);
-            }
+    $request->validate([
+        'nama_eskul' => 'required|string|max:255',
+        'id_guru' => 'required|numeric|exists:gurus,id',
+        'jadwal_latihan' => 'required|string|max:255',
+        'deskripsi' => 'required|string',
+        'gambar' => 'nullable|image|mimes:jpg,jpeg,png,gif|max:5120',
+    ]);
+
+
+    $filename = $ekskul->gambar;
+
+    if ($request->hasFile('gambar')) {
+        $file = $request->file('gambar');
+        $filename = time() . '_' . $file->getClientOriginalName();
+        $file->storeAs('assets', $filename);
+
+        if ($ekskul->gambar && Storage::exists('assets/' . $ekskul->gambar)) {
+            Storage::delete('assets/' . $ekskul->gambar);
         }
-
-        $ekskul->update([
-            'nama_eskul' => $request->nama_eskul,
-            'jadwal_latihan' => $request->jadwal_latihan,
-            'deskripsi' => $request->deskripsi,
-            'gambar' => $filename,
-            'id_guru' => $request->pembina,
-        ]);
-
-        return redirect()->route('ekskulView')->with('message', 'Ekstrakulikuler berhasil diperbarui');
     }
+
+    $ekskul->update([
+        'nama_eskul' => $request->nama_eskul,
+        'jadwal_latihan' => $request->jadwal_latihan,
+        'deskripsi' => $request->deskripsi,
+        'gambar' => $filename,
+        'id_guru' => $request->id_guru,
+    ]);
+
+    return redirect()->route('ekskulView')->with('message', 'Ekstrakulikuler berhasil diperbarui');
+}
 }
