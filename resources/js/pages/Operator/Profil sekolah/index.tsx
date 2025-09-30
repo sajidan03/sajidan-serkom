@@ -131,7 +131,7 @@ export default function ProfilSekolah() {
           </table>
         </div>
 
-        {/* Info tambahan untuk data yang tidak ditampilkan di tabel */}
+        {/* Info tambahan untuk data yang tidak ditampilkan di tabel
         <div className="mt-6 p-4 bg-blue-50 rounded-lg">
           <h3 className="text-lg font-semibold text-blue-800 mb-2">Informasi Tambahan:</h3>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm text-blue-700">
@@ -163,6 +163,7 @@ export default function ProfilSekolah() {
             </div>
           </div>
         </div>
+      </div> */}
       </div>
     </AppLayout>
   )
