@@ -36,23 +36,54 @@ class ProfilSekolahController extends Controller
         $data['profil'] = Profil_sekolah::all()->first();
         return Inertia::render('Admin/Profil sekolah/tambah', $data);
     }
-    public function simpan(Request $request){
-        $request->validate([
-            'nama_sekolah' => 'required',
-            'kepala_sekolah' => 'required',
-              'foto' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
-            'logo' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
-            'npsn' => 'required|unique:profil_sekolahs,npsn',
-            'alamat' => 'required',
-            'kontak' => 'required',
-            'visi_misi' => 'required',
-            'tahun_berdiri' => 'nullable|digits:4|integer|min:1900|max:' . (date('Y')),
-            'deskripsi' => 'required',
-        ]);
+   public function profilTambah(Request $request)
+{
+    $request->validate([
+        'nama_sekolah' => 'required|string|max:255',
+        'kepala_sekolah' => 'required|string|max:255',
+        'npsn' => 'nullable|string|max:20',
+        'alamat' => 'nullable|string',
+        'kontak' => 'nullable|string|max:15',
+        'visi_misi' => 'nullable|string',
+        'tahun_berdiri' => 'nullable|integer|min:1900|max:2099',
+        'deskripsi' => 'nullable|string',
+        'logo' => 'nullable|image|max:2048',
+        'foto' => 'nullable|image|max:2048',
+    ]);
+
+    $fileNameLogo = null;
+    if ($request->hasFile('logo')) {
+        $file = $request->file('logo');
+        $fileNameLogo = time() . '_' . $file->getClientOriginalName();
+        $file->storeAs('assets', $fileNameLogo);
     }
+
+    $fileNameFoto = null;
+    if ($request->hasFile('foto')) {
+        $file = $request->file('foto');
+        $fileNameFoto = time() . '_' . $file->getClientOriginalName();
+        $file->storeAs('assets', $fileNameFoto);
+    }
+
+    Profil_sekolah::create([
+        'nama_sekolah' => $request->nama_sekolah,
+        'kepala_sekolah' => $request->kepala_sekolah,
+        'npsn' => $request->npsn,
+        'alamat' => $request->alamat,
+        'kontak' => $request->kontak,
+        'visi_misi' => $request->visi_misi,
+        'tahun_berdiri' => $request->tahun_berdiri,
+        'deskripsi' => $request->deskripsi,
+        'logo' => $fileNameLogo,
+        'foto' => $fileNameFoto,
+    ]);
+
+    return redirect()->route('profilView')->with('message', 'Profil sekolah berhasil ditambahkan');
+}
     public function profilEditView($id){
         $id = Crypt::decrypt($id);
-        $data['profil'] = Profil_sekolah::findOrFail($id);
+        $data['profil'] = Profil_sekolah::all()->first();
+        $data['profil_sekolah'] = Profil_sekolah::findOrFail($id);
         return Inertia::render('Admin/Profil sekolah/edit', $data);
     }
     public function hapusProfil($id){

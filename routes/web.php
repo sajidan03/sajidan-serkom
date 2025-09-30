@@ -68,7 +68,7 @@ Route::middleware(['auth', 'verified'])
         Route::delete('ekstrakulikuler/hapus/{id}', [EkskulController::class, 'ekskulHapus'])->name('ekskulHapus');
         //
         Route::get('profil-sekolah/tambah', [ProfilSekolahController::class, 'tambahView'])->name('profilTambahView');
-        Route::post('profil-sekolah/tambah', [ProfilSekolahController::class, 'simpan'])->name('profilSimpan');
+        Route::post('profil-sekolah/tambah', [ProfilSekolahController::class, 'profilTambah'])->name('profilSimpan');
         Route::get('profil-sekolah/edit/{id}', [ProfilSekolahController::class, 'profilEditView'])->name('profilEditView');
         Route::post('profil-sekolah/edit/{id}', [ProfilSekolahController::class, 'profilEdit'])->name('profilEdit');
         Route::delete('profil-sekolah/hapus/{id}', [ProfilSekolahController::class, 'hapusProfil'])->name('profilHapus');
