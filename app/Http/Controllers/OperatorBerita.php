@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Berita;
 use App\Models\Profil_sekolah;
+use Exception;
+use Illuminate\Contracts\Encryption\DecryptException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Crypt;
@@ -74,7 +76,7 @@ public function index(){
     public function beritaEditView($id){
         try {
             $id = Crypt::decrypt($id);
-        } catch (\Exception $e) {
+        } catch (DecryptException $e) {
             return redirect()->route('beritaView')->with('error', 'ID berita tidak valid.');
         }
         $data['berita'] = Berita::findOrFail($id);
