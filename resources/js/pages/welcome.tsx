@@ -2,7 +2,7 @@ import { login } from '@/routes';
 import { Head, Link, usePage } from '@inertiajs/react';
 import { useState } from 'react';
 import { motion } from 'framer-motion';
-import { Eye, FileQuestion, ImageIcon, Play, User } from 'lucide-react';
+import { Eye, Facebook, FileQuestion, ImageIcon, Instagram, Play, User, Youtube } from 'lucide-react';
 
 interface Berita {
   id: number;
@@ -106,27 +106,27 @@ export default function Welcome() {
             </Head>
 
             <div className="bg-gradient-to-b from-blue-900 to-blue-800 min-h-screen">
-                {/* Header - NAVBAR ASLI ANDA */}
+                {/* Header - NAVBAR PUTIH DENGAN TEKS HITAM */}
                 <motion.header
                 initial={{ y: 50, opacity: 0 }}
                 animate={{ y: 0, opacity: 1 }}
                 transition={{ duration: 1, ease: "easeOut" }}
                 className="absolute inset-x-0 top-0 z-50">
-                    <nav className="flex items-center justify-between p-6 lg:px-10">
+                    <nav className="flex items-center justify-between p-6 lg:px-10 bg-white shadow-lg">
                         {/* navbar */}
                         <div className="flex lg:flex-1">
                         <Link href="/" className="-m-1.5 p-1.5 flex items-center">
                             <div className="flex h-10 w-10 items-center justify-center rounded-full mr-2">
                             <img src={`/storage/assets/${profil.logo}`} alt="Logo SMK YPC" className="h-full w-full object-contain" />
                             </div>
-                            <span className="text-xl font-bold text-white">{profil.nama_sekolah}</span>
+                            <span className="text-xl font-bold text-gray-900">{profil.nama_sekolah}</span>
                         </Link>
                         </div>
                         <div className="flex lg:hidden">
                             <button
                                 type="button"
                                 onClick={() => setMobileMenuOpen(true)}
-                                className="-m-2.5 inline-flex items-center justify-center rounded-md p-2.5 text-gray-200"
+                                className="-m-2.5 inline-flex items-center justify-center rounded-md p-2.5 text-gray-700"
                             >
                                 <span className="sr-only">Buka menu utama</span>
                                 <svg
@@ -142,26 +142,26 @@ export default function Welcome() {
                             </button>
                         </div>
                         <div className="hidden lg:flex lg:gap-x-12">
-                            <a href="#berita" className="text-sm/6 font-semibold text-white hover:text-yellow-400">
+                            <a href="#berita" className="text-sm/6 font-semibold text-gray-900 hover:text-blue-600">
                                 Berita
                             </a>
-                            <a href="#galeri" className="text-sm/6 font-semibold text-white hover:text-yellow-400">
+                            <a href="#galeri" className="text-sm/6 font-semibold text-gray-900 hover:text-blue-600">
                                 Galeri
                             </a>
-                            <a href="#ekstrakulikuler" className="text-sm/6 font-semibold text-white hover:text-yellow-400">
+                            <a href="#ekstrakulikuler" className="text-sm/6 font-semibold text-gray-900 hover:text-blue-600">
                                 Ekstrakulikuler
                             </a>
-                            <a href="#guru" className="text-sm/6 font-semibold text-white hover:text-yellow-400">
+                            <a href="#guru" className="text-sm/6 font-semibold text-gray-900 hover:text-blue-600">
                                 Guru
                             </a>
-                             <a href="#profil" className="text-sm/6 font-semibold text-white hover:text-yellow-400">
+                             <a href="#profil" className="text-sm/6 font-semibold text-gray-900 hover:text-blue-600">
                                 Profil
                             </a>
                         </div>
                         <div className="hidden lg:flex lg:flex-1 lg:justify-end">
                             <Link
                                 href='/login'
-                                className="text-sm/6 font-semibold text-white hover:text-yellow-400"
+                                className="text-sm/6 font-semibold text-gray-900 hover:text-blue-600"
                             >
                                 Login<span aria-hidden="true">&rarr;</span>
                             </Link>
@@ -172,18 +172,18 @@ export default function Welcome() {
                     {mobileMenuOpen && (
                         <div className="lg:hidden">
                             <div className="fixed inset-0 z-50" />
-                            <div className="fixed inset-y-0 right-0 z-50 w-full overflow-y-auto bg-blue-900 px-6 py-6 sm:max-w-sm sm:ring-1 sm:ring-white/10">
+                            <div className="fixed inset-y-0 right-0 z-50 w-full overflow-y-auto bg-white px-6 py-6 sm:max-w-sm sm:ring-1 sm:ring-gray-900/10">
                                 <div className="flex items-center justify-between">
                                     <Link href="/" className="-m-1.5 p-1.5 flex items-center">
-                                        <div className="flex h-10 w-10 items-center justify-center rounded-full bg-yellow-500 text-blue-900 mr-2">
+                                        <div className="flex h-10 w-10 items-center justify-center rounded-full bg-blue-600 text-white mr-2">
                                             <img src={`/storage/assets/${profil.logo}`} alt="" />
                                         </div>
-                                        <span className="text-xl font-bold text-white">{profil.nama_sekolah}</span>
+                                        <span className="text-xl font-bold text-gray-900">{profil.nama_sekolah}</span>
                                     </Link>
                                     <button
                                         type="button"
                                         onClick={() => setMobileMenuOpen(false)}
-                                        className="-m-2.5 rounded-md p-2.5 text-gray-200"
+                                        className="-m-2.5 rounded-md p-2.5 text-gray-700"
                                     >
                                         <span className="sr-only">Tutup menu</span>
                                         <svg
@@ -199,39 +199,39 @@ export default function Welcome() {
                                     </button>
                                 </div>
                                 <div className="mt-6 flow-root">
-                                    <div className="-my-6 divide-y divide-white/10">
+                                    <div className="-my-6 divide-y divide-gray-500/10">
                                         <div className="space-y-2 py-6">
                                             <a
                                                 href="#profil"
-                                                className="-mx-3 block rounded-lg px-3 py-2 text-base/7 font-semibold text-white hover:bg-white/5"
+                                                className="-mx-3 block rounded-lg px-3 py-2 text-base/7 font-semibold text-gray-900 hover:bg-gray-50"
                                                 onClick={() => setMobileMenuOpen(false)}
                                             >
                                                 Profil
                                             </a>
                                             <a
                                                 href="#berita"
-                                                className="-mx-3 block rounded-lg px-3 py-2 text-base/7 font-semibold text-white hover:bg-white/5"
+                                                className="-mx-3 block rounded-lg px-3 py-2 text-base/7 font-semibold text-gray-900 hover:bg-gray-50"
                                                 onClick={() => setMobileMenuOpen(false)}
                                             >
                                                 Berita
                                             </a>
                                             <a
                                                 href="#galeri"
-                                                className="-mx-3 block rounded-lg px-3 py-2 text-base/7 font-semibold text-white hover:bg-white/5"
+                                                className="-mx-3 block rounded-lg px-3 py-2 text-base/7 font-semibold text-gray-900 hover:bg-gray-50"
                                                 onClick={() => setMobileMenuOpen(false)}
                                             >
                                                 Galeri
                                             </a>
                                             <a
                                                 href="#ekstrakulikuler"
-                                                className="-mx-3 block rounded-lg px-3 py-2 text-base/7 font-semibold text-white hover:bg-white/5"
+                                                className="-mx-3 block rounded-lg px-3 py-2 text-base/7 font-semibold text-gray-900 hover:bg-gray-50"
                                                 onClick={() => setMobileMenuOpen(false)}
                                             >
                                                 Ekstrakulikuler
                                             </a>
                                             <a
                                                 href="#guru"
-                                                className="-mx-3 block rounded-lg px-3 py-2 text-base/7 font-semibold text-white hover:bg-white/5"
+                                                className="-mx-3 block rounded-lg px-3 py-2 text-base/7 font-semibold text-gray-900 hover:bg-gray-50"
                                                 onClick={() => setMobileMenuOpen(false)}
                                             >
                                                 Guru
@@ -240,7 +240,7 @@ export default function Welcome() {
                                         <div className="py-6">
                                             <Link
                                                 href={login()}
-                                                className="-mx-3 block rounded-lg px-3 py-2.5 text-base/7 font-semibold text-white hover:bg-white/5"
+                                                className="-mx-3 block rounded-lg px-3 py-2.5 text-base/7 font-semibold text-gray-900 hover:bg-gray-50"
                                             >
                                                 Login
                                             </Link>
@@ -252,7 +252,7 @@ export default function Welcome() {
                     )}
                 </motion.header>
 
-                {/* Main Hero Section - TITLE DIATASKAN */}
+                {/* Main Hero Section */}
                 <div className="relative isolate px-6 pt-14 lg:px-8">
                     {/* Background effects */}
                     <div
@@ -280,7 +280,7 @@ export default function Welcome() {
                         </div>
                     )}
 
-                    {/* TITLE DIATASKAN - py dikurangi */}
+                    {/* TITLE DIATASKAN */}
                     <div className="mx-auto max-w-2xl py-20 sm:py-32 lg:py-40 relative z-10">
                         <div className="hidden sm:mb-8 sm:flex sm:justify-center">
                             <div className="relative rounded-full px-3 py-1 text-sm/6 text-gray-200 ring-1 ring-white/10 hover:ring-white/20">
@@ -330,7 +330,7 @@ export default function Welcome() {
                     </div>
                 </div>
 
-                {/* Berita Section */}
+                {/* Berita Section - CARD STYLE SAMA DENGAN GALERI */}
                 <motion.section
                 initial={{ y: 50, opacity: 0 }}
                 whileInView={{ y: 0, opacity: 1 }}
@@ -344,47 +344,78 @@ export default function Welcome() {
                                 Informasi Terkini {profil.nama_sekolah}
                             </p>
                         </div>
-                        <div className="mx-auto mt-16 max-w-2xl sm:mt-20 lg:mt-24 lg:max-w-4xl">
-                            <div className="grid grid-cols-1 gap-8 lg:grid-cols-2">
+                        <div className="mx-auto mt-16 max-w-2xl sm:mt-20 lg:mt-24 lg:max-w-6xl">
+                            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
                                 {berita.map((item) => (
-                                    <div key={item.id} className="bg-white/5 rounded-lg p-6 backdrop-blur-sm border border-white/10 h-full flex flex-col">
-                                        {item.gambar && (
-                                            item.gambar.toLowerCase().endsWith('.jpg') ||
-                                            item.gambar.toLowerCase().endsWith('.jpeg') ||
-                                            item.gambar.toLowerCase().endsWith('.png') ||
-                                            item.gambar.toLowerCase().endsWith('.gif') ||
-                                            item.gambar.toLowerCase().endsWith('.webp') ? (
-                                                <img
-                                                    src={`/storage/assets/${item.gambar}`}
-                                                    alt={item.judul}
-                                                    className="w-full h-48 object-cover rounded-lg mb-4"
-                                                    onError={(e) => {
-                                                        e.target.style.display = 'none';
-                                                    }}
-                                                />
-                                            ) : (
-                                                <div className="w-full h-48 bg-gray-600 rounded-lg mb-4 flex items-center justify-center">
-                                                    <span className="text-white">File bukan gambar</span>
-                                                </div>
-                                            )
-                                        )}
-                                        <h3 className="text-xl font-semibold text-white mb-2">{item.judul}</h3>
-                                        <p className="text-gray-200 text-sm mb-4 line-clamp-3 flex-grow">
-                                            {item.isi && item.isi.length > 150 ? `${item.isi.substring(0, 150)}...` : item.isi}
-                                        </p>
-                                        <div className="flex justify-between items-center text-sm text-gray-400 mt-auto">
-                                            <span>{new Date(item.tanggal).toLocaleDateString('id-ID')}</span>
-                                            <span>Oleh: {item.user?.name}</span>
+                                    <div
+                                        key={item.id}
+                                        className="bg-white/5 rounded-xl overflow-hidden backdrop-blur-sm border border-white/10 h-full flex flex-col"
+                                    >
+                                        {/* Gambar Berita */}
+                                        <div className="relative h-48 w-full overflow-hidden bg-gradient-to-br from-gray-800 to-gray-900">
+                                            {item.gambar && (
+                                                item.gambar.toLowerCase().endsWith('.jpg') ||
+                                                item.gambar.toLowerCase().endsWith('.jpeg') ||
+                                                item.gambar.toLowerCase().endsWith('.png') ||
+                                                item.gambar.toLowerCase().endsWith('.gif') ||
+                                                item.gambar.toLowerCase().endsWith('.webp') ? (
+                                                    <img
+                                                        src={`/storage/assets/${item.gambar}`}
+                                                        alt={item.judul}
+                                                        className="w-full h-full object-cover"
+                                                        onError={(e) => {
+                                                            e.target.style.display = 'none';
+                                                            e.target.nextElementSibling?.classList.remove('hidden');
+                                                        }}
+                                                    />
+                                                ) : (
+                                                    <div className="absolute inset-0 flex flex-col items-center justify-center text-gray-400">
+                                                        <FileQuestion className="w-12 h-12 mb-2 opacity-50" />
+                                                        <p className="text-sm">File bukan gambar</p>
+                                                    </div>
+                                                )
+                                            )}
+                                            {/* Fallback ketika gambar error */}
+                                            <div className="hidden absolute inset-0 flex flex-col items-center justify-center text-gray-400">
+                                                <FileQuestion className="w-12 h-12 mb-2 opacity-50" />
+                                                <p className="text-sm">Gambar tidak dapat dimuat</p>
+                                            </div>
+                                        </div>
+
+                                        {/* Content */}
+                                        <div className="p-4 flex flex-col flex-grow">
+                                            <h3 className="font-semibold text-white text-sm line-clamp-2 mb-2">
+                                                {item.judul}
+                                            </h3>
+                                            <p className="text-gray-300 text-xs line-clamp-3 mb-4 flex-grow">
+                                                {item.isi && item.isi.length > 150 ? `${item.isi.substring(0, 150)}...` : item.isi}
+                                            </p>
+                                            <div className="flex justify-between items-center text-xs text-gray-400 mt-auto">
+                                                <span>{new Date(item.tanggal).toLocaleDateString('id-ID')}</span>
+                                                <span>Oleh: {item.user?.name}</span>
+                                            </div>
                                         </div>
                                     </div>
                                 ))}
                             </div>
                             {berita.length === 0 && (
-                                <div className="text-center py-12">
-                                    <p className="text-gray-200 text-lg">Belum ada berita tersedia</p>
+                                <div className="text-center py-16">
+                                    <div className="flex flex-col items-center justify-center">
+                                        <FileQuestion className="w-16 h-16 text-gray-400 mb-4 opacity-50" />
+                                        <p className="text-gray-300 text-lg font-medium mb-2">Belum ada berita tersedia</p>
+                                        <p className="text-gray-400 text-sm">Berita akan ditampilkan di sini</p>
+                                    </div>
                                 </div>
                             )}
                         </div>
+                         {berita.length > 0 && (
+                                <div className="text-center mt-12">
+                                    <button className="inline-flex items-center px-6 py-3 bg-yellow-500 hover:bg-yellow-400 text-blue-900 font-semibold rounded-lg transition-all duration-300 transform hover:scale-105 hover:shadow-lg">
+                                        <Eye className="w-5 h-5 mr-2" />
+                                        Lihat Semua Berita
+                                    </button>
+                                </div>
+                            )}
                     </div>
                 </motion.section>
 
@@ -548,7 +579,7 @@ export default function Welcome() {
                     </div>
                 </motion.section>
 
-                {/* Ekstrakulikuler Section*/}
+                {/* Ekstrakulikuler Section - CARD STYLE SAMA DENGAN GALERI */}
                 <motion.section
                 initial={{ y: 50, opacity: 0 }}
                 whileInView={{ y: 0, opacity: 1 }}
@@ -565,51 +596,83 @@ export default function Welcome() {
                                 Berbagai kegiatan ekstrakulikuler untuk mengembangkan potensi dan bakat siswa di luar jam pelajaran.
                             </p>
                         </div>
-                        <div className="mx-auto mt-16 max-w-2xl sm:mt-20 lg:mt-24 lg:max-w-4xl">
-                            <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
+                        <div className="mx-auto mt-16 max-w-2xl sm:mt-20 lg:mt-24 lg:max-w-6xl">
+                            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
                                 {ekstrakulikuler.map((item) => (
-                                    <div key={item.id} className="bg-white/5 rounded-lg p-6 backdrop-blur-sm border border-white/10 h-full flex flex-col">
-                                        {item.gambar && (
-                                            item.gambar.toLowerCase().endsWith('.jpg') ||
-                                            item.gambar.toLowerCase().endsWith('.jpeg') ||
-                                            item.gambar.toLowerCase().endsWith('.png') ||
-                                            item.gambar.toLowerCase().endsWith('.gif') ||
-                                            item.gambar.toLowerCase().endsWith('.webp') ? (
-                                                <img
-                                                    src={`/storage/assets/${item.gambar}`}
-                                                    alt={item.nama_eskul}
-                                                    className="w-full h-48 object-cover rounded-lg mb-4"
-                                                    onError={(e) => {
-                                                        e.target.style.display = 'none';
-                                                    }}
-                                                />
-                                            ) : (
-                                                <div className="w-full h-48 bg-gray-600 rounded-lg mb-4 flex items-center justify-center">
-                                                    <span className="text-white">File bukan gambar</span>
-                                                </div>
-                                            )
-                                        )}
-                                        <h3 className="text-xl font-semibold text-white mb-2">{item.nama_eskul}</h3>
-                                        <p className="text-gray-200 text-sm mb-4 flex-grow">
-                                            {item.deskripsi}
-                                        </p>
-                                        <div className="flex justify-between items-center text-sm text-gray-400 mt-auto">
-                                            <span>Pembina:</span>
-                                            <span className="font-semibold text-yellow-400">{item.pembina}</span>
+                                    <div
+                                        key={item.id}
+                                        className="bg-white/5 rounded-xl overflow-hidden backdrop-blur-sm border border-white/10 h-full flex flex-col"
+                                    >
+                                        {/* Gambar Ekstrakulikuler */}
+                                        <div className="relative h-48 w-full overflow-hidden bg-gradient-to-br from-gray-800 to-gray-900">
+                                            {item.gambar && (
+                                                item.gambar.toLowerCase().endsWith('.jpg') ||
+                                                item.gambar.toLowerCase().endsWith('.jpeg') ||
+                                                item.gambar.toLowerCase().endsWith('.png') ||
+                                                item.gambar.toLowerCase().endsWith('.gif') ||
+                                                item.gambar.toLowerCase().endsWith('.webp') ? (
+                                                    <img
+                                                        src={`/storage/assets/${item.gambar}`}
+                                                        alt={item.nama_eskul}
+                                                        className="w-full h-full object-cover"
+                                                        onError={(e) => {
+                                                            e.target.style.display = 'none';
+                                                            e.target.nextElementSibling?.classList.remove('hidden');
+                                                        }}
+                                                    />
+                                                ) : (
+                                                    <div className="absolute inset-0 flex flex-col items-center justify-center text-gray-400">
+                                                        <FileQuestion className="w-12 h-12 mb-2 opacity-50" />
+                                                        <p className="text-sm">File bukan gambar</p>
+                                                    </div>
+                                                )
+                                            )}
+                                            {/* Fallback ketika gambar error */}
+                                            <div className="hidden absolute inset-0 flex flex-col items-center justify-center text-gray-400">
+                                                <FileQuestion className="w-12 h-12 mb-2 opacity-50" />
+                                                <p className="text-sm">Gambar tidak dapat dimuat</p>
+                                            </div>
+                                        </div>
+
+                                        {/* Content */}
+                                        <div className="p-4 flex flex-col flex-grow">
+                                            <h3 className="font-semibold text-white text-sm line-clamp-2 mb-2">
+                                                {item.nama_eskul}
+                                            </h3>
+                                            <p className="text-gray-300 text-xs line-clamp-3 mb-4 flex-grow">
+                                                {item.deskripsi}
+                                            </p>
+                                            <div className="flex justify-between items-center text-xs text-gray-400 mt-auto">
+                                                <span>Pembina:</span>
+                                                <span className="font-semibold text-yellow-400">{item.pembina}</span>
+                                            </div>
                                         </div>
                                     </div>
+
                                 ))}
                             </div>
                             {ekstrakulikuler.length === 0 && (
-                                <div className="text-center py-12">
-                                    <p className="text-gray-200 text-lg">Belum ada data ekstrakulikuler tersedia</p>
+                                <div className="text-center py-16">
+                                    <div className="flex flex-col items-center justify-center">
+                                        <FileQuestion className="w-16 h-16 text-gray-400 mb-4 opacity-50" />
+                                        <p className="text-gray-300 text-lg font-medium mb-2">Belum ada data ekstrakulikuler tersedia</p>
+                                        <p className="text-gray-400 text-sm">Data ekstrakulikuler akan ditampilkan di sini</p>
+                                    </div>
                                 </div>
                             )}
                         </div>
+                         {galeri.length > 0 && (
+                                <div className="text-center mt-12">
+                                    <button className="inline-flex items-center px-6 py-3 bg-yellow-500 hover:bg-yellow-400 text-blue-900 font-semibold rounded-lg transition-all duration-300 transform hover:scale-105 hover:shadow-lg">
+                                        <Eye className="w-5 h-5 mr-2" />
+                                        Lihat Semua Ekstrakulikuler
+                                    </button>
+                                </div>
+                            )}
                     </div>
                 </motion.section>
 
-                {/* Guru Section */}
+                {/* Guru Section - CARD STYLE SAMA DENGAN GALERI */}
                 <motion.section
                 initial={{ y: 50, opacity: 0 }}
                 whileInView={{ y: 0, opacity: 1 }}
@@ -628,14 +691,14 @@ export default function Welcome() {
                         </div>
 
                         <div className="mx-auto mt-16 max-w-2xl sm:mt-20 lg:mt-24 lg:max-w-6xl">
-                            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+                            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
                                 {guru.map((guruItem) => (
                                     <div
                                         key={guruItem.id}
                                         className="bg-white/5 rounded-xl overflow-hidden backdrop-blur-sm border border-white/10 h-full flex flex-col"
                                     >
                                         {/* Foto Guru */}
-                                        <div className="relative h-64 w-full overflow-hidden bg-gradient-to-br from-gray-800 to-gray-900">
+                                        <div className="relative h-48 w-full overflow-hidden bg-gradient-to-br from-gray-800 to-gray-900">
                                             {guruItem.foto ? (
                                                 <img
                                                     src={`/storage/assets/${guruItem.foto}`}
@@ -648,28 +711,28 @@ export default function Welcome() {
                                                 />
                                             ) : (
                                                 <div className="absolute inset-0 flex flex-col items-center justify-center text-gray-400">
-                                                    <User className="w-16 h-16 mb-2 opacity-50" />
+                                                    <User className="w-12 h-12 mb-2 opacity-50" />
                                                     <p className="text-sm">Tidak ada foto</p>
                                                 </div>
                                             )}
 
                                             {/* Fallback ketika foto error */}
                                             <div className="hidden absolute inset-0 flex flex-col items-center justify-center text-gray-400">
-                                                <User className="w-16 h-16 mb-2 opacity-50" />
+                                                <User className="w-12 h-12 mb-2 opacity-50" />
                                                 <p className="text-sm">Foto tidak dapat dimuat</p>
                                             </div>
                                         </div>
 
                                         {/* Content */}
-                                        <div className="p-6 text-center flex flex-col flex-grow">
-                                            <h3 className="font-semibold text-white text-lg mb-2">
+                                        <div className="p-4 flex flex-col flex-grow">
+                                            <h3 className="font-semibold text-white text-sm line-clamp-2 mb-2">
                                                 {guruItem.nama_guru}
                                             </h3>
-                                            <p className="text-gray-300 text-sm mb-4 flex-grow">
+                                            <p className="text-gray-300 text-xs mb-4 flex-grow">
                                                 {guruItem.mapel}
                                             </p>
                                             <div className="flex justify-center items-center text-xs text-gray-400 mt-auto">
-                                                <User className="w-4 h-4 mr-1" />
+                                                <User className="w-3 h-3 mr-1" />
                                                 <span>Guru</span>
                                             </div>
                                         </div>
@@ -818,11 +881,20 @@ export default function Welcome() {
                                     <p>Telepon: {profil.kontak}</p>
                                     <p>Alamat: {profil.alamat}</p>
                                     <br/>
-                                    <a href={profil.instagram}>Instagram</a>
-                                    <br/>
-                                    <a href={profil.facebook}>Facebook</a>
-                                    <br/>
-                                    <a href={profil.youtube}>Youtube</a>
+                                    <div className="flex gap-4">
+                                        <div className="flex align-baseline gap-2">
+                                            <Youtube className="w-5 h-5" />
+                                            <a className='mt-0.5 no-underline hover:underline' href={profil.youtube} target='_blank'>Youtube</a>
+                                        </div>
+                                        <div className="flex align-baseline gap-2">
+                                            <Instagram className="w-5 h-5" />
+                                            <a className='mt-0.5 no-underline hover:underline' href={profil.instagram} target='_blank'>Instagram</a>
+                                        </div>
+                                        <div className="flex align-baseline gap-2">
+                                            <Facebook className="w-5 h-5" />
+                                            <a className='mt-0.5 no-underline hover:underline' href={profil.facebook} target='_blank'>Facebook</a>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
