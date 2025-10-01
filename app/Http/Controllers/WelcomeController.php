@@ -27,7 +27,7 @@ class WelcomeController extends Controller
                     'isi' => $item->isi,
                     'gambar' => $item->gambar,
                     'tanggal' => $item->tanggal,
-                    'user_name' => $item->user->name ?? 'Admin',
+                    'user_name' => $item->user->name ?? 'admin',
                 ];
             });
 

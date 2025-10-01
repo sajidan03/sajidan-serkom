@@ -16,6 +16,7 @@ return new class extends Migration
             $table->timestamps();
             $table->string('nama_sekolah', 40);
             $table->string('kepala_sekolah', 40);
+            $table->string('foto_kepsek', 200)->nullable();
             $table->string('foto', 100);
             $table->string('logo', 100);
             $table->string('npsn', 10);

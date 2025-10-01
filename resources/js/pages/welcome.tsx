@@ -342,7 +342,7 @@ export default function Welcome() {
                         <div className="mx-auto mt-16 max-w-2xl sm:mt-20 lg:mt-24 lg:max-w-4xl">
                             <div className="grid grid-cols-1 gap-8 lg:grid-cols-2">
                                 {berita.map((item) => (
-                                    <div key={item.id} className="bg-white/5 rounded-lg p-6 backdrop-blur-sm hover:bg-white/10 transition-colors">
+                                    <div key={item.id} className="bg-white/5 rounded-lg p-6 backdrop-blur-sm border border-white/10 h-full flex flex-col">
                                         {item.gambar && (
                                             item.gambar.toLowerCase().endsWith('.jpg') ||
                                             item.gambar.toLowerCase().endsWith('.jpeg') ||
@@ -364,10 +364,10 @@ export default function Welcome() {
                                             )
                                         )}
                                         <h3 className="text-xl font-semibold text-white mb-2">{item.judul}</h3>
-                                        <p className="text-gray-200 text-sm mb-4 line-clamp-3">
+                                        <p className="text-gray-200 text-sm mb-4 line-clamp-3 flex-grow">
                                             {item.isi && item.isi.length > 150 ? `${item.isi.substring(0, 150)}...` : item.isi}
                                         </p>
-                                        <div className="flex justify-between items-center text-sm text-gray-400">
+                                        <div className="flex justify-between items-center text-sm text-gray-400 mt-auto">
                                             <span>{new Date(item.tanggal).toLocaleDateString('id-ID')}</span>
                                             <span>Oleh: {item.user?.name}</span>
                                         </div>
@@ -406,7 +406,7 @@ export default function Welcome() {
                                 {galeri.map((item) => (
                                     <div
                                         key={item.id}
-                                        className="group relative bg-white/5 rounded-xl overflow-hidden backdrop-blur-sm border border-white/10 hover:border-white/20 transition-all duration-300 hover:scale-105 hover:shadow-2xl"
+                                        className="bg-white/5 rounded-xl overflow-hidden backdrop-blur-sm border border-white/10 h-full flex flex-col"
                                     >
                                         {/* Media Container */}
                                         <div className="relative h-48 w-full overflow-hidden bg-gradient-to-br from-gray-800 to-gray-900">
@@ -417,7 +417,7 @@ export default function Welcome() {
                                                         <img
                                                             src={`/storage/assets/${item.file}`}
                                                             alt={item.judul}
-                                                            className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+                                                            className="w-full h-full object-cover"
                                                             onError={(e) => {
                                                                 console.error('Image failed to load:', item.file);
                                                                 e.target.style.display = 'none';
@@ -441,10 +441,10 @@ export default function Welcome() {
                                                             </video>
                                                             {playingVideo !== item.id && (
                                                                 <div
-                                                                    className="absolute inset-0 flex items-center justify-center bg-black bg-opacity-40 cursor-pointer hover:bg-opacity-30 transition-all"
+                                                                    className="absolute inset-0 flex items-center justify-center bg-black bg-opacity-40 cursor-pointer"
                                                                     onClick={() => handleVideoPlay(item.id)}
                                                                 >
-                                                                    <div className="bg-white bg-opacity-90 rounded-full p-3 hover:bg-opacity-100 transition-all transform group-hover:scale-110">
+                                                                    <div className="bg-white bg-opacity-90 rounded-full p-3">
                                                                         <Play className="w-6 h-6 text-gray-800 fill-current" />
                                                                     </div>
                                                                 </div>
@@ -476,16 +476,6 @@ export default function Welcome() {
                                                 </div>
                                             )}
 
-                                            {/* Overlay Effect untuk gambar */}
-                                            {item.file && isImage(item.file) && (
-                                                <div className="absolute inset-0 bg-black/0 group-hover:bg-black/60 transition-all duration-300 flex items-center justify-center">
-                                                    <div className="transform translate-y-4 group-hover:translate-y-0 opacity-0 group-hover:opacity-100 transition-all duration-300 flex items-center space-x-2">
-                                                        <Eye className="w-5 h-5 text-white" />
-                                                        <span className="text-white text-sm font-medium">Lihat Detail</span>
-                                                    </div>
-                                                </div>
-                                            )}
-
                                             {/* Category Badge */}
                                             {item.kategori && (
                                                 <div className="absolute top-3 left-3">
@@ -497,18 +487,18 @@ export default function Welcome() {
                                         </div>
 
                                         {/* Content */}
-                                        <div className="p-4">
-                                            <h3 className="font-semibold text-white text-sm line-clamp-2 mb-2 group-hover:text-yellow-300 transition-colors">
+                                        <div className="p-4 flex flex-col flex-grow">
+                                            <h3 className="font-semibold text-white text-sm line-clamp-2 mb-2">
                                                 {item.judul}
                                             </h3>
 
                                             {item.keterangan && (
-                                                <p className="text-gray-300 text-xs line-clamp-2 mb-3">
+                                                <p className="text-gray-300 text-xs line-clamp-2 mb-3 flex-grow">
                                                     {item.keterangan}
                                                 </p>
                                             )}
 
-                                            <div className="flex justify-between items-center text-xs text-gray-400">
+                                            <div className="flex justify-between items-center text-xs text-gray-400 mt-auto">
                                                 <span>
                                                     {item.tanggal ? new Date(item.tanggal).toLocaleDateString('id-ID', {
                                                         day: 'numeric',
@@ -526,9 +516,6 @@ export default function Welcome() {
                                                 </div>
                                             </div>
                                         </div>
-
-                                        {/* Hover Border Effect */}
-                                        <div className="absolute inset-0 rounded-xl border-2 border-transparent group-hover:border-yellow-400/30 transition-all duration-300 pointer-events-none"></div>
                                     </div>
                                 ))}
                             </div>
@@ -576,7 +563,7 @@ export default function Welcome() {
                         <div className="mx-auto mt-16 max-w-2xl sm:mt-20 lg:mt-24 lg:max-w-4xl">
                             <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
                                 {ekstrakulikuler.map((item) => (
-                                    <div key={item.id} className="bg-white/5 rounded-lg p-6 backdrop-blur-sm hover:bg-white/10 transition-colors">
+                                    <div key={item.id} className="bg-white/5 rounded-lg p-6 backdrop-blur-sm border border-white/10 h-full flex flex-col">
                                         {item.gambar && (
                                             item.gambar.toLowerCase().endsWith('.jpg') ||
                                             item.gambar.toLowerCase().endsWith('.jpeg') ||
@@ -598,10 +585,10 @@ export default function Welcome() {
                                             )
                                         )}
                                         <h3 className="text-xl font-semibold text-white mb-2">{item.nama_eskul}</h3>
-                                        <p className="text-gray-200 text-sm mb-4">
+                                        <p className="text-gray-200 text-sm mb-4 flex-grow">
                                             {item.deskripsi}
                                         </p>
-                                        <div className="flex justify-between items-center text-sm text-gray-400">
+                                        <div className="flex justify-between items-center text-sm text-gray-400 mt-auto">
                                             <span>Pembina:</span>
                                             <span className="font-semibold text-yellow-400">{item.pembina}</span>
                                         </div>
@@ -617,7 +604,7 @@ export default function Welcome() {
                     </div>
                 </motion.section>
 
-                {/* Guru Section - BARU DITAMBAHKAN */}
+                {/* Guru Section */}
                 <motion.section
                 initial={{ y: 50, opacity: 0 }}
                 whileInView={{ y: 0, opacity: 1 }}
@@ -640,7 +627,7 @@ export default function Welcome() {
                                 {guru.map((guruItem) => (
                                     <div
                                         key={guruItem.id}
-                                        className="group relative bg-white/5 rounded-xl overflow-hidden backdrop-blur-sm border border-white/10 hover:border-white/20 transition-all duration-300 hover:scale-105 hover:shadow-2xl"
+                                        className="bg-white/5 rounded-xl overflow-hidden backdrop-blur-sm border border-white/10 h-full flex flex-col"
                                     >
                                         {/* Foto Guru */}
                                         <div className="relative h-64 w-full overflow-hidden bg-gradient-to-br from-gray-800 to-gray-900">
@@ -648,7 +635,7 @@ export default function Welcome() {
                                                 <img
                                                     src={`/storage/assets/${guruItem.foto}`}
                                                     alt={guruItem.nama_guru}
-                                                    className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+                                                    className="w-full h-full object-cover"
                                                     onError={(e) => {
                                                         e.target.style.display = 'none';
                                                         e.target.nextElementSibling?.classList.remove('hidden');
@@ -666,31 +653,21 @@ export default function Welcome() {
                                                 <User className="w-16 h-16 mb-2 opacity-50" />
                                                 <p className="text-sm">Foto tidak dapat dimuat</p>
                                             </div>
-
-                                            {/* Overlay Effect */}
-                                            <div className="absolute inset-0 bg-black/0 group-hover:bg-black/60 transition-all duration-300 flex items-center justify-center">
-                                                <div className="transform translate-y-4 group-hover:translate-y-0 opacity-0 group-hover:opacity-100 transition-all duration-300">
-                                                    <User className="w-8 h-8 text-white" />
-                                                </div>
-                                            </div>
                                         </div>
 
                                         {/* Content */}
-                                        <div className="p-6 text-center">
-                                            <h3 className="font-semibold text-white text-lg mb-2 group-hover:text-yellow-300 transition-colors">
+                                        <div className="p-6 text-center flex flex-col flex-grow">
+                                            <h3 className="font-semibold text-white text-lg mb-2">
                                                 {guruItem.nama_guru}
                                             </h3>
-                                            <p className="text-gray-300 text-sm mb-4">
+                                            <p className="text-gray-300 text-sm mb-4 flex-grow">
                                                 {guruItem.mapel}
                                             </p>
-                                            <div className="flex justify-center items-center text-xs text-gray-400">
+                                            <div className="flex justify-center items-center text-xs text-gray-400 mt-auto">
                                                 <User className="w-4 h-4 mr-1" />
                                                 <span>Guru</span>
                                             </div>
                                         </div>
-
-                                        {/* Hover Border Effect */}
-                                        <div className="absolute inset-0 rounded-xl border-2 border-transparent group-hover:border-yellow-400/30 transition-all duration-300 pointer-events-none"></div>
                                     </div>
                                 ))}
                             </div>
@@ -718,7 +695,7 @@ export default function Welcome() {
                             </p>
                         </div>
                         <div className="mx-auto mt-16 max-w-2xl sm:mt-20 lg:mt-24 lg:max-w-4xl">
-                            <div className="rounded-lg bg-white/5 p-8 backdrop-blur-sm">
+                            <div className="rounded-lg bg-white/5 p-8 backdrop-blur-sm border border-white/10">
                                 <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                                     <div>
                                         <h3 className="text-xl font-semibold text-white mb-4">Identitas Sekolah</h3>
