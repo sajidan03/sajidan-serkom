@@ -12,10 +12,8 @@ use Inertia\Inertia;
 class BeritaController extends Controller
 {
     //
-
 public function index(){
     $berita = Berita::with('user')->get();
-
     $data['berita'] = $berita->map(function ($berita) {
         return [
             'id' => $berita->id,

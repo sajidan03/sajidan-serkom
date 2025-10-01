@@ -22,6 +22,7 @@ export default function TambahProfilSekolah() {
   const { props } = usePage<PageProps>()
   const [previewLogo, setPreviewLogo] = useState<string | null>(null)
   const [previewFoto, setPreviewFoto] = useState<string | null>(null)
+  const [previewFotoKepsek, setPreviewFotoKepsek] = useState<string | null>(null)
 
   const { data, setData, post, errors, processing } = useForm({
     nama_sekolah: '',
@@ -34,6 +35,7 @@ export default function TambahProfilSekolah() {
     deskripsi: '',
     logo: null as File | null,
     foto: null as File | null,
+    foto_kepsek: null as File | null,
   })
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -74,6 +76,21 @@ export default function TambahProfilSekolah() {
     }
   }
 
+  const handleFotoKepsekChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0] || null
+    setData('foto_kepsek', file)
+
+    if (file && file.type.startsWith('image/')) {
+      const reader = new FileReader()
+      reader.onload = (e) => {
+        setPreviewFotoKepsek(e.target?.result as string)
+      }
+      reader.readAsDataURL(file)
+    } else {
+      setPreviewFotoKepsek(null)
+    }
+  }
+
   const removeLogo = () => {
     setData('logo', null)
     setPreviewLogo(null)
@@ -82,6 +99,11 @@ export default function TambahProfilSekolah() {
   const removeFoto = () => {
     setData('foto', null)
     setPreviewFoto(null)
+  }
+
+  const removeFotoKepsek = () => {
+    setData('foto_kepsek', null)
+    setPreviewFotoKepsek(null)
   }
 
   return (
@@ -261,7 +283,7 @@ export default function TambahProfilSekolah() {
                   {errors.logo && <p className="mt-1 text-sm text-red-500">{errors.logo}</p>}
                 </div>
 
-                {/* Foto Upload */}
+                {/* Foto Sekolah Upload */}
                 <div className="w-full">
                   <label htmlFor="foto" className="block text-sm font-medium text-gray-700 mb-1">
                     Foto Sekolah
@@ -329,6 +351,76 @@ export default function TambahProfilSekolah() {
                     </label>
                   </div>
                   {errors.foto && <p className="mt-1 text-sm text-red-500">{errors.foto}</p>}
+                </div>
+
+                {/* Foto Kepala Sekolah Upload */}
+                <div className="w-full">
+                  <label htmlFor="foto_kepsek" className="block text-sm font-medium text-gray-700 mb-1">
+                    Foto Kepala Sekolah
+                  </label>
+                  <div className="flex items-center justify-center w-full">
+                    <label
+                      htmlFor="foto_kepsek"
+                      className="flex flex-col items-center justify-center w-full h-32 border-2 border-dashed rounded-lg cursor-pointer border-gray-300 hover:border-gray-400"
+                    >
+                      {previewFotoKepsek ? (
+                        <div className="relative w-full h-full">
+                          <img
+                            src={previewFotoKepsek}
+                            alt="Preview Foto Kepala Sekolah"
+                            className="w-full h-full object-contain rounded-lg"
+                          />
+                          <div className="absolute inset-0 bg-black bg-opacity-40 opacity-0 hover:opacity-100 flex items-center justify-center transition-opacity">
+                            <span className="text-white text-sm">Ganti Foto</span>
+                          </div>
+                          <button
+                            type="button"
+                            onClick={(e) => {
+                              e.preventDefault()
+                              e.stopPropagation()
+                              removeFotoKepsek()
+                            }}
+                            className="absolute top-2 right-2 bg-red-500 text-white rounded-full p-1 hover:bg-red-600 transition-colors"
+                          >
+                            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                            </svg>
+                          </button>
+                        </div>
+                      ) : (
+                        <div className="flex flex-col items-center justify-center pt-5 pb-6">
+                          <svg
+                            className="w-8 h-8 mb-4 text-gray-500"
+                            aria-hidden="true"
+                            xmlns="http://www.w3.org/2000/svg"
+                            fill="none"
+                            viewBox="0 0 20 16"
+                          >
+                            <path
+                              stroke="currentColor"
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                              strokeWidth="2"
+                              d="M13 13h3a3 3 0 0 0 0-6h-.025A5.56 5.56 0 0 0 16 6.5 5.5 5.5 0 0 0 5.207 5.021C5.137 5.017 5.071 5 5 5a4 4 0 0 0 0 8h2.167M10 15V6m0 0L8 8m2-2 2 2"
+                            />
+                          </svg>
+                          <p className="mb-2 text-sm text-gray-500">
+                            <span className="font-semibold">Klik untuk upload foto</span>
+                          </p>
+                          <p className="text-xs text-gray-500">JPG, JPEG, PNG (MAX. 5MB)</p>
+                        </div>
+                      )}
+                      <input
+                        id="foto_kepsek"
+                        name="foto_kepsek"
+                        type="file"
+                        onChange={handleFotoKepsekChange}
+                        className="hidden"
+                        accept="image/*"
+                      />
+                    </label>
+                  </div>
+                  {errors.foto_kepsek && <p className="mt-1 text-sm text-red-500">{errors.foto_kepsek}</p>}
                 </div>
               </div>
             </div>

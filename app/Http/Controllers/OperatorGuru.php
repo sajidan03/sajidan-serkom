@@ -63,7 +63,7 @@ class OperatorGuru extends Controller
         'foto' => $fileName ,
     ]);
 
-    return redirect()->route('guruView')->with('message', 'Data guru berhasil ditambahkan');
+    return redirect()->route('operatorGuruView')->with('message', 'Data guru berhasil ditambahkan');
 }
     public function guruEditView($id)
     {
@@ -96,7 +96,7 @@ class OperatorGuru extends Controller
             'mapel' => $request->mapel,
             'foto' => $fileName,
         ]);
-        return redirect()->route('guruView')->with('message', 'Data guru berhasil diupdate');
+        return redirect()->route('operatorGuruView')->with('message', 'Data guru berhasil diupdate');
     }
 
     public function guruHapus($id)
@@ -104,7 +104,7 @@ class OperatorGuru extends Controller
         $guru = Guru::findOrFail($id);
         $guru->delete();
 
-        return redirect()->route('guruView')->with('message', 'Data guru berhasil dihapus.');
+        return redirect()->route('operatorGuruView')->with('message', 'Data guru berhasil dihapus.');
     }
     public function export()
     {

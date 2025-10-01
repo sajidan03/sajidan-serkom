@@ -19,12 +19,13 @@ class OperatorProfilSekolah extends Controller
                 'updated_at' => $profil->updated_at->format('d M Y'),
                 'nama_sekolah' => $profil->nama_sekolah,
                 'kepala_sekolah' => $profil->kepala_sekolah,
+                'foto_kepsek' => $profil->foto_kepsek,
                 'foto' => $profil->foto,
                 'logo' => $profil->logo,
                 'npsn' => $profil->npsn,
                 'alamat' => $profil->alamat,
                 'kontak' => $profil->kontak,
-                'visi_misi' => $profil->visi_misi, // PERBAIKAN: dari 'visi' ke 'visi_misi'
+                'visi_misi' => $profil->visi_misi,
                 'tahun_berdiri' => $profil->tahun_berdiri,
                 'deskripsi' => $profil->deskripsi,
                 'encrypted_id' => Crypt::encrypt($profil->id),
@@ -49,8 +50,9 @@ class OperatorProfilSekolah extends Controller
             'visi_misi' => 'nullable|string',
             'tahun_berdiri' => 'nullable|integer|min:1900|max:2099',
             'deskripsi' => 'nullable|string',
-            'logo' => 'nullable|image|max:5120', // Meningkatkan max size ke 5MB
+            'logo' => 'nullable|image|max:5120',
             'foto' => 'nullable|image|max:5120',
+            'foto_kepsek' => 'nullable|image|max:5120',
         ]);
 
         $fileNameLogo = null;
@@ -63,13 +65,19 @@ class OperatorProfilSekolah extends Controller
         $fileNameFoto = null;
         if ($request->hasFile('foto')) {
             $file = $request->file('foto');
-            $fileNameFoto = time() . '_foto.' . $file->getClientOriginalExtension(); // Gunakan extension
+            $fileNameFoto = time() . '_foto.' . $file->getClientOriginalExtension();
             $file->storeAs('assets', $fileNameFoto);
+        }
+        $fileNameFotoKepsek = null;
+        if ($request->hasFile('foto_kepsek')) {
+            $file = $request->file('foto_kepsek');
+            $fileNameFoto = time() . '_foto_kepsek.' . $file->getClientOriginalExtension();
+            $file->storeAs('assets', $fileNameFotoKepsek);
         }
 
         Profil_sekolah::create([
             'nama_sekolah' => $request->nama_sekolah,
-            'kepala_sekolah' => $request->kepala_sekolah, // PERBAIKAN: hapus huruf 'a' di depan
+            'kepala_sekolah' => $request->kepala_sekolah,
             'npsn' => $request->npsn,
             'alamat' => $request->alamat,
             'kontak' => $request->kontak,
@@ -78,9 +86,10 @@ class OperatorProfilSekolah extends Controller
             'deskripsi' => $request->deskripsi,
             'logo' => $fileNameLogo,
             'foto' => $fileNameFoto,
+            'foto_kepsek' => $fileNameFotoKepsek
         ]);
 
-        return redirect()->route('profilView')->with('success', 'Profil sekolah berhasil ditambahkan');
+        return redirect()->route('operatorProfilView')->with('success', 'Profil sekolah berhasil ditambahkan');
     }
 
     public function profilEditView($id){
@@ -94,7 +103,7 @@ class OperatorProfilSekolah extends Controller
         $profil = Profil_sekolah::findOrFail($id);
         $profil->delete();
 
-        return redirect()->route('profilView')->with('message', 'Data profil sekolah berhasil dihapus.');
+        return redirect()->route('operatorProfilView')->with('message', 'Data profil sekolah berhasil dihapus.');
     }
 
     public function profilEdit(Request $request, $id)
@@ -149,6 +158,6 @@ class OperatorProfilSekolah extends Controller
 
         $profil->update($data);
 
-        return redirect()->route('profilView')->with('success', 'Profil sekolah berhasil diupdate');
+        return redirect()->route('operatorProfilView')->with('success', 'Profil sekolah berhasil diupdate');
     }
 }

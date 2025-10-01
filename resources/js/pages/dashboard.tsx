@@ -1,7 +1,7 @@
 import AppLayout from '@/layouts/app-layout';
 import { dashboard } from '@/routes';
 import { type BreadcrumbItem } from '@/types';
-import { Head, useForm, usePage } from '@inertiajs/react';
+import { Head, usePage } from '@inertiajs/react';
 import {
   Calendar,
   Users,
@@ -24,7 +24,6 @@ import {
   LineElement,
 } from 'chart.js';
 import { Bar } from 'react-chartjs-2';
-import { text } from 'stream/consumers';
 
 // Register ChartJS components
 ChartJS.register(
@@ -82,19 +81,6 @@ export default function Dashboard() {
 
   const [currentTime, setCurrentTime] = useState(new Date());
   const [isClient, setIsClient] = useState(false);
-    // const { data } = useForm({
-    //     id: '',
-    //   nama_sekolah: '',
-    //   kepala_sekolah: '',
-    //   npsn: '',
-    //   alamat: '',
-    //   kontak: '',
-    //   visi_misi: '',
-    //   tahun_berdiri: '',
-    //   deskripsi: '',
-    //   logo: null as File | null,
-    //   foto: null as File | null,
-    // })
   useEffect(() => {
     setIsClient(true);
     const timer = setInterval(() => setCurrentTime(new Date()), 1000);

@@ -59,7 +59,7 @@ class OperatorGaleri extends Controller
         'tanggal' => $request->tanggal,
     ]);
 
-    return redirect()->route('galeriView')->with('message', 'Data galeri berhasil ditambahkan');
+    return redirect()->route('operatorGaleriView')->with('message', 'Data galeri berhasil ditambahkan');
 }
 
 public function galeriEdit(Request $request, $id)
@@ -95,7 +95,7 @@ public function galeriEdit(Request $request, $id)
         'tanggal' => $request->tanggal,
     ]);
 
-    return redirect()->route('galeriView')->with('message', 'Data galeri berhasil diperbarui');
+    return redirect()->route('operatorGaleriView')->with('message', 'Data galeri berhasil diperbarui');
 }
     public function galeriEditView($id){
         $id = Crypt::decrypt($id);
@@ -106,6 +106,6 @@ public function galeriEdit(Request $request, $id)
     public function galeriHapus($id){
         $galeri = Galeri::findOrFail($id);
         $galeri->delete();
-        return redirect()->route('galeriView');
+        return redirect()->route('operatorGaleriView');
     }
 }

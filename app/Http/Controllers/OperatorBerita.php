@@ -71,13 +71,13 @@ public function index(){
             'id_user' => Auth::user()->id,
         ]);
 
-        return redirect()->route('beritaView')->with('success', 'Berita berhasil ditambahkan.');
+        return redirect()->route('operatorBeritaView')->with('success', 'Berita berhasil ditambahkan.');
     }
     public function beritaEditView($id){
         try {
             $id = Crypt::decrypt($id);
         } catch (DecryptException $e) {
-            return redirect()->route('beritaView')->with('error', 'ID berita tidak valid.');
+            return redirect()->route('operatorBeritaView')->with('error', 'ID berita tidak valid.');
         }
         $data['berita'] = Berita::findOrFail($id);
         $data['profil'] = Profil_sekolah::all()->first();
@@ -111,12 +111,12 @@ public function index(){
             'id_user' => Auth::user()->id,
         ]);
 
-        return redirect()->route('beritaView')->with('success', 'Berita berhasil diperbarui.');
+        return redirect()->route('operatorBeritaView')->with('success', 'Berita berhasil diperbarui.');
     }
     public function beritaHapus($id){
         $berita = Berita::findOrFail($id);
         $berita->delete();
 
-        return redirect()->route('beritaView')->with('success', 'Berita berhasil dihapus.');
+        return redirect()->route('operatorBeritaView')->with('success', 'Berita berhasil dihapus.');
     }
 }

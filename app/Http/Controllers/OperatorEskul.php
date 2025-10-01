@@ -74,7 +74,7 @@ class OperatorEskul extends Controller
         'id_guru' => $request->pembina,
     ]);
 
-        return redirect()->route('ekskulView')->with('message', 'Ekstrakulikuler berhasil ditambahkan');
+        return redirect()->route('operatorEkskulView')->with('message', 'Ekstrakulikuler berhasil ditambahkan');
     }
     public function ekskulHapus($id)
     {
@@ -85,7 +85,7 @@ class OperatorEskul extends Controller
 
         $ekskul->delete();
 
-        return redirect()->route('ekskulView')->with('message', 'Ekstrakulikuler berhasil dihapus');
+        return redirect()->route('operatorEkskulView')->with('message', 'Ekstrakulikuler berhasil dihapus');
 
     }
  public function ekskulEditView($id)
@@ -93,7 +93,7 @@ class OperatorEskul extends Controller
     try {
         $id = Crypt::decrypt($id);
     } catch (DecryptException $e) {
-        return redirect()->route('ekskulView')->with('error', 'Invalid ID');
+        return redirect()->route('operatorEkskulView')->with('error', 'Invalid ID');
     }
 
     $ekstrakulikuler = Ekstrakulikuler::find($id);
@@ -125,14 +125,6 @@ class OperatorEskul extends Controller
     public function ekskulEdit(Request $request, $id)
 {
     $ekskul = Ekstrakulikuler::find($id);
-
-    // try {
-    //     $id = Crypt::decrypt($id);
-    // } catch (DecryptException $e) {
-    //     return redirect()->route('ekskulView')->with('error', 'Invalid ID');
-    // }
-
-
     $request->validate([
         'nama_eskul' => 'required|string|max:255',
         'id_guru' => 'required|numeric|exists:gurus,id',
@@ -162,6 +154,6 @@ class OperatorEskul extends Controller
         'id_guru' => $request->id_guru,
     ]);
 
-    return redirect()->route('ekskulView')->with('message', 'Ekstrakulikuler berhasil diperbarui');
+    return redirect()->route('operatorEkskulView')->with('message', 'Ekstrakulikuler berhasil diperbarui');
 }
 }

@@ -20,6 +20,7 @@ class ProfilSekolahController extends Controller
                 'updated_at' => $profil->updated_at->format('d M Y'),
                 'nama_sekolah' => $profil->nama_sekolah,
                 'kepala_sekolah' => $profil->kepala_sekolah,
+                'foto_kepsek' => $profil->foto_kepsek,
                 'foto' => $profil->foto,
                 'logo' => $profil->logo,
                 'npsn' => $profil->npsn,
@@ -42,6 +43,7 @@ class ProfilSekolahController extends Controller
     $request->validate([
         'nama_sekolah' => 'required|string|max:255',
         'kepala_sekolah' => 'required|string|max:255',
+        'foto_kepsek' => 'nullable|image|max:2048',
         'npsn' => 'nullable|string|max:20',
         'alamat' => 'nullable|string',
         'kontak' => 'nullable|string|max:15',
@@ -65,10 +67,17 @@ class ProfilSekolahController extends Controller
         $fileNameFoto = time() . '_' . $file->getClientOriginalName();
         $file->storeAs('assets', $fileNameFoto);
     }
+    $fileNameFotoKepsek = null;
+    if ($request->hasFile('foto_kepsek')) {
+        $file = $request->file('foto_kepsek');
+        $fileNameFotoKepsek = time() . '_' . $file->getClientOriginalName();
+        $file->storeAs('assets', $fileNameFoto);
+    }
 
     Profil_sekolah::create([
         'nama_sekolah' => $request->nama_sekolah,
-        'kepala_sekolah' => $request->akepala_sekolah,
+        'kepala_sekolah' => $request->kepala_sekolah,
+        'foto_kepsek' => $fileNameFotoKepsek,
         'npsn' => $request->npsn,
         'alamat' => $request->alamat,
         'kontak' => $request->kontak,
@@ -99,13 +108,14 @@ class ProfilSekolahController extends Controller
     $request->validate([
         'nama_sekolah' => 'required|string|max:255',
         'kepala_sekolah' => 'required|string|max:255',
+        'foto_kepsek' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:5120',
         'logo' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:5120',
         'foto' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:5120',
         'npsn' => 'nullable|string|max:20',
         'alamat' => 'nullable|string',
         'kontak' => 'nullable|string|max:15',
         'visi_misi' => 'nullable|string',
-        'tahun_berdiri' => 'nullable|integer|min:1900|max:' . date('Y'), 
+        'tahun_berdiri' => 'nullable|integer|min:1900|max:' . date('Y'),
         'deskripsi' => 'nullable|string',
     ]);
 
@@ -142,6 +152,16 @@ class ProfilSekolahController extends Controller
         $fileNameFoto = time() . '_foto.' . $file->getClientOriginalExtension();
         $file->storeAs('assets', $fileNameFoto);
         $data['foto'] = $fileNameFoto;
+    }
+    if ($request->hasFile('foto_kepsek')) {
+        if ($profil->foto && Storage::exists('assets/' . $profil->foto)) {
+            Storage::delete('assets/' . $profil->foto);
+        }
+
+        $file = $request->file('foto_kepsek');
+        $fileNameFotoKepsek = time() . '_foto_kepsek.' . $file->getClientOriginalExtension();
+        $file->storeAs('assets', $fileNameFotoKepsek);
+        $data['foto_kepsek'] = $fileNameFotoKepsek;
     }
 
     $profil->update($data);

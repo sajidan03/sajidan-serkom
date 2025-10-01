@@ -15,7 +15,6 @@ class WelcomeController extends Controller
     public function index()
     {
         $data['profil'] = Profil_sekolah::first();
-
         $data['berita'] = Berita::with('user')
             ->orderBy('tanggal', 'desc')
             ->limit(6)
@@ -60,6 +59,7 @@ class WelcomeController extends Controller
             });
         $data['user'] = User::all();
         $data['guru'] = Guru::all();
+        // dd($data[]);
         return Inertia::render('welcome', $data);
     }
 }

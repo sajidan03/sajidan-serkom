@@ -86,12 +86,12 @@ Route::middleware(['auth', 'verified'])
     ->group(function () {
         Route::get('dashboard', [OperatorController::class, 'index'])->name('operator.dashboard');
         //
-        Route::get('guru', [OperatorGuru::class, 'index'])->name('guruView');
-        Route::get('berita', [OperatorBerita::class, 'index'])->name('beritaView');
-        Route::get('galeri', [OperatorGaleri::class, 'index'])->name('galeriView');
-        Route::get('ekstrakulikuler', [OperatorEskul::class, 'index'])->name('ekskulView');
-        Route::get('profil-sekolah', [OperatorProfilSekolah::class, 'index'])->name('profilView');
-        Route::get('siswa', [OperatorSiswa::class, 'index'])->name('siswaView');
+        Route::get('guru', [OperatorGuru::class, 'index'])->name('operatorGuruView');
+        Route::get('berita', [OperatorBerita::class, 'index'])->name('operatorBeritaView');
+        Route::get('galeri', [OperatorGaleri::class, 'index'])->name('operatorGaleriView');
+        Route::get('ekstrakulikuler', [OperatorEskul::class, 'index'])->name('operatorEkskulView');
+        Route::get('profil-sekolah', [OperatorProfilSekolah::class, 'index'])->name('operatorProfilView');
+        Route::get('siswa', [OperatorSiswa::class, 'index'])->name('operatorSiswaView');
         //
         Route::get('guru/export', [OperatorGuru::class, 'export'])->name('guruExport');
         //

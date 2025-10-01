@@ -49,14 +49,14 @@ class OperatorSiswa extends Controller
             'tahun_masuk' => $request->tahun_masuk,
         ]);
 
-        return redirect()->route('siswaView')->with('message', 'Data siswa berhasil ditambahkan.');
+        return redirect()->route('operatorSiswaView')->with('message', 'Data siswa berhasil ditambahkan.');
     }
     public function hapusSiswa($id)
     {
         $siswa = Siswa::findOrFail($id);
         $siswa->delete();
 
-        return redirect()->route('siswaView')->with('message', 'Data siswa berhasil dihapus.');
+        return redirect()->route('operatorSiswaView')->with('message', 'Data siswa berhasil dihapus.');
     }
     public function siswaEditView($id){
         $id = Crypt::decrypt($id);
@@ -82,13 +82,13 @@ class OperatorSiswa extends Controller
             'tahun_masuk' => $request->tahun_masuk,
         ]);
 
-        return redirect()->route('siswaView')->with('message', 'Data siswa berhasil diupdate.');
+        return redirect()->route('operatorSiswaView')->with('message', 'Data siswa berhasil diupdate.');
     }
 
     public function siswaHapus($id){
         $siswa = Siswa::findOrFail($id);
         $siswa->delete();
 
-        return redirect()->route('siswaView')->with('success', 'Hapus berhasil');
+        return redirect()->route('operatorSiswaView')->with('success', 'Hapus berhasil');
     }
 }

@@ -39,6 +39,7 @@ interface ProfilSekolah {
   id: number;
   nama_sekolah: string;
   kepala_sekolah: string;
+  foto_kepsek: string | null;
   foto: string | null;
   logo: string | null;
   npsn: string;
@@ -720,6 +721,65 @@ export default function Welcome() {
                                         </div>
                                     </div>
                                 </div>
+
+                                {/* Card Kepala Sekolah */}
+                                <div className="mt-12 pt-8 border-t border-white/10">
+                                    <div className="flex flex-col md:flex-row items-center gap-8">
+                                        {/* Foto Kepala Sekolah */}
+                                        <div className="flex-shrink-0">
+                                            <div className="w-48 h-48 rounded-full overflow-hidden border-4 border-yellow-400 bg-gradient-to-br from-gray-800 to-gray-900">
+                                                {profil.foto_kepsek ? (
+                                                    <img
+                                                        src={`/storage/assets/${profil.foto_kepsek}`}
+                                                        alt={`Kepala Sekolah ${profil.nama_sekolah}`}
+                                                        className="w-full h-full object-cover"
+                                                        onError={(e) => {
+                                                            e.target.style.display = 'none';
+                                                            e.target.nextElementSibling?.classList.remove('hidden');
+                                                        }}
+                                                    />
+                                                ) : (
+                                                    <div className="w-full h-full flex flex-col items-center justify-center text-gray-400">
+                                                        <User className="w-16 h-16 mb-2 opacity-50" />
+                                                        <p className="text-sm text-center">Tidak ada foto</p>
+                                                    </div>
+                                                )}
+                                                {/* Fallback ketika foto error */}
+                                                <div className="hidden w-full h-full flex flex-col items-center justify-center text-gray-400">
+                                                    <User className="w-16 h-16 mb-2 opacity-50" />
+                                                    <p className="text-sm text-center">Foto tidak dapat dimuat</p>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        {/* Informasi Kepala Sekolah */}
+                                        <div className="flex-grow text-center md:text-left">
+                                            <h3 className="text-2xl font-bold text-white mb-2">
+                                                {profil.kepala_sekolah}
+                                            </h3>
+                                            <p className="text-yellow-400 text-lg font-semibold mb-4">
+                                                Kepala Sekolah
+                                            </p>
+                                            <p className="text-gray-200 text-sm leading-relaxed">
+                                                Memimpin {profil.nama_sekolah} dengan dedikasi dan komitmen untuk
+                                                menciptakan lingkungan belajar yang berkualitas serta mendorong
+                                                pengembangan potensi seluruh siswa.
+                                            </p>
+                                            <div className="mt-4 flex flex-wrap gap-2 justify-center md:justify-start">
+                                                <span className="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-yellow-500/20 text-yellow-300 border border-yellow-500/30">
+                                                    Professional
+                                                </span>
+                                                <span className="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-blue-500/20 text-blue-300 border border-blue-500/30">
+                                                    Visioner
+                                                </span>
+                                                <span className="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-green-500/20 text-green-300 border border-green-500/30">
+                                                    Inovatif
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
                                 {profil.deskripsi && (
                                     <div className="mt-8">
                                         <h3 className="text-xl font-semibold text-white mb-4">Deskripsi Sekolah</h3>

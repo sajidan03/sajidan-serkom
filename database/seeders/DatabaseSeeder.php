@@ -81,27 +81,28 @@ class DatabaseSeeder extends Seeder
         ]);
         //
         Guru::create([
+            'nama_guru' => 'Vika dwi hartini',
+            'nip' => '1987654321',
+            'mapel' => 'Matematika',
+            'foto' => 'bu_vika.jpg',
+        ]);
+         Guru::create([
             'nama_guru' => 'Fatin shidqia lubis',
-            'nip' => '0987654321',
+            'nip' => '2987654321',
             'mapel' => 'Matematika',
             'foto' => 'fatin.jpeg',
         ]);
          Guru::create([
             'nama_guru' => 'Fatin shidqia lubis',
-            'nip' => '0987654321',
-            'mapel' => 'Matematika',
-            'foto' => 'fatin.jpeg',
-        ]);
-         Guru::create([
-            'nama_guru' => 'Fatin shidqia lubis',
-            'nip' => '0987654321',
-            'mapel' => 'Matematika',
+            'nip' => '3987654321',
+            'mapel' => 'PJOK',
             'foto' => 'fatin.jpeg',
         ]);
         //
         Profil_sekolah::create([
             'nama_sekolah' => 'SMK YPC Tasikmalaya',
             'kepala_sekolah' => 'Drs. H. Ujang sanusi, M.M.',
+            'foto_kepsek' => 'ujang.jpg',
             'foto' => 'foto.jpg',
             'logo' => 'logo.png',
             'npsn' => '1234567890',
@@ -120,16 +121,17 @@ class DatabaseSeeder extends Seeder
             'tanggal' => '2023-10-01',
         ]);
         Galeri::create([
-            'judul' => 'Kita sama sama tahu',
-            'keterangan' => 'Kita sama sama tahu',
-            'file' => 'berita.mp4',
-            'kategori' => 'video',
+            'judul' => 'Ruang praktik siswa',
+            'keterangan' => 'Ruang praktik siswa',
+            'file' => 'rps.jpg',
+            'kategori' => 'foto',
             'tanggal' => '2023-10-01',
-        ]);Galeri::create([
-            'judul' => 'Kita sama sama tahu',
-            'keterangan' => 'Kita sama sama tahu',
-            'file' => 'berita.mp4',
-            'kategori' => 'video',
+        ]);
+          Galeri::create([
+            'judul' => 'Lapangan upacara',
+            'keterangan' => 'Lapangan upacara',
+            'file' => 'lapangan.jpg',
+            'kategori' => 'foto',
             'tanggal' => '2023-10-01',
         ]);
         //
@@ -146,7 +148,8 @@ class DatabaseSeeder extends Seeder
             'deskripsi' => 'Ekstrakulikuler pramuka bertujuan untuk membentuk karakter siswa melalui kegiatan kepramukaan yang menyenangkan dan edukatif.',
             'gambar' => 'pramuka.png',
             'id_guru' => 1
-        ]);Ekstrakulikuler::create([
+        ]);
+        Ekstrakulikuler::create([
             'nama_eskul' => 'Pramuka',
             'jadwal_latihan' => 'Setiap Jumat, 15.00 - 17.00',
             'deskripsi' => 'Ekstrakulikuler pramuka bertujuan untuk membentuk karakter siswa melalui kegiatan kepramukaan yang menyenangkan dan edukatif.',
