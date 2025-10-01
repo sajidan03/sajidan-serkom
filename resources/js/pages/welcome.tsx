@@ -112,61 +112,61 @@ export default function Welcome() {
                 animate={{ y: 0, opacity: 1 }}
                 transition={{ duration: 1, ease: "easeOut" }}
                 className="absolute inset-x-0 top-0 z-50">
-                    <nav className="fixed top-0 left-0 right-0 flex items-center justify-between p-6 lg:px-10 bg-white shadow-lg z-50">
-    {/* navbar */}
-    <div className="flex lg:flex-1">
-        <Link href="/" className="-m-1.5 p-1.5 flex items-center">
-            <div className="flex h-10 w-10 items-center justify-center rounded-full mr-2">
-                <img src={`/storage/assets/${profil.logo}`} alt="Logo SMK YPC" className="h-full w-full object-contain" />
-            </div>
-            <span className="text-xl font-bold text-gray-900">{profil.nama_sekolah}</span>
-        </Link>
-    </div>
-    <div className="flex lg:hidden">
-        <button
-            type="button"
-            onClick={() => setMobileMenuOpen(true)}
-            className="-m-2.5 inline-flex items-center justify-center rounded-md p-2.5 text-gray-700"
-        >
-            <span className="sr-only">Buka menu utama</span>
-            <svg
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="1.5"
-                className="size-6"
-                aria-hidden="true"
-            >
-                <path d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" strokeLinecap="round" strokeLinejoin="round" />
-            </svg>
-        </button>
-    </div>
-    <div className="hidden lg:flex lg:gap-x-12">
-        <a href="#berita" className="text-sm/6 font-semibold text-gray-900 hover:text-blue-600">
-            Berita
-        </a>
-        <a href="#galeri" className="text-sm/6 font-semibold text-gray-900 hover:text-blue-600">
-            Galeri
-        </a>
-        <a href="#ekstrakulikuler" className="text-sm/6 font-semibold text-gray-900 hover:text-blue-600">
-            Ekstrakulikuler
-        </a>
-        <a href="#guru" className="text-sm/6 font-semibold text-gray-900 hover:text-blue-600">
-            Guru
-        </a>
-        <a href="#profil" className="text-sm/6 font-semibold text-gray-900 hover:text-blue-600">
-            Profil
-        </a>
-    </div>
-    <div className="hidden lg:flex lg:flex-1 lg:justify-end">
-        <Link
-            href='/login'
-            className="text-sm/6 font-semibold text-gray-900 hover:text-blue-600"
-        >
-            Login<span aria-hidden="true">&rarr;</span>
-        </Link>
-    </div>
-</nav>
+                    <nav className="flex items-center justify-between p-6 lg:px-10 bg-white shadow-lg">
+                        {/* navbar */}
+                        <div className="flex lg:flex-1">
+                        <Link href="/" className="-m-1.5 p-1.5 flex items-center">
+                            <div className="flex h-10 w-10 items-center justify-center rounded-full mr-2">
+                            <img src={`/storage/assets/${profil.logo}`} alt="Logo SMK YPC" className="h-full w-full object-contain" />
+                            </div>
+                            <span className="text-xl font-bold text-gray-900">{profil.nama_sekolah}</span>
+                        </Link>
+                        </div>
+                        <div className="flex lg:hidden">
+                            <button
+                                type="button"
+                                onClick={() => setMobileMenuOpen(true)}
+                                className="-m-2.5 inline-flex items-center justify-center rounded-md p-2.5 text-gray-700"
+                            >
+                                <span className="sr-only">Buka menu utama</span>
+                                <svg
+                                    viewBox="0 0 24 24"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    strokeWidth="1.5"
+                                    className="size-6"
+                                    aria-hidden="true"
+                                >
+                                    <path d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" strokeLinecap="round" strokeLinejoin="round" />
+                                </svg>
+                            </button>
+                        </div>
+                        <div className="hidden lg:flex lg:gap-x-12">
+                            <a href="#berita" className="text-sm/6 font-semibold text-gray-900 hover:text-blue-600">
+                                Berita
+                            </a>
+                            <a href="#galeri" className="text-sm/6 font-semibold text-gray-900 hover:text-blue-600">
+                                Galeri
+                            </a>
+                            <a href="#ekstrakulikuler" className="text-sm/6 font-semibold text-gray-900 hover:text-blue-600">
+                                Ekstrakulikuler
+                            </a>
+                            <a href="#guru" className="text-sm/6 font-semibold text-gray-900 hover:text-blue-600">
+                                Guru
+                            </a>
+                             <a href="#profil" className="text-sm/6 font-semibold text-gray-900 hover:text-blue-600">
+                                Profil
+                            </a>
+                        </div>
+                        <div className="hidden lg:flex lg:flex-1 lg:justify-end">
+                            <Link
+                                href='/login'
+                                className="text-sm/6 font-semibold text-gray-900 hover:text-blue-600"
+                            >
+                                Login<span aria-hidden="true">&rarr;</span>
+                            </Link>
+                        </div>
+                    </nav>
 
                     {/* Mobile menu dialog */}
                     {mobileMenuOpen && (
