@@ -81,6 +81,8 @@ class OperatorProfilSekolah extends Controller
             'npsn' => $request->npsn,
             'alamat' => $request->alamat,
             'kontak' => $request->kontak,
+            'instagram' => $request->instagram,
+            'facebook' => $request->facebook,
             'visi_misi' => $request->visi_misi,
             'tahun_berdiri' => $request->tahun_berdiri,
             'deskripsi' => $request->deskripsi,

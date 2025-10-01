@@ -22,6 +22,10 @@ return new class extends Migration
             $table->string('npsn', 10);
             $table->text('alamat')->nullable();
             $table->string('kontak', 15)->nullable();
+            $table->string('email')->nullable();
+            $table->string('instagram')->nullable();
+            $table->string('facebook')->nullable();
+            $table->string('youtube')->nullable();
             $table->text('visi_misi')->nullable();
             $table->year('tahun_berdiri')->nullable();
             $table->text('deskripsi')->nullable();

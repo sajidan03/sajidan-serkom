@@ -1291,6 +1291,7 @@ namespace App\Models {
      * @property string $npsn
      * @property string $logo
      * @property string $foto
+     * @property string|null $foto_kepsek
      * @property string $kepala_sekolah
      * @property string $nama_sekolah
      * @property \Illuminate\Support\Carbon|null $updated_at
@@ -1301,6 +1302,7 @@ namespace App\Models {
      * @method static \Illuminate\Database\Eloquent\Builder<Profil_sekolah>|Profil_sekolah whereUpdatedAt($value)
      * @method static \Illuminate\Database\Eloquent\Builder<Profil_sekolah>|Profil_sekolah whereNamaSekolah($value)
      * @method static \Illuminate\Database\Eloquent\Builder<Profil_sekolah>|Profil_sekolah whereKepalaSekolah($value)
+     * @method static \Illuminate\Database\Eloquent\Builder<Profil_sekolah>|Profil_sekolah whereFotoKepsek($value)
      * @method static \Illuminate\Database\Eloquent\Builder<Profil_sekolah>|Profil_sekolah whereFoto($value)
      * @method static \Illuminate\Database\Eloquent\Builder<Profil_sekolah>|Profil_sekolah whereLogo($value)
      * @method static \Illuminate\Database\Eloquent\Builder<Profil_sekolah>|Profil_sekolah whereNpsn($value)
