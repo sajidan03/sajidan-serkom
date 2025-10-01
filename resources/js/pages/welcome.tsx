@@ -45,6 +45,10 @@ interface ProfilSekolah {
   npsn: string;
   alamat: string;
   kontak: string;
+  email: string,
+  instagram: string,
+  facebook: string,
+  youtube: string,
   visi_misi: string;
   tahun_berdiri: string;
   deskripsi: string;
@@ -810,9 +814,15 @@ export default function Welcome() {
                             <div>
                                 <h3 className="text-lg font-semibold text-white mb-4">Kontak</h3>
                                 <div className="text-sm text-gray-200 space-y-2">
-                                    <p>Email: {profil.kontak}</p>
+                                    <p>Email: {profil.email}</p>
                                     <p>Telepon: {profil.kontak}</p>
                                     <p>Alamat: {profil.alamat}</p>
+                                    <br/>
+                                    <a href={profil.instagram}>Instagram</a>
+                                    <br/>
+                                    <a href={profil.facebook}>Facebook</a>
+                                    <br/>
+                                    <a href={profil.youtube}>Youtube</a>
                                 </div>
                             </div>
                         </div>

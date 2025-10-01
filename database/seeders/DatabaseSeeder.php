@@ -108,6 +108,7 @@ class DatabaseSeeder extends Seeder
             'npsn' => '1234567890',
             'alamat' => 'Jl. Garut-Tasikmalaya',
             'kontak' => '08123456789',
+            'email' => 'smkypctasikmalaya@sch.id',
             'instagram' => 'https://instagram.com/officialsmkypc/',
             'facebook' => 'https://www.facebook.com/smkypc/?locale=id_ID',
             'youtube' => 'https://www.youtube.com/@smkypctasikmalaya/featured',

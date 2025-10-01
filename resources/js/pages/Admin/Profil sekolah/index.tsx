@@ -18,6 +18,9 @@ interface ProfilSekolah {
   npsn: string | null
   alamat: string | null
   kontak: string | null
+  instagram?: string | null
+  facebook: string | null
+  youtube: string | null
   visi_misi: string | null
   tahun_berdiri: number | null
   deskripsi: string | null
@@ -25,7 +28,6 @@ interface ProfilSekolah {
   updated_at: string
   encrypted_id: string
 }
-
 export default function ProfilSekolah() {
   const { props } = usePage()
   const profilSekolah = props.profil_sekolah as ProfilSekolah[]
@@ -59,7 +61,6 @@ export default function ProfilSekolah() {
             </Link>
           </div>
         </div>
-
         {/* Table */}
         <div className="overflow-x-auto bg-white shadow-md rounded-lg">
           <table className="min-w-full table-auto border-collapse">
@@ -70,9 +71,10 @@ export default function ProfilSekolah() {
                 <th className="px-4 py-3 text-left">Kepala Sekolah</th>
                 <th className="px-4 py-3 text-left">NPSN</th>
                 <th className="px-4 py-3 text-left">Kontak</th>
+                <th className="px-4 py-3 text-left">Instagram</th>
+                <th className="px-4 py-3 text-left">Facebook</th>
+                <th className="px-4 py-3 text-left">Youtube</th>
                 <th className="px-4 py-3 text-left">Tahun Berdiri</th>
-                <th className="px-4 py-3 text-left">Dibuat</th>
-                <th className="px-4 py-3 text-left">Diupdate</th>
                 <th className="px-4 py-3 text-center">Aksi</th>
               </tr>
             </thead>
@@ -93,17 +95,42 @@ export default function ProfilSekolah() {
                         <span className="text-gray-400">-</span>
                       )}
                     </td>
+                    <td className="px-4 py-3 text-sm">
+                        <a
+                            href={profil.instagram}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="text-blue-600 hover:text-blue-800 no-underline"
+                        >
+                            {profil.instagram}
+                        </a>
+                    </td>
+                    <td className="px-4 py-3 text-sm">
+                        <a
+                            href={profil.facebook}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="text-blue-600 hover:text-blue-800 no-underline"
+                        >
+                            {profil.facebook}
+                        </a>
+                    </td>
+                    <td className="px-4 py-3 text-sm">
+                        <a
+                            href={profil.youtube}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="text-blue-600 hover:text-blue-800 no-underline"
+                        >
+                            {profil.youtube}
+                        </a>
+                    </td>
                     <td className="px-4 py-3">
                       {profil.tahun_berdiri || (
                         <span className="text-gray-400">-</span>
                       )}
                     </td>
-                    <td className="px-4 py-3 text-sm">
-                      {new Date(profil.created_at).toLocaleDateString('id-ID')}
-                    </td>
-                    <td className="px-4 py-3 text-sm">
-                      {new Date(profil.updated_at).toLocaleDateString('id-ID')}
-                    </td>
+
                     <td className="px-4 py-3 flex items-center justify-center gap-2">
                       <Link
                         href={`/admin/profil-sekolah/edit/${profil.encrypted_id}`}
