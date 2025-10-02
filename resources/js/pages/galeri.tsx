@@ -1,7 +1,7 @@
 import { Head, Link, usePage } from '@inertiajs/react';
 import { useState } from 'react';
 import { motion } from 'framer-motion';
-import { ArrowLeft, Search, Filter, Eye, ImageIcon, Play, FileQuestion, Calendar } from 'lucide-react';
+import { ArrowLeft, Search, Filter, Eye, ImageIcon, Play, FileQuestion, Calendar, Facebook, Instagram, Youtube } from 'lucide-react';
 
 interface Galeri {
   id: number;
@@ -10,6 +10,7 @@ interface Galeri {
   file: string;
   kategori: string;
   tanggal: string;
+  encrypted_id: string,
 }
 
 interface ProfilSekolah {
@@ -236,9 +237,9 @@ export default function Galeri() {
               animate={{ y: 0, opacity: 1 }}
               className="text-center mb-12"
             >
-              <h1 className="text-4xl lg:text-5xl font-bold text-white mb-4">
+              <h2 className="text-3xl lg:text-3xl font-bold text-white mb-4">
                 Galeri {profil.nama_sekolah}
-              </h1>
+              </h2>
               <p className="text-gray-300 text-lg max-w-2xl mx-auto">
                 Kumpulan foto dan video dokumentasi kegiatan sekolah
               </p>
@@ -318,7 +319,7 @@ export default function Galeri() {
                   transition={{ delay: 0.1 * index }}
                 >
                   <Link
-                    href={`/galeri/${item.id}`}
+                    href={`/galeri/${item.encrypted_id}`}
                     className="block bg-white/5 rounded-xl overflow-hidden backdrop-blur-sm border border-white/10 hover:bg-white/10 transition-all duration-300 hover:scale-105 group h-full"
                   >
                     {/* Media Container */}

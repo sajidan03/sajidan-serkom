@@ -26,6 +26,9 @@ Route::get('/berita/{id}', [WelcomeController::class,'detailBerita'])->name('det
 //galeri
 Route::get('/galeri', [WelcomeController::class, 'daftarGaleri'])->name('daftarGaleri');
 Route::get('/galeri/{id}', [WelcomeController::class, 'detailGaleri'])->name('detailGaleri');
+//ekstrakulikuler
+Route::get('ekstrakulikuler', [WelcomeController::class, 'daftarEskul'])->name('daftarEskul');
+Route::get('ekstrakulikuler/{id}', [WelcomeController::class, 'detailEskul'])->name('daftarEskul');
 
 Route::middleware(['auth', 'verified'])
     ->prefix('admin')

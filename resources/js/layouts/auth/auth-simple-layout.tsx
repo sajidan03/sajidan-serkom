@@ -20,7 +20,7 @@ const { profil } = usePage<{ profil: { nama_sekolah: string; logo?: string } }>(
                                 <div className="mr-5 flex h-12 w-12 items-center justify-center rounded-full bg-teal-100 text-teal-600 dark:bg-teal-900 dark:text-teal-300">
                                 <img src={`/storage/assets/${profil.logo}`} alt="Logo SMK YPC" className="h-full w-full object-contain" />
                                 </div>
-                                <h1 className="text-2xl font-bold text-[#30328b] dark:text-teal-400 -ml-2">SMK YPC Tasikmalaya</h1>
+                                <h1 className="text-2xl font-bold text-[#30328b] dark:text-teal-400 -ml-2">{profil.nama_sekolah}</h1>
                             </div>
                         </Link>
 

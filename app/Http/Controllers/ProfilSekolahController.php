@@ -32,6 +32,7 @@ class ProfilSekolahController extends Controller
                 'visi_misi' => $profil->visi,
                 'tahun_berdiri' => $profil->tahun_berdiri,
                 'deskripsi' => $profil->deskripsi,
+                'warna' => $profil->warna,
                 'encrypted_id' => Crypt::encrypt($profil->id),
             ];
         })->toArray();
@@ -47,14 +48,15 @@ class ProfilSekolahController extends Controller
         'nama_sekolah' => 'required|string|max:255',
         'kepala_sekolah' => 'required|string|max:255',
         'foto_kepsek' => 'nullable|image|max:2048',
+        'logo' => 'nullable|image|max:2048',
+        'foto' => 'nullable|image|max:2048',
         'npsn' => 'nullable|string|max:20',
         'alamat' => 'nullable|string',
         'kontak' => 'nullable|string|max:15',
         'visi_misi' => 'nullable|string',
         'tahun_berdiri' => 'nullable|integer|min:1900|max:2099',
         'deskripsi' => 'nullable|string',
-        'logo' => 'nullable|image|max:2048',
-        'foto' => 'nullable|image|max:2048',
+        'warna' => 'nullable|string',
     ]);
 
     $fileNameLogo = null;
@@ -81,14 +83,15 @@ class ProfilSekolahController extends Controller
         'nama_sekolah' => $request->nama_sekolah,
         'kepala_sekolah' => $request->kepala_sekolah,
         'foto_kepsek' => $fileNameFotoKepsek,
+                'logo' => $fileNameLogo,
+        'foto' => $fileNameFoto,
         'npsn' => $request->npsn,
         'alamat' => $request->alamat,
         'kontak' => $request->kontak,
         'visi_misi' => $request->visi_misi,
         'tahun_berdiri' => $request->tahun_berdiri,
         'deskripsi' => $request->deskripsi,
-        'logo' => $fileNameLogo,
-        'foto' => $fileNameFoto,
+
     ]);
 
     return redirect()->route('profilView')->with('message', 'Profil sekolah berhasil ditambahkan');
@@ -157,8 +160,8 @@ class ProfilSekolahController extends Controller
         $data['foto'] = $fileNameFoto;
     }
     if ($request->hasFile('foto_kepsek')) {
-        if ($profil->foto && Storage::exists('assets/' . $profil->foto)) {
-            Storage::delete('assets/' . $profil->foto);
+        if ($profil->foto_kepsek && Storage::exists('assets/' . $profil->foto_kepsek)) {
+            Storage::delete('assets/' . $profil->foto_kepsek);
         }
 
         $file = $request->file('foto_kepsek');

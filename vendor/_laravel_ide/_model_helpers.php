@@ -6,6 +6,7 @@ namespace App\Models {
      * App\Models\Berita
      *
      * @property mixed $id_user
+     * @property mixed $dilihat
      * @property string|null $gambar
      * @property string|null $tanggal
      * @property string|null $isi
@@ -21,6 +22,7 @@ namespace App\Models {
      * @method static \Illuminate\Database\Eloquent\Builder<Berita>|Berita whereIsi($value)
      * @method static \Illuminate\Database\Eloquent\Builder<Berita>|Berita whereTanggal($value)
      * @method static \Illuminate\Database\Eloquent\Builder<Berita>|Berita whereGambar($value)
+     * @method static \Illuminate\Database\Eloquent\Builder<Berita>|Berita whereDilihat($value)
      * @method static \Illuminate\Database\Eloquent\Builder<Berita>|Berita whereIdUser($value)
      * @method static \Illuminate\Database\Eloquent\Builder<Berita>|Berita newModelQuery()
      * @method static \Illuminate\Database\Eloquent\Builder<Berita>|Berita newQuery()
@@ -645,6 +647,7 @@ namespace App\Models {
     /**
      * App\Models\Galeri
      *
+     * @property mixed $dilihat
      * @property string $tanggal
      * @property mixed $kategori
      * @property string $file
@@ -663,6 +666,7 @@ namespace App\Models {
      * @method static \Illuminate\Database\Eloquent\Builder<Galeri>|Galeri whereFile($value)
      * @method static \Illuminate\Database\Eloquent\Builder<Galeri>|Galeri whereKategori($value)
      * @method static \Illuminate\Database\Eloquent\Builder<Galeri>|Galeri whereTanggal($value)
+     * @method static \Illuminate\Database\Eloquent\Builder<Galeri>|Galeri whereDilihat($value)
      * @method static \Illuminate\Database\Eloquent\Builder<Galeri>|Galeri newModelQuery()
      * @method static \Illuminate\Database\Eloquent\Builder<Galeri>|Galeri newQuery()
      * @method static \Illuminate\Database\Eloquent\Builder<Galeri>|Galeri query()

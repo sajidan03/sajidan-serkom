@@ -40,11 +40,6 @@ export default function Login({ status }: LoginProps) {
                             <div className="grid gap-2">
                                 <div className="flex items-center">
                                     <Label htmlFor="password">Password</Label>
-                                    {/* {canResetPassword && (
-                                        <TextLink href={request()} className="ml-auto text-sm" tabIndex={5}>
-                                            Lupa kata sandi?
-                                        </TextLink>
-                                    )} */}
                                 </div>
                                 <Input
                                     id="password"

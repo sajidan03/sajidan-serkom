@@ -29,6 +29,7 @@ return new class extends Migration
             $table->text('visi_misi')->nullable();
             $table->year('tahun_berdiri')->nullable();
             $table->text('deskripsi')->nullable();
+            $table->string('warna')->nullable();
         });
     }
 

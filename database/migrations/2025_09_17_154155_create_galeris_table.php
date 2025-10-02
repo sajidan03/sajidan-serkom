@@ -19,6 +19,7 @@ return new class extends Migration
             $table->string('file',100);
             $table->enum('kategori', ['foto', 'video']);
             $table->date('tanggal');
+            $table->integer('dilihat')->nullable();
         });
     }
 

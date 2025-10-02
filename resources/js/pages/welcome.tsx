@@ -11,6 +11,7 @@ interface Berita {
   tanggal: string;
   gambar: string;
   user?: User
+  encrypted_id: string
 }
 
 interface User{
@@ -149,7 +150,7 @@ export default function Welcome() {
                                 Galeri
                             </a>
                             <a href="#ekstrakulikuler" className="text-sm/6 font-semibold text-gray-900 hover:text-blue-600">
-                                Ekstrakulikuler
+                                Ekstrakurikuler
                             </a>
                             <a href="#guru" className="text-sm/6 font-semibold text-gray-900 hover:text-blue-600">
                                 Guru
@@ -227,7 +228,7 @@ export default function Welcome() {
                                                 className="-mx-3 block rounded-lg px-3 py-2 text-base/7 font-semibold text-gray-900 hover:bg-gray-50"
                                                 onClick={() => setMobileMenuOpen(false)}
                                             >
-                                                Ekstrakulikuler
+                                                Ekstrakurikuler
                                             </a>
                                             <a
                                                 href="#guru"
@@ -573,7 +574,12 @@ export default function Welcome() {
                                 <div className="text-center mt-12">
                                     <button className="inline-flex items-center px-6 py-3 bg-yellow-500 hover:bg-yellow-400 text-blue-900 font-semibold rounded-lg transition-all duration-300 transform hover:scale-105 hover:shadow-lg">
                                         <Eye className="w-5 h-5 mr-2" />
+                                        <Link
+                                        href={'/galeri'}
+                                        >
                                         Lihat Semua Galeri
+
+                                        </Link>
                                     </button>
                                 </div>
                             )}
@@ -595,7 +601,7 @@ export default function Welcome() {
                                 Kegiatan Pengembangan Minat & Bakat
                             </p>
                             <p className="mt-6 text-lg/8 text-gray-200">
-                                Berbagai kegiatan ekstrakulikuler untuk mengembangkan potensi dan bakat siswa di luar jam pelajaran.
+                                Berbagai kegiatan ekstrakurikuler untuk mengembangkan potensi dan bakat siswa di luar jam pelajaran.
                             </p>
                         </div>
                         <div className="mx-auto mt-16 max-w-2xl sm:mt-20 lg:mt-24 lg:max-w-6xl">
@@ -657,8 +663,8 @@ export default function Welcome() {
                                 <div className="text-center py-16">
                                     <div className="flex flex-col items-center justify-center">
                                         <FileQuestion className="w-16 h-16 text-gray-400 mb-4 opacity-50" />
-                                        <p className="text-gray-300 text-lg font-medium mb-2">Belum ada data ekstrakulikuler tersedia</p>
-                                        <p className="text-gray-400 text-sm">Data ekstrakulikuler akan ditampilkan di sini</p>
+                                        <p className="text-gray-300 text-lg font-medium mb-2">Belum ada data ekstrakurikuler tersedia</p>
+                                        <p className="text-gray-400 text-sm">Data ekstrakurikuler akan ditampilkan di sini</p>
                                     </div>
                                 </div>
                             )}
@@ -667,7 +673,9 @@ export default function Welcome() {
                                 <div className="text-center mt-12">
                                     <button className="inline-flex items-center px-6 py-3 bg-yellow-500 hover:bg-yellow-400 text-blue-900 font-semibold rounded-lg transition-all duration-300 transform hover:scale-105 hover:shadow-lg">
                                         <Eye className="w-5 h-5 mr-2" />
-                                        Lihat Semua Ekstrakulikuler
+                                        <Link href='/ekstrakulikuler' >
+                                            Lihat Semua Ekstrakurikuler
+                                        </Link>
                                     </button>
                                 </div>
                             )}
