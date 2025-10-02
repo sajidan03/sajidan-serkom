@@ -18,6 +18,7 @@ return new class extends Migration
             $table->text('isi')->nullable();
             $table->date('tanggal')->nullable();
             $table->string('gambar', 100)->nullable();
+            $table->integer('dilihat')->nullable();
             $table->foreignId('id_user')->nullable()->constrained('users')->onDelete('cascade');
         });
     }

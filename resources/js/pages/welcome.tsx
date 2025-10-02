@@ -106,12 +106,12 @@ export default function Welcome() {
             </Head>
 
             <div className="bg-gradient-to-b from-blue-900 to-blue-800 min-h-screen">
-                {/* Header - NAVBAR PUTIH DENGAN TEKS HITAM */}
+                {/* Header - NAVBAR PUTIH DENGAN TEKS HITAM - FIXED */}
                 <motion.header
                 initial={{ y: 50, opacity: 0 }}
                 animate={{ y: 0, opacity: 1 }}
                 transition={{ duration: 1, ease: "easeOut" }}
-                className="absolute inset-x-0 top-0 z-50">
+                className="fixed inset-x-0 top-0 z-50">
                     <nav className="flex items-center justify-between p-6 lg:px-10 bg-white shadow-lg">
                         {/* navbar */}
                         <div className="flex lg:flex-1">
@@ -252,8 +252,8 @@ export default function Welcome() {
                     )}
                 </motion.header>
 
-                {/* Main Hero Section */}
-                <div className="relative isolate px-6 pt-14 lg:px-8">
+                {/* Main Hero Section - Tambahkan padding top untuk mengkompensasi navbar fixed */}
+                <div className="relative isolate px-6 pt-32 lg:px-8 lg:pt-40">
                     {/* Background effects */}
                     <div
                         aria-hidden="true"
@@ -412,7 +412,9 @@ export default function Welcome() {
                                 <div className="text-center mt-12">
                                     <button className="inline-flex items-center px-6 py-3 bg-yellow-500 hover:bg-yellow-400 text-blue-900 font-semibold rounded-lg transition-all duration-300 transform hover:scale-105 hover:shadow-lg">
                                         <Eye className="w-5 h-5 mr-2" />
+                                        <Link href={'/berita'}>
                                         Lihat Semua Berita
+                                        </Link>
                                     </button>
                                 </div>
                             )}

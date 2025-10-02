@@ -20,7 +20,12 @@ use App\Models\Ekstrakulikuler;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', [WelcomeController::class, 'index'])->name('home');
-
+//berita
+Route::get('/berita', [WelcomeController::class,'daftarBerita'])->name('daftarBerita');
+Route::get('/berita/{id}', [WelcomeController::class,'detailBerita'])->name('detailBerita');
+//galeri
+Route::get('/galeri', [WelcomeController::class, 'daftarGaleri'])->name('daftarGaleri');
+Route::get('/galeri/{id}', [WelcomeController::class, 'detailGaleri'])->name('detailGaleri');
 
 Route::middleware(['auth', 'verified'])
     ->prefix('admin')
@@ -136,6 +141,7 @@ Route::middleware(['auth', 'verified'])
         Route::get('profil-sekolah/edit/{id}', [OperatorProfilSekolah::class, 'profilEditView'])->name('profilEditView');
         Route::post('profil-sekolah/edit/{id}', [OperatorProfilSekolah::class, 'profilEdit'])->name('profilEdit');
         Route::delete('profil-sekolah/hapus/{id}', [OperatorProfilSekolah::class, 'hapusProfil'])->name('profilHapus');
+        //
         });
 
 require __DIR__ . '/settings.php';

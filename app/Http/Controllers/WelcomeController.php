@@ -62,4 +62,31 @@ class WelcomeController extends Controller
         // dd($data[]);
         return Inertia::render('welcome', $data);
     }
+    public function daftarBerita(){
+        $data['profil'] = Profil_sekolah::all()->first();
+        $data['berita'] = Berita::all();
+        return Inertia::render('berita', $data);
+    }
+    public function detailBerita($id)
+    {
+        $berita = Berita::with('user')->findOrFail($id);
+        $berita->update([
+            'dilihat' => ($berita->dilihat ?? 0) + 1
+        ]);
+
+        $beritaLain = Berita::with('user')
+            ->where('id', '!=', $id)
+            ->latest()
+            ->limit(3)
+            ->get();
+
+        $profil = Profil_sekolah::first();
+
+        return Inertia::render('detail-berita', [
+            'berita' => $berita,
+            'beritaLain' => $beritaLain,
+            'profil' => $profil
+        ]);
+    }
+
 }

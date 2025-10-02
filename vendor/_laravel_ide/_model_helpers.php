@@ -1286,6 +1286,10 @@ namespace App\Models {
      * @property string|null $deskripsi
      * @property mixed $tahun_berdiri
      * @property string|null $visi_misi
+     * @property string|null $youtube
+     * @property string|null $facebook
+     * @property string|null $instagram
+     * @property string|null $email
      * @property string|null $kontak
      * @property string|null $alamat
      * @property string $npsn
@@ -1308,6 +1312,10 @@ namespace App\Models {
      * @method static \Illuminate\Database\Eloquent\Builder<Profil_sekolah>|Profil_sekolah whereNpsn($value)
      * @method static \Illuminate\Database\Eloquent\Builder<Profil_sekolah>|Profil_sekolah whereAlamat($value)
      * @method static \Illuminate\Database\Eloquent\Builder<Profil_sekolah>|Profil_sekolah whereKontak($value)
+     * @method static \Illuminate\Database\Eloquent\Builder<Profil_sekolah>|Profil_sekolah whereEmail($value)
+     * @method static \Illuminate\Database\Eloquent\Builder<Profil_sekolah>|Profil_sekolah whereInstagram($value)
+     * @method static \Illuminate\Database\Eloquent\Builder<Profil_sekolah>|Profil_sekolah whereFacebook($value)
+     * @method static \Illuminate\Database\Eloquent\Builder<Profil_sekolah>|Profil_sekolah whereYoutube($value)
      * @method static \Illuminate\Database\Eloquent\Builder<Profil_sekolah>|Profil_sekolah whereVisiMisi($value)
      * @method static \Illuminate\Database\Eloquent\Builder<Profil_sekolah>|Profil_sekolah whereTahunBerdiri($value)
      * @method static \Illuminate\Database\Eloquent\Builder<Profil_sekolah>|Profil_sekolah whereDeskripsi($value)
