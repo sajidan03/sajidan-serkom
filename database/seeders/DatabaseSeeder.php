@@ -162,22 +162,26 @@ class DatabaseSeeder extends Seeder
         ]);
         //
         Berita::create([
-            'judul' => 'Manggung keliling Band SMK YPC',
-            'isi' => 'Kita sama sama tahu',
-            'gambar' => 'seni.jpg',
-            'tanggal' => '2023-11-15',
+            'judul' => 'Juara 2 LKS Tingkat Nasional Maulana ridwan',
+            'isi' => 'Juara 2 LKS Tingkat Nasional Maulana ridwan, bidang lomba Kabel jaringan dan komputer informasi',
+            'gambar' => 'ridwan.jpeg',
+            'tanggal' => '2024-11-15',
             'id_user' => 2,
         ]);
         Berita::create([
-            'judul' => 'Manggung keliling Band SMK YPC',
-            'isi' => 'Kita sama sama tahu',
-            'gambar' => 'seni.jpg',
-            'tanggal' => '2023-11-15',
+            'judul' => 'Kejuaraan Lomba LKS',
+            'isi' => 'Kejuaraan Lomba LKS Tingkat Nasional & Provinsi
+                Ridwan Juara 2 bidang lomba kabel jaringan,
+                Haikal Juara 1 bidang lomba Industrial Control,
+                Januardi Juara 2 bidang lomba Cloud Computing,
+                Alfa Juara 2 Automobile Technology',
+            'gambar' => 'kejuaraan-lks.jpeg',
+            'tanggal' => '2024-11-15',
             'id_user' => 2,
         ]);
         Berita::create([
-            'judul' => 'Manggung keliling Band SMK YPC',
-            'isi' => 'Kita sama sama tahu',
+            'judul' => 'Peserta Lomba LKS Tahun 2025',
+            'isi' => 'Peserta lomba lks',
             'gambar' => 'seni.jpg',
             'tanggal' => '2023-11-15',
             'id_user' => 2,

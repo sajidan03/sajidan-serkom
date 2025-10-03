@@ -481,6 +481,7 @@ export default function TambahProfilSekolah() {
               />
               {errors.deskripsi && <p className="mt-1 text-sm text-red-500">{errors.deskripsi}</p>}
             </div>
+            
 
             {/* Action Buttons */}
             <div className="flex justify-end mt-8 space-x-4 w-full">

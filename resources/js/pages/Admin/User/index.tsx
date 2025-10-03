@@ -1,6 +1,7 @@
 import AppLayout from '@/layouts/app-layout'
 import { type BreadcrumbItem } from '@/types'
 import { Head, Link, usePage, router } from '@inertiajs/react'
+import DataTable from 'datatables.net-dt';
 
 const breadcrumbs: BreadcrumbItem[] = [
   {
@@ -33,6 +34,9 @@ export default function Dashboard() {
       <Head title="User" />
      <div className="p-6">
   {/* Header */}
+  <script>
+     let table = new DataTable
+  </script>
   <div className="flex items-center justify-between mb-6">
     <h1 className="text-2xl font-bold">Daftar User</h1>
 

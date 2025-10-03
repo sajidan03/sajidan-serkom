@@ -45,6 +45,7 @@ Route::middleware(['auth', 'verified'])
         //
         Route::get('guru/export', [GuruController::class, 'export'])->name('guruExport');
         Route::get('user/export', [UserController::class, 'export'])->name('userExport');
+        Route::get('siswa/export', [SiswaController::class, 'export'])->name('siswaExport');
         //
         Route::get('galeri/tambah', [GaleriController::class, 'tambahView'])->name('galeriTambahView');
         Route::post('galeri/tambah', [GaleriController::class, 'galeriTambah'])->name('galeriTambah');

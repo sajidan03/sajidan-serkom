@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\UsersExport;
 use App\Models\Profil_sekolah;
 use App\Models\Siswa;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Crypt;
 use Inertia\Inertia;
+use Maatwebsite\Excel\Facades\Excel;
 
 class SiswaController extends Controller
 {
@@ -91,4 +93,8 @@ class SiswaController extends Controller
 
         return redirect()->route('siswaView')->with('success', 'Hapus berhasil');
     }
+    public function export(){
+        return Excel::download(new UsersExport, 'users.xlsx');
+    }
 }
+
