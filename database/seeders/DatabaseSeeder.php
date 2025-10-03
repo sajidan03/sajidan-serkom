@@ -131,7 +131,7 @@ class DatabaseSeeder extends Seeder
             'kategori' => 'foto',
             'tanggal' => '2023-10-01',
         ]);
-          Galeri::create([
+        Galeri::create([
             'judul' => 'Lapangan upacara',
             'keterangan' => 'Lapangan upacara',
             'file' => 'lapangan.jpg',
@@ -181,8 +181,16 @@ class DatabaseSeeder extends Seeder
         ]);
         Berita::create([
             'judul' => 'Peserta Lomba LKS Tahun 2025',
-            'isi' => 'Peserta lomba lks',
-            'gambar' => 'seni.jpg',
+            'isi' => 'Peserta lomba LKS Tahun 2025
+            Muhammad Sajidan Rifansyah bidang Lomba iT Software Solutions for bussiness
+            Rifat Abdul Manaf bidang lomba Cyber Security
+            Raja Malika Ghaliyah bidang lomba Cyber Security
+            Ayrin putri wahyudi bidang lomba Graphics design
+            Hilman agustian bidang lomba Web dev
+
+            Semangat yaa buat kalian yang belum dapat hasil yang memuaskan!!.. Tetap semangat jangan menyerah!! <3
+            ',
+            'gambar' => 'peserta-lks.jpeg',
             'tanggal' => '2023-11-15',
             'id_user' => 2,
         ]);
