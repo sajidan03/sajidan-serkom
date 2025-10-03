@@ -30,6 +30,7 @@ return new class extends Migration
             $table->year('tahun_berdiri')->nullable();
             $table->text('deskripsi')->nullable();
             $table->string('warna')->nullable();
+            $table->string('link_map')->nullable();
         });
     }
 

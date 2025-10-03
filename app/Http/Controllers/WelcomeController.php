@@ -58,16 +58,16 @@ class WelcomeController extends Controller
                     'tanggal' => $item->tanggal,
                 ];
             });
+        $data['gmap'] = Profil_sekolah::value('link_map');
         $data['user'] = User::all();
         $data['guru'] = Guru::all();
-        // dd($data[]);
         return Inertia::render('welcome', $data);
     }
     public function daftarBerita(){
         $data['profil'] = Profil_sekolah::all()->first();
         $data['berita'] = Berita::all()->map(function ($berita) {
             return [
-                  'id' => $berita->id,
+                'id' => $berita->id,
                 'judul' => $berita->judul,
                 'isi' => $berita->isi,
                 'gambar' => $berita->gambar,
@@ -193,7 +193,6 @@ class WelcomeController extends Controller
                 'jadwal_latihan' => $ekstrakurikuler->jadwal_latihan,
                 'deskripsi' => $ekstrakurikuler->deskripsi,
                 'gambar' => $ekstrakurikuler->gambar,
-                // Tambahkan field lain jika diperlukan
                 'jumlah_anggota' => $ekstrakurikuler->jumlah_anggota ?? null,
                 'tempat_latihan' => $ekstrakurikuler->tempat_latihan ?? null,
             ],

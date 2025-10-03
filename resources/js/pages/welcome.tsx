@@ -2,7 +2,7 @@ import { login } from '@/routes';
 import { Head, Link, usePage } from '@inertiajs/react';
 import { useState } from 'react';
 import { motion } from 'framer-motion';
-import { Eye, Facebook, FileQuestion, ImageIcon, Instagram, Play, User, Youtube } from 'lucide-react';
+import { Eye, Facebook, FileQuestion, ImageIcon, Instagram, Play, User, Youtube, MapPin } from 'lucide-react';
 
 interface Berita {
   id: number;
@@ -50,9 +50,10 @@ interface ProfilSekolah {
   instagram: string,
   facebook: string,
   youtube: string,
-  visi_misi: string;
-  tahun_berdiri: string;
-  deskripsi: string;
+  visi_misi: string,
+  tahun_berdiri: string,
+  deskripsi: string,
+  link_map: string,
 }
 
 interface Guru {
@@ -68,10 +69,11 @@ interface WelcomeProps {
   ekstrakulikuler: Ekstrakulikuler[];
   galeri: Galeri[];
   guru: Guru[];
+  gmap: ProfilSekolah[];
 }
 
 export default function Welcome() {
-    const { profil, berita, ekstrakulikuler, galeri, guru } = usePage<WelcomeProps>().props;
+    const { profil, berita, ekstrakulikuler, galeri, guru , gmap} = usePage<WelcomeProps>().props;
     const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
     const [playingVideo, setPlayingVideo] = useState<number | null>(null);
 
@@ -99,14 +101,89 @@ export default function Welcome() {
         setPlayingVideo(null);
     }
 
+    // Komponen untuk menampilkan Google Maps yang lebih aman
+    const GoogleMapEmbed = ({ mapLink, address }: { mapLink: string, address: string }) => {
+        // Jika ada link_map, gunakan approach yang lebih aman
+        if (mapLink) {
+            // Cek jika link sudah berupa embed
+            if (mapLink.includes('embed')) {
+                return (
+                    <div className="w-full h-64 rounded-lg overflow-hidden border border-white/10">
+                        <iframe
+                            src={mapLink}
+                            width="100%"
+                            height="100%"
+                            style={{ border: 0 }}
+                            allowFullScreen
+                            loading="lazy"
+                            referrerPolicy="no-referrer-when-downgrade"
+                            title={`Lokasi ${profil.nama_sekolah}`}
+                            onError={(e) => {
+                                // Fallback ke OpenStreetMap jika embed gagal
+                                const openStreetMapUrl = `https://www.openstreetmap.org/export/embed.html?bbox=107.6,-6.9,107.7,-6.8&layer=mapnik&marker=${encodeURIComponent(address)}`;
+                                e.currentTarget.src = openStreetMapUrl;
+                            }}
+                        />
+                    </div>
+                );
+            }
+
+            // Jika link biasa, buat embed URL sederhana
+            const simpleEmbedUrl = `https://maps.google.com/maps?q=${encodeURIComponent(address)}&output=embed`;
+
+            return (
+                <div className="w-full h-64 rounded-lg overflow-hidden border border-white/10">
+                    <iframe
+                        src={simpleEmbedUrl}
+                        width="100%"
+                        height="100%"
+                        style={{ border: 0 }}
+                        allowFullScreen
+                        loading="lazy"
+                        referrerPolicy="no-referrer-when-downgrade"
+                        title={`Lokasi ${profil.nama_sekolah}`}
+                        onError={(e) => {
+                            // Fallback ke OpenStreetMap jika embed gagal
+                            const openStreetMapUrl = `https://www.openstreetmap.org/export/embed.html?bbox=107.6,-6.9,107.7,-6.8&layer=mapnik&marker=${encodeURIComponent(address)}`;
+                            e.currentTarget.src = openStreetMapUrl;
+                        }}
+                    />
+                </div>
+            );
+        }
+
+        // Jika tidak ada link_map, gunakan OpenStreetMap sebagai fallback
+        const openStreetMapUrl = `https://www.openstreetmap.org/export/embed.html?bbox=107.6,-6.9,107.7,-6.8&layer=mapnik&marker=${encodeURIComponent(address)}`;
+
+        return (
+            <div className="w-full h-64 rounded-lg overflow-hidden border border-white/10">
+                <iframe
+                    src={openStreetMapUrl}
+                    width="100%"
+                    height="100%"
+                    style={{ border: 0 }}
+                    loading="lazy"
+                    title={`Lokasi ${profil.nama_sekolah}`}
+                />
+            </div>
+        );
+    };
+
+    // Fungsi untuk mendapatkan URL Google Maps yang aman
+    const getSafeGoogleMapsUrl = (address: string, mapLink?: string) => {
+        if (mapLink && !mapLink.includes('embed')) {
+            return mapLink;
+        }
+        return `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(address)}`;
+    };
+
     return (
         <>
             <Head title={`Selamat Datang di ${profil.nama_sekolah}`}>
                 <link rel="preconnect" href="https://fonts.bunny.net" />
                 <link href="https://fonts.bunny.net/css?family=instrument-sans:400,500,600" rel="stylesheet" />
                 <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet"/>
-<script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
-                
+                <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
             </Head>
 
             <div className="bg-gradient-to-b from-blue-900 to-blue-800 min-h-screen">
@@ -117,7 +194,6 @@ export default function Welcome() {
                 transition={{ duration: 1, ease: "easeOut" }}
                 className="fixed inset-x-0 top-0 z-50">
                     <nav className="flex items-center justify-between p-6 lg:px-10 bg-white shadow-lg">
-                        {/* navbar */}
                         <div className="flex lg:flex-1">
                         <Link href="/" className="-m-1.5 p-1.5 flex items-center">
                             <div className="flex h-10 w-10 items-center justify-center rounded-full mr-2">
@@ -256,9 +332,8 @@ export default function Welcome() {
                     )}
                 </motion.header>
 
-                {/* Main Hero Section - Tambahkan padding top untuk mengkompensasi navbar fixed */}
+                {/* Main Hero Section */}
                 <div className="relative isolate px-6 pt-32 lg:px-8 lg:pt-40">
-                    {/* Background effects */}
                     <div
                         aria-hidden="true"
                         className="absolute inset-x-0 -top-40 -z-10 transform-gpu overflow-hidden blur-3xl sm:-top-80"
@@ -272,7 +347,6 @@ export default function Welcome() {
                         />
                     </div>
 
-                    {/* Background Image dari profil.foto */}
                     {profil.foto && (
                         <div className="absolute inset-0 -z-10 overflow-hidden">
                             <img
@@ -284,7 +358,6 @@ export default function Welcome() {
                         </div>
                     )}
 
-                    {/* TITLE DIATASKAN */}
                     <div className="mx-auto max-w-2xl py-20 sm:py-32 lg:py-40 relative z-10">
                         <div className="hidden sm:mb-8 sm:flex sm:justify-center">
                             <div className="relative rounded-full px-3 py-1 text-sm/6 text-gray-200 ring-1 ring-white/10 hover:ring-white/20">
@@ -319,7 +392,6 @@ export default function Welcome() {
                         </div>
                     </div>
 
-                    {/* Background effect bottom */}
                     <div
                         aria-hidden="true"
                         className="absolute inset-x-0 top-[calc(100%-13rem)] -z-10 transform-gpu overflow-hidden blur-3xl sm:top-[calc(100%-30rem)]"
@@ -334,7 +406,7 @@ export default function Welcome() {
                     </div>
                 </div>
 
-                {/* Kepala Sekolah Section - DIPINDAHKAN DI BAWAH HERO DAN DI ATAS BERITA */}
+                {/* Kepala Sekolah Section */}
                 <motion.section
                     initial={{ y: 50, opacity: 0 }}
                     whileInView={{ y: 0, opacity: 1 }}
@@ -346,7 +418,6 @@ export default function Welcome() {
                         <div className="mx-auto max-w-4xl">
                             <div className="rounded-2xl bg-white/5 p-8 backdrop-blur-sm border border-white/10">
                                 <div className="flex flex-col md:flex-row items-center gap-8">
-                                    {/* Foto Kepala Sekolah */}
                                     <div className="flex-shrink-0">
                                         <div className="w-48 h-48 rounded-full overflow-hidden border-4 border-yellow-400 bg-gradient-to-br from-gray-800 to-gray-900">
                                             {profil.foto_kepsek ? (
@@ -365,7 +436,6 @@ export default function Welcome() {
                                                     <p className="text-sm text-center">Tidak ada foto</p>
                                                 </div>
                                             )}
-                                            {/* Fallback ketika foto error */}
                                             <div className="hidden w-full h-full flex flex-col items-center justify-center text-gray-400">
                                                 <User className="w-16 h-16 mb-2 opacity-50" />
                                                 <p className="text-sm text-center">Foto tidak dapat dimuat</p>
@@ -373,7 +443,6 @@ export default function Welcome() {
                                         </div>
                                     </div>
 
-                                    {/* Informasi Kepala Sekolah */}
                                     <div className="flex-grow text-center md:text-left">
                                         <h3 className="text-2xl font-bold text-white mb-2">
                                             {profil.kepala_sekolah}
@@ -404,7 +473,7 @@ export default function Welcome() {
                     </div>
                 </motion.section>
 
-                {/* Berita Section - CARD STYLE SAMA DENGAN GALERI */}
+                {/* Berita Section */}
                 <motion.section
                 initial={{ y: 50, opacity: 0 }}
                 whileInView={{ y: 0, opacity: 1 }}
@@ -425,7 +494,6 @@ export default function Welcome() {
                                         key={item.id}
                                         className="bg-white/5 rounded-xl overflow-hidden backdrop-blur-sm border border-white/10 h-full flex flex-col"
                                     >
-                                        {/* Gambar Berita */}
                                         <div className="relative h-48 w-full overflow-hidden bg-gradient-to-br from-gray-800 to-gray-900">
                                             {item.gambar && (
                                                 item.gambar.toLowerCase().endsWith('.jpg') ||
@@ -449,14 +517,12 @@ export default function Welcome() {
                                                     </div>
                                                 )
                                             )}
-                                            {/* Fallback ketika gambar error */}
                                             <div className="hidden absolute inset-0 flex flex-col items-center justify-center text-gray-400">
                                                 <FileQuestion className="w-12 h-12 mb-2 opacity-50" />
                                                 <p className="text-sm">Gambar tidak dapat dimuat</p>
                                             </div>
                                         </div>
 
-                                        {/* Content */}
                                         <div className="p-4 flex flex-col flex-grow">
                                             <h3 className="font-semibold text-white text-sm line-clamp-2 mb-2">
                                                 {item.judul}
@@ -520,12 +586,10 @@ export default function Welcome() {
                                         key={item.id}
                                         className="bg-white/5 rounded-xl overflow-hidden backdrop-blur-sm border border-white/10 h-full flex flex-col"
                                     >
-                                        {/* Media Container */}
                                         <div className="relative h-48 w-full overflow-hidden bg-gradient-to-br from-gray-800 to-gray-900">
                                             {item.file ? (
                                                 <>
                                                     {isImage(item.file) ? (
-                                                        // TAMPILAN UNTUK GAMBAR
                                                         <img
                                                             src={`/storage/assets/${item.file}`}
                                                             alt={item.judul}
@@ -537,7 +601,6 @@ export default function Welcome() {
                                                             }}
                                                         />
                                                     ) : isVideo(item.file) ? (
-                                                        // TAMPILAN UNTUK VIDEO - UKURAN SAMA DENGAN ADMIN
                                                         <div className="relative w-full h-full">
                                                             <video
                                                                 src={`/storage/assets/${item.file}`}
@@ -563,7 +626,6 @@ export default function Welcome() {
                                                             )}
                                                         </div>
                                                     ) : (
-                                                        // TAMPILAN UNTUK FILE LAINNYA
                                                         <div className="absolute inset-0 flex flex-col items-center justify-center text-gray-400 p-4">
                                                             <FileQuestion className="w-12 h-12 mb-2 opacity-50" />
                                                             <p className="text-sm text-center">File tidak dapat dimuat</p>
@@ -573,7 +635,6 @@ export default function Welcome() {
                                                         </div>
                                                     )}
 
-                                                    {/* Fallback ketika file error */}
                                                     <div className="hidden absolute inset-0 flex flex-col items-center justify-center text-gray-400 p-4">
                                                         <FileQuestion className="w-12 h-12 mb-2 opacity-50" />
                                                         <p className="text-sm text-center">File tidak dapat dimuat</p>
@@ -581,14 +642,12 @@ export default function Welcome() {
                                                     </div>
                                                 </>
                                             ) : (
-                                                /* Placeholder ketika tidak ada file */
                                                 <div className="absolute inset-0 flex flex-col items-center justify-center text-gray-400">
                                                     <ImageIcon className="w-12 h-12 mb-2 opacity-50" />
                                                     <p className="text-sm">Tidak ada file</p>
                                                 </div>
                                             )}
 
-                                            {/* Category Badge */}
                                             {item.kategori && (
                                                 <div className="absolute top-3 left-3">
                                                     <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-yellow-500/90 text-blue-900 backdrop-blur-sm">
@@ -598,7 +657,6 @@ export default function Welcome() {
                                             )}
                                         </div>
 
-                                        {/* Content */}
                                         <div className="p-4 flex flex-col flex-grow">
                                             <h3 className="font-semibold text-white text-sm line-clamp-2 mb-2">
                                                 {item.judul}
@@ -642,7 +700,6 @@ export default function Welcome() {
                                 </div>
                             )}
 
-                            {/* View All Button */}
                             {galeri.length > 0 && (
                                 <div className="text-center mt-12">
                                     <button className="inline-flex items-center px-6 py-3 bg-yellow-500 hover:bg-yellow-400 text-blue-900 font-semibold rounded-lg transition-all duration-300 transform hover:scale-105 hover:shadow-lg">
@@ -651,7 +708,6 @@ export default function Welcome() {
                                         href={'/galeri'}
                                         >
                                         Lihat Semua Galeri
-
                                         </Link>
                                     </button>
                                 </div>
@@ -660,7 +716,7 @@ export default function Welcome() {
                     </div>
                 </motion.section>
 
-                {/* Ekstrakulikuler Section - CARD STYLE SAMA DENGAN GALERI */}
+                {/* Ekstrakulikuler Section */}
                 <motion.section
                 initial={{ y: 50, opacity: 0 }}
                 whileInView={{ y: 0, opacity: 1 }}
@@ -684,7 +740,6 @@ export default function Welcome() {
                                         key={item.id}
                                         className="bg-white/5 rounded-xl overflow-hidden backdrop-blur-sm border border-white/10 h-full flex flex-col"
                                     >
-                                        {/* Gambar Ekstrakulikuler */}
                                         <div className="relative h-48 w-full overflow-hidden bg-gradient-to-br from-gray-800 to-gray-900">
                                             {item.gambar && (
                                                 item.gambar.toLowerCase().endsWith('.jpg') ||
@@ -708,14 +763,12 @@ export default function Welcome() {
                                                     </div>
                                                 )
                                             )}
-                                            {/* Fallback ketika gambar error */}
                                             <div className="hidden absolute inset-0 flex flex-col items-center justify-center text-gray-400">
                                                 <FileQuestion className="w-12 h-12 mb-2 opacity-50" />
                                                 <p className="text-sm">Gambar tidak dapat dimuat</p>
                                             </div>
                                         </div>
 
-                                        {/* Content */}
                                         <div className="p-4 flex flex-col flex-grow">
                                             <h3 className="font-semibold text-white text-sm line-clamp-2 mb-2">
                                                 {item.nama_eskul}
@@ -729,7 +782,6 @@ export default function Welcome() {
                                             </div>
                                         </div>
                                     </div>
-
                                 ))}
                             </div>
                             {ekstrakulikuler.length === 0 && (
@@ -742,7 +794,7 @@ export default function Welcome() {
                                 </div>
                             )}
                         </div>
-                         {galeri.length > 0 && (
+                         {ekstrakulikuler.length > 0 && (
                                 <div className="text-center mt-12">
                                     <button className="inline-flex items-center px-6 py-3 bg-yellow-500 hover:bg-yellow-400 text-blue-900 font-semibold rounded-lg transition-all duration-300 transform hover:scale-105 hover:shadow-lg">
                                         <Eye className="w-5 h-5 mr-2" />
@@ -755,7 +807,7 @@ export default function Welcome() {
                     </div>
                 </motion.section>
 
-                {/* Guru Section - CARD STYLE SAMA DENGAN GALERI */}
+                {/* Guru Section */}
                 <motion.section
                 initial={{ y: 50, opacity: 0 }}
                 whileInView={{ y: 0, opacity: 1 }}
@@ -780,7 +832,6 @@ export default function Welcome() {
                                         key={guruItem.id}
                                         className="bg-white/5 rounded-xl overflow-hidden backdrop-blur-sm border border-white/10 h-full flex flex-col"
                                     >
-                                        {/* Foto Guru */}
                                         <div className="relative h-48 w-full overflow-hidden bg-gradient-to-br from-gray-800 to-gray-900">
                                             {guruItem.foto ? (
                                                 <img
@@ -799,14 +850,12 @@ export default function Welcome() {
                                                 </div>
                                             )}
 
-                                            {/* Fallback ketika foto error */}
                                             <div className="hidden absolute inset-0 flex flex-col items-center justify-center text-gray-400">
                                                 <User className="w-12 h-12 mb-2 opacity-50" />
                                                 <p className="text-sm">Foto tidak dapat dimuat</p>
                                             </div>
                                         </div>
 
-                                        {/* Content */}
                                         <div className="p-4 flex flex-col flex-grow">
                                             <h3 className="font-semibold text-white text-sm line-clamp-2 mb-2">
                                                 {guruItem.nama_guru}
@@ -836,7 +885,7 @@ export default function Welcome() {
                     </div>
                 </motion.section>
 
-                {/* Profil Section - DI SINI CARD KEPALA SEKOLAH DIHAPUS DARI BAGIAN INI */}
+                {/* Profil Section dengan Google Maps */}
                 <section id="profil" className="py-24 sm:py-32 bg-gradient-to-b from-blue-800 to-blue-900">
                     <div className="mx-auto max-w-7xl px-6 lg:px-8">
                         <div className="mx-auto max-w-2xl lg:text-center">
@@ -845,26 +894,55 @@ export default function Welcome() {
                                 {profil.nama_sekolah}
                             </p>
                         </div>
-                        <div className="mx-auto mt-16 max-w-2xl sm:mt-20 lg:mt-24 lg:max-w-4xl">
+                        <div className="mx-auto mt-16 max-w-4xl sm:mt-20 lg:mt-24">
                             <div className="rounded-lg bg-white/5 p-8 backdrop-blur-sm border border-white/10">
-                                <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                                <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
                                     <div>
                                         <h3 className="text-xl font-semibold text-white mb-4">Identitas Sekolah</h3>
-                                        <div className="space-y-3 text-gray-200">
-                                            <p><strong>NPSN:</strong> {profil.npsn}</p>
-                                            <p><strong>Kepala Sekolah:</strong> {profil.kepala_sekolah}</p>
-                                            <p><strong>Tahun Berdiri:</strong> {profil.tahun_berdiri}</p>
-                                            <p><strong>Alamat:</strong> {profil.alamat}</p>
-                                            <p><strong>Kontak:</strong> {profil.kontak}</p>
+                                        <div className="space-y-4 text-gray-200">
+                                            <div>
+                                                <strong className="block mb-1">NPSN:</strong>
+                                                <span>{profil.npsn}</span>
+                                            </div>
+                                            <div>
+                                                <strong className="block mb-1">Kepala Sekolah:</strong>
+                                                <span>{profil.kepala_sekolah}</span>
+                                            </div>
+                                            <div>
+                                                <strong className="block mb-1">Tahun Berdiri:</strong>
+                                                <span>{profil.tahun_berdiri}</span>
+                                            </div>
+                                            <div>
+                                                <strong className="block mb-1">Alamat:</strong>
+                                                <div className="flex items-start space-x-2">
+                                                    <MapPin className="w-4 h-4 mt-0.5 text-yellow-400 flex-shrink-0" />
+                                                    <span>{profil.alamat}</span>
+                                                </div>
+                                            </div>
+                                            <div>
+                                                <strong className="block mb-1">Kontak:</strong>
+                                                <span>{profil.kontak}</span>
+                                            </div>
+                                            <div>
+                                                <strong className="block mb-1">Email:</strong>
+                                                <a
+                                                    href={`mailto:${profil.email}`}
+                                                    className="text-yellow-400 hover:text-yellow-300 transition-colors"
+                                                >
+                                                    {profil.email}
+                                                </a>
+                                            </div>
                                         </div>
                                     </div>
                                     <div>
                                         <h3 className="text-xl font-semibold text-white mb-4">Visi & Misi</h3>
                                         <div className="text-gray-200">
                                             {visiMisiArray.length > 0 ? (
-                                                visiMisiArray.map((item, index) => (
-                                                    <p key={index} className="mb-2">{item}</p>
-                                                ))
+                                                <div className="space-y-3">
+                                                    {visiMisiArray.map((item, index) => (
+                                                        <p key={index} className="leading-relaxed">{item}</p>
+                                                    ))}
+                                                </div>
                                             ) : (
                                                 <p>Visi dan misi belum tersedia</p>
                                             )}
@@ -872,10 +950,27 @@ export default function Welcome() {
                                     </div>
                                 </div>
 
+                                {/* Google Maps Section */}
+                                <div className="mt-8 pt-8 border-t border-white/10">
+                                    <h3 className="text-xl font-semibold text-white mb-4">Lokasi Sekolah</h3>
+                                    <GoogleMapEmbed mapLink={profil.link_map} address={profil.alamat} />
+                                    <div className="mt-3 text-center">
+                                        <a
+                                            href={getSafeGoogleMapsUrl(profil.alamat, profil.link_map)}
+                                            target="_blank"
+                                            rel="noopener noreferrer"
+                                            className="inline-flex items-center px-4 py-2 bg-yellow-500 hover:bg-yellow-400 text-blue-900 font-semibold rounded-lg transition-all duration-300 transform hover:scale-105"
+                                        >
+                                            <MapPin className="w-4 h-4 mr-2" />
+                                            Buka di Google Maps
+                                        </a>
+                                    </div>
+                                </div>
+
                                 {profil.deskripsi && (
-                                    <div className="mt-8">
+                                    <div className="mt-8 pt-8 border-t border-white/10">
                                         <h3 className="text-xl font-semibold text-white mb-4">Deskripsi Sekolah</h3>
-                                        <p className="text-gray-200 text-justify">{profil.deskripsi}</p>
+                                        <p className="text-gray-200 text-justify leading-relaxed">{profil.deskripsi}</p>
                                     </div>
                                 )}
                             </div>
@@ -894,17 +989,33 @@ export default function Welcome() {
                                     </div>
                                     <span className="text-2xl font-bold text-white">{profil.nama_sekolah}</span>
                                 </div>
-                                <p className="text-sm text-gray-200 mb-4">
-                                    {profil.alamat}<br/>
-                                    Telp: {profil.kontak}
-                                </p>
+                                <div className="text-sm text-gray-200 mb-4 space-y-2">
+                                    <div className="flex items-start space-x-2">
+                                        <MapPin className="w-4 h-4 mt-0.5 text-yellow-400 flex-shrink-0" />
+                                        <div>
+                                            <p>{profil.alamat}</p>
+                                            <a
+                                                href={getSafeGoogleMapsUrl(profil.alamat, profil.link_map)}
+                                                target="_blank"
+                                                rel="noopener noreferrer"
+                                                className="text-yellow-400 hover:text-yellow-300 text-xs mt-1 inline-flex items-center"
+                                            >
+                                                Lihat di Google Maps
+                                                <svg className="w-3 h-3 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                                                </svg>
+                                            </a>
+                                        </div>
+                                    </div>
+                                    <p>📞 Telp: {profil.kontak}</p>
+                                    <p>📧 Email: {profil.email}</p>
+                                </div>
                             </div>
                             <div>
-                                <h3 className="text-lg font-semibold text-white mb-4">Kontak</h3>
+                                <h3 className="text-lg font-semibold text-white mb-4">Kontak & Media Sosial</h3>
                                 <div className="text-sm text-gray-200 space-y-2">
                                     <p>Email: {profil.email}</p>
                                     <p>Telepon: {profil.kontak}</p>
-                                    <p>Alamat: {profil.alamat}</p>
                                     <br/>
                                     <div className="flex gap-4">
                                         <div className="flex align-baseline gap-2">
