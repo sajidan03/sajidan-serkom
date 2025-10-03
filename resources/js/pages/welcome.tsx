@@ -101,11 +101,8 @@ export default function Welcome() {
         setPlayingVideo(null);
     }
 
-    // Komponen untuk menampilkan Google Maps yang lebih aman
     const GoogleMapEmbed = ({ mapLink, address }: { mapLink: string, address: string }) => {
-        // Jika ada link_map, gunakan approach yang lebih aman
         if (mapLink) {
-            // Cek jika link sudah berupa embed
             if (mapLink.includes('embed')) {
                 return (
                     <div className="w-full h-64 rounded-lg overflow-hidden border border-white/10">
@@ -119,7 +116,6 @@ export default function Welcome() {
                             referrerPolicy="no-referrer-when-downgrade"
                             title={`Lokasi ${profil.nama_sekolah}`}
                             onError={(e) => {
-                                // Fallback ke OpenStreetMap jika embed gagal
                                 const openStreetMapUrl = `https://www.openstreetmap.org/export/embed.html?bbox=107.6,-6.9,107.7,-6.8&layer=mapnik&marker=${encodeURIComponent(address)}`;
                                 e.currentTarget.src = openStreetMapUrl;
                             }}
@@ -128,7 +124,6 @@ export default function Welcome() {
                 );
             }
 
-            // Jika link biasa, buat embed URL sederhana
             const simpleEmbedUrl = `https://maps.google.com/maps?q=${encodeURIComponent(address)}&output=embed`;
 
             return (
@@ -143,7 +138,6 @@ export default function Welcome() {
                         referrerPolicy="no-referrer-when-downgrade"
                         title={`Lokasi ${profil.nama_sekolah}`}
                         onError={(e) => {
-                            // Fallback ke OpenStreetMap jika embed gagal
                             const openStreetMapUrl = `https://www.openstreetmap.org/export/embed.html?bbox=107.6,-6.9,107.7,-6.8&layer=mapnik&marker=${encodeURIComponent(address)}`;
                             e.currentTarget.src = openStreetMapUrl;
                         }}
@@ -405,7 +399,6 @@ export default function Welcome() {
                         />
                     </div>
                 </div>
-
                 {/* Kepala Sekolah Section */}
                 <motion.section
                     initial={{ y: 50, opacity: 0 }}
@@ -414,6 +407,7 @@ export default function Welcome() {
                     transition={{ duration: 1, ease: "easeOut" }}
                     className="py-16 sm:py-24 bg-gradient-to-b from-blue-900 to-blue-800"
                 >
+                <h2 className='mx-auto max-w-7xl px-6 lg:px-48 my-6 font-bold text-white text-2xl'>Sambutan dari kepala sekolah</h2>
                     <div className="mx-auto max-w-7xl px-6 lg:px-8">
                         <div className="mx-auto max-w-4xl">
                             <div className="rounded-2xl bg-white/5 p-8 backdrop-blur-sm border border-white/10">

@@ -474,7 +474,7 @@ export default function DetailEkstrakurikuler() {
               className="text-center mt-12"
             >
               <Link
-                href="/ekstrakurikuler"
+                href="/ekstrakulikuler"
                 className="inline-flex items-center text-yellow-400 hover:text-yellow-300 font-semibold transition-colors text-lg"
               >
                 <ArrowLeft className="w-5 h-5 mr-2" />
