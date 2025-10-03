@@ -27,6 +27,9 @@ interface ProfilSekolah {
   visi_misi: string | null
   tahun_berdiri: number | null
   deskripsi: string | null
+  instagram: string
+  facebook: string
+  youtube: string
   created_at: string
   updated_at: string
   encrypted_id: string
@@ -54,6 +57,9 @@ export default function EditProfilSekolah() {
     visi_misi: profil?.visi_misi || '',
     tahun_berdiri: profil?.tahun_berdiri?.toString() || '',
     deskripsi: profil?.deskripsi || '',
+    instagram: profil?.instagram || '',
+    facebook: profil?.instagram || '',
+    youtube: profil?.instagram || '',
     logo: null as File | null,
     foto: null as File | null,
     foto_kepsek: null as File | null,
@@ -589,6 +595,61 @@ export default function EditProfilSekolah() {
               />
               {errors.deskripsi && <p className="mt-1 text-sm text-red-500">{errors.deskripsi}</p>}
             </div>
+
+             {/* Link instagram */}
+                <div className="w-full">
+                  <label htmlFor="instagram" className="block text-sm font-medium text-gray-700 mb-1">
+                    Link instagram <span className="text-red-500">*</span>
+                  </label>
+                  <input
+                    id="instagram"
+                    type="text"
+                    value={data.instagram}
+                    onChange={(e) => setData('instagram', e.target.value)}
+                    className={`w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 ${
+                      errors.kepala_sekolah ? 'border-red-500' : 'border-gray-300'
+                    }`}
+                    placeholder="Masukkan link instagram"
+                  />
+                  {errors.instagram && <p className="mt-1 text-sm text-red-500">{errors.instagram}</p>}
+                </div>
+                <br />
+                {/* Link facebook */}
+                <div className="w-full">
+                  <label htmlFor="facebook" className="block text-sm font-medium text-gray-700 mb-1">
+                    Link Facebook <span className="text-red-500">*</span>
+                  </label>
+                  <input
+                    id="facebook"
+                    type="text"
+                    value={data.facebook}
+                    onChange={(e) => setData('facebook', e.target.value)}
+                    className={`w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 ${
+                      errors.facebook ? 'border-red-500' : 'border-gray-300'
+                    }`}
+                    placeholder="Masukkan link Facebook"
+                  />
+                  {errors.facebook && <p className="mt-1 text-sm text-red-500">{errors.facebook}</p>}
+                </div>
+                <br />
+
+                {/* Link Youtube */}
+                <div className="w-full">
+                  <label htmlFor="youtube" className="block text-sm font-medium text-gray-700 mb-1">
+                    Link Youtube <span className="text-red-500">*</span>
+                  </label>
+                  <input
+                    id="youtube"
+                    type="text"
+                    value={data.youtube}
+                    onChange={(e) => setData('youtube', e.target.value)}
+                    className={`w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 ${
+                      errors.youtube ? 'border-red-500' : 'border-gray-300'
+                    }`}
+                    placeholder="Masukkan link Youtube"
+                  />
+                  {errors.youtube && <p className="mt-1 text-sm text-red-500">{errors.youtube}</p>}
+                </div>
 
             {/* Info file saat ini */}
             <div className="mt-6 p-4 bg-blue-50 rounded-lg">

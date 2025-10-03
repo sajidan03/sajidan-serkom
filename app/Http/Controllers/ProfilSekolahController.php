@@ -56,6 +56,9 @@ class ProfilSekolahController extends Controller
         'visi_misi' => 'nullable|string',
         'tahun_berdiri' => 'nullable|integer|min:1900|max:2099',
         'deskripsi' => 'nullable|string',
+        'instagram' => 'nullable|string',
+        'facebook' => 'nullable|string',
+        'youtube' => 'nullable|string',
         'warna' => 'nullable|string',
     ]);
     $fileNameFotoKepsek = null;
@@ -78,9 +81,6 @@ class ProfilSekolahController extends Controller
         $file->storeAs('assets', $fileNameLogo);
     }
 
-
-
-
     Profil_sekolah::create([
         'nama_sekolah' => $request->nama_sekolah,
         'kepala_sekolah' => $request->kepala_sekolah,
@@ -93,7 +93,9 @@ class ProfilSekolahController extends Controller
         'visi_misi' => $request->visi_misi,
         'tahun_berdiri' => $request->tahun_berdiri,
         'deskripsi' => $request->deskripsi,
-
+        'instagram' => $request->instagram,
+        'facebook' => $request->facebook,
+        'youtube' => $request->youtube,
     ]);
 
     return redirect()->route('profilView')->with('message', 'Profil sekolah berhasil ditambahkan');
@@ -116,15 +118,18 @@ class ProfilSekolahController extends Controller
     $request->validate([
         'nama_sekolah' => 'required|string|max:255',
         'kepala_sekolah' => 'required|string|max:255',
-        'foto_kepsek' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:5120',
-        'logo' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:5120',
-        'foto' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:5120',
+        'foto_kepsek' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg,wepb',
+        'logo' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg,wepb',
+        'foto' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg,wepb',
         'npsn' => 'nullable|string|max:20',
         'alamat' => 'nullable|string',
         'kontak' => 'nullable|string|max:15',
         'visi_misi' => 'nullable|string',
         'tahun_berdiri' => 'nullable|integer|min:1900|max:' . date('Y'),
         'deskripsi' => 'nullable|string',
+        'instagram' => 'nullable|string',
+        'facebook' => 'nullable|string',
+        'youtube' => 'nullable|string',
     ]);
 
     $profil = Profil_sekolah::findOrFail($id);
@@ -138,6 +143,9 @@ class ProfilSekolahController extends Controller
         'visi_misi' => $request->visi_misi,
         'tahun_berdiri' => $request->tahun_berdiri,
         'deskripsi' => $request->deskripsi,
+        'instagram' => $request->instagram,
+        'facebook' => $request->facebook,
+        'youtube' => $request->youtube,
     ];
 
     if ($request->hasFile('logo')) {

@@ -53,7 +53,7 @@ export default function Login({ status }: LoginProps) {
                                 <InputError message={errors.password} />
                             </div>
 
-                            <div className="flex items-center space-x-3">
+                            {/* <div className="flex items-center space-x-3">
                             <Checkbox
                             id="remember"
                             name="remember"
@@ -61,7 +61,7 @@ export default function Login({ status }: LoginProps) {
                             className="data-[state=checked]:bg-[#30328b] data-[state=checked]:border-black-500"
                             />
                                 <Label htmlFor="remember">Ingat saya</Label>
-                            </div>
+                            </div> */}
 
 
                             <Button

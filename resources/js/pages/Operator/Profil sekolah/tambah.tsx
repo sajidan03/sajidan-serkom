@@ -2,15 +2,16 @@ import AppLayout from '@/layouts/app-layout'
 import { type BreadcrumbItem } from '@/types'
 import { Head, Link, useForm, usePage } from '@inertiajs/react'
 import { useState } from 'react'
+import { Palette } from 'lucide-react'
 
 const breadcrumbs: BreadcrumbItem[] = [
   {
     title: 'Kelola Profil Sekolah',
-    href: '/operator/profil-sekolah',
+    href: '/admin/profil-sekolah',
   },
   {
     title: 'Tambah Profil Sekolah',
-    href: '/operator/profil-sekolah/tambah',
+    href: '/admin/profil-sekolah/tambah',
   },
 ]
 
@@ -33,6 +34,10 @@ export default function TambahProfilSekolah() {
     visi_misi: '',
     tahun_berdiri: '',
     deskripsi: '',
+    instagram: '',
+    facebook: '',
+    youtube: '',
+    warna: '#3b82f6', 
     logo: null as File | null,
     foto: null as File | null,
     foto_kepsek: null as File | null,
@@ -105,6 +110,19 @@ export default function TambahProfilSekolah() {
     setData('foto_kepsek', null)
     setPreviewFotoKepsek(null)
   }
+
+  const colorPresets = [
+    '#3b82f6', // blue-500
+    '#ef4444', // red-500
+    '#10b981', // green-500
+    '#f59e0b', // yellow-500
+    '#8b5cf6', // purple-500
+    '#06b6d4', // cyan-500
+    '#84cc16', // lime-500
+    '#f97316', // orange-500
+    '#ec4899', // pink-500
+    '#6b7280', // gray-500
+  ]
 
   return (
     <AppLayout breadcrumbs={breadcrumbs}>
@@ -481,11 +499,126 @@ export default function TambahProfilSekolah() {
               />
               {errors.deskripsi && <p className="mt-1 text-sm text-red-500">{errors.deskripsi}</p>}
             </div>
+                {/* Link instagram */}
+                <div className="w-full">
+                  <label htmlFor="instagram" className="block text-sm font-medium text-gray-700 mb-1">
+                    Link instagram <span className="text-red-500">*</span>
+                  </label>
+                  <input
+                    id="instagram"
+                    type="text"
+                    value={data.instagram}
+                    onChange={(e) => setData('instagram', e.target.value)}
+                    className={`w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 ${
+                      errors.kepala_sekolah ? 'border-red-500' : 'border-gray-300'
+                    }`}
+                    placeholder="Masukkan link instagram"
+                  />
+                  {errors.instagram && <p className="mt-1 text-sm text-red-500">{errors.instagram}</p>}
+                </div>
+                <br />
+                {/* Link facebook */}
+                <div className="w-full">
+                  <label htmlFor="facebook" className="block text-sm font-medium text-gray-700 mb-1">
+                    Link Facebook <span className="text-red-500">*</span>
+                  </label>
+                  <input
+                    id="facebook"
+                    type="text"
+                    value={data.facebook}
+                    onChange={(e) => setData('facebook', e.target.value)}
+                    className={`w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 ${
+                      errors.facebook ? 'border-red-500' : 'border-gray-300'
+                    }`}
+                    placeholder="Masukkan link Facebook"
+                  />
+                  {errors.facebook && <p className="mt-1 text-sm text-red-500">{errors.facebook}</p>}
+                </div>
+                <br />
+
+                {/* Link Youtube */}
+                <div className="w-full">
+                  <label htmlFor="youtube" className="block text-sm font-medium text-gray-700 mb-1">
+                    Link Youtube <span className="text-red-500">*</span>
+                  </label>
+                  <input
+                    id="youtube"
+                    type="text"
+                    value={data.youtube}
+                    onChange={(e) => setData('youtube', e.target.value)}
+                    className={`w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 ${
+                      errors.youtube ? 'border-red-500' : 'border-gray-300'
+                    }`}
+                    placeholder="Masukkan link Youtube"
+                  />
+                  {errors.youtube && <p className="mt-1 text-sm text-red-500">{errors.youtube}</p>}
+                </div>
+            {/* Warna (Full Width) */}
+            <div className="mt-6 w-full">
+              <label htmlFor="warna" className="block text-sm font-medium text-gray-700 mb-3">
+                Warna Tema Sekolah
+              </label>
+
+              <div className="space-y-4">
+                {/* Input Color dengan Preview */}
+                <div className="flex items-center gap-4">
+                  <div className="relative">
+                    <div className="w-12 h-12 rounded-lg border-2 border-gray-300 overflow-hidden shadow-sm">
+                      <input
+                        id="warna"
+                        name="warna"
+                        type="color"
+                        value={data.warna}
+                        onChange={(e) => setData('warna', e.target.value)}
+                        className="w-full h-full cursor-pointer border-0"
+                      />
+                    </div>
+                  </div>
+
+                  <div className="flex-1">
+                    <div className="flex items-center gap-3">
+                      <Palette className="w-5 h-5 text-gray-500" />
+                      <input
+                        type="text"
+                        value={data.warna}
+                        onChange={(e) => setData('warna', e.target.value)}
+                        className="px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 font-mono text-sm"
+                        placeholder="#3b82f6"
+                      />
+                    </div>
+                    <p className="mt-1 text-xs text-gray-500">
+                      Pilih warna tema untuk sekolah atau ketik kode HEX
+                    </p>
+                  </div>
+                </div>
+
+                {/* Color Presets */}
+                <div>
+                  <p className="text-sm font-medium text-gray-700 mb-2">Pilihan Warna Cepat:</p>
+                  <div className="flex flex-wrap gap-2">
+                    {colorPresets.map((color) => (
+                      <button
+                        key={color}
+                        type="button"
+                        onClick={() => setData('warna', color)}
+                        className={`w-8 h-8 rounded-full border-2 transition-all hover:scale-110 ${
+                          data.warna === color ? 'border-gray-800 ring-2 ring-gray-300' : 'border-gray-300'
+                        }`}
+                        style={{ backgroundColor: color }}
+                        title={color}
+                      />
+                    ))}
+                  </div>
+                </div>
+              </div>
+
+              {errors.warna && <p className="mt-1 text-sm text-red-500">{errors.warna}</p>}
+            </div>
 
             {/* Action Buttons */}
             <div className="flex justify-end mt-8 space-x-4 w-full">
               <Link
-                href="/operator/profil-sekolah"
+                href="/admin/profil-sekolah"
                 className="px-4 py-2 bg-gray-500 text-white rounded-md hover:bg-gray-600 transition-colors"
               >
                 Batal
