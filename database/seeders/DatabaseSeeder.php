@@ -80,12 +80,6 @@ class DatabaseSeeder extends Seeder
             'tahun_masuk' => 2023,
         ]);
         //
-        Guru::create([
-            'nama_guru' => 'Vika dwi hartini',
-            'nip' => '1987654321',
-            'mapel' => 'Matematika',
-            'foto' => 'bu_vika.jpg',
-        ]);
          Guru::create([
             'nama_guru' => 'Fatin shidqia lubis',
             'nip' => '2987654321',
@@ -93,16 +87,22 @@ class DatabaseSeeder extends Seeder
             'foto' => 'fatin.jpeg',
         ]);
          Guru::create([
-            'nama_guru' => 'Fatin shidqia lubis',
+            'nama_guru' => 'Kim ji won',
             'nip' => '3987654321',
-            'mapel' => 'PJOK',
-            'foto' => 'fatin.jpeg',
+            'mapel' => 'Biologi',
+            'foto' => 'kimjiwon.png',
+        ]);
+        Guru::create([
+            'nama_guru' => 'Cho yi hyun',
+            'nip' => '3987654321',
+            'mapel' => 'Kimia',
+            'foto' => 'co.jpg',
         ]);
         //
         Profil_sekolah::create([
             'nama_sekolah' => 'SMK YPC Tasikmalaya',
             'kepala_sekolah' => 'Drs. H. Ujang sanusi, M.M.',
-            'foto_kepsek' => 'ujang.jpg',
+            'foto_kepsek' => 'kepala.jpg',
             'foto' => 'foto.jpg',
             'logo' => 'logo.png',
             'npsn' => '1234567890',
@@ -147,17 +147,17 @@ class DatabaseSeeder extends Seeder
             'id_guru' => 1
         ]);
         Ekstrakulikuler::create([
-            'nama_eskul' => 'Pramuka',
-            'jadwal_latihan' => 'Setiap Jumat, 15.00 - 17.00',
-            'deskripsi' => 'Ekstrakulikuler pramuka bertujuan untuk membentuk karakter siswa melalui kegiatan kepramukaan yang menyenangkan dan edukatif.',
-            'gambar' => 'pramuka.png',
+            'nama_eskul' => 'Badminton',
+            'jadwal_latihan' => 'Setiap Selasa & Sabtu, 15.00 - 17.00',
+            'deskripsi' => 'Eskul badminton bertujuan untuk melatih dan menjadikan siswa atlet yang kompeten',
+            'gambar' => 'badminton.jpg',
             'id_guru' => 1
         ]);
         Ekstrakulikuler::create([
-            'nama_eskul' => 'Pramuka',
+            'nama_eskul' => 'Taekwondo',
             'jadwal_latihan' => 'Setiap Jumat, 15.00 - 17.00',
-            'deskripsi' => 'Ekstrakulikuler pramuka bertujuan untuk membentuk karakter siswa melalui kegiatan kepramukaan yang menyenangkan dan edukatif.',
-            'gambar' => 'pramuka.png',
+            'deskripsi' => 'Eskul taekwondo bertujuan untuk mengembangkan dan melatih potensi pada tiap siswa/siswi',
+            'gambar' => 'taekwondo.jpg',
             'id_guru' => 1
         ]);
         //
