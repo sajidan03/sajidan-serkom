@@ -34,6 +34,7 @@ class GuruController extends Controller
     }
     public function tambahView()
     {
+        $data['mapel'] = Mapel::all();
         $data['profil'] = Profil_sekolah::first();
         return Inertia::render('Admin/Guru/tambah', $data);
     }
