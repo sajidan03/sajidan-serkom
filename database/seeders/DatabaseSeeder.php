@@ -116,6 +116,7 @@ class DatabaseSeeder extends Seeder
             'tahun_berdiri' => '1997',
             'deskripsi' => 'SMK YPC Tasikmalaya adalah sekolah menengah kejuruan yang berfokus pada pengembangan keterampilan di bidang teknologi informasi dan komunikasi. Dengan fasilitas modern dan tenaga pengajar yang berpengalaman, kami berkomitmen untuk mencetak lulusan yang siap bersaing di dunia kerja.',
             'link_map' => 'https://maps.app.goo.gl/1yHLBdisDXLNRDKb6',
+            'warna' => '#1a3bb0'
         ]);
         //
         Galeri::create([

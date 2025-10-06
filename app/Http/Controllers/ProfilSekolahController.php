@@ -96,6 +96,7 @@ class ProfilSekolahController extends Controller
         'instagram' => $request->instagram,
         'facebook' => $request->facebook,
         'youtube' => $request->youtube,
+        'warna' => $request->warna,
     ]);
 
     return redirect()->route('profilView')->with('message', 'Profil sekolah berhasil ditambahkan');
@@ -130,6 +131,7 @@ class ProfilSekolahController extends Controller
         'instagram' => 'nullable|string',
         'facebook' => 'nullable|string',
         'youtube' => 'nullable|string',
+        'warna' => 'nullable|string',
     ]);
 
     $profil = Profil_sekolah::findOrFail($id);
@@ -146,6 +148,7 @@ class ProfilSekolahController extends Controller
         'instagram' => $request->instagram,
         'facebook' => $request->facebook,
         'youtube' => $request->youtube,
+        'warna' => $request->warna,
     ];
 
     if ($request->hasFile('logo')) {
