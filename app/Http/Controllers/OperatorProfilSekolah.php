@@ -36,11 +36,11 @@ class OperatorProfilSekolah extends Controller
                 'encrypted_id' => Crypt::encrypt($profil->id),
             ];
         })->toArray();
-        return Inertia::render('Operator/Profil sekolah/index', $data);
+        return Inertia::render('Admin/Profil sekolah/index', $data);
     }
     public function tambahView(){
         $data['profil'] = Profil_sekolah::all()->first();
-        return Inertia::render('Operator/Profil sekolah/tambah', $data);
+        return Inertia::render('Admin/Profil sekolah/tambah', $data);
     }
    public function profilTambah(Request $request)
 {
@@ -96,21 +96,22 @@ class OperatorProfilSekolah extends Controller
         'instagram' => $request->instagram,
         'facebook' => $request->facebook,
         'youtube' => $request->youtube,
+        'warna' => $request->warna,
     ]);
 
-    return redirect()->route('operatorProfilView')->with('message', 'Profil sekolah berhasil ditambahkan');
+    return redirect()->route('profilView')->with('message', 'Profil sekolah berhasil ditambahkan');
 }
     public function profilEditView($id){
         $id = Crypt::decrypt($id);
         $data['profil'] = Profil_sekolah::all()->first();
         $data['profil_sekolah'] = Profil_sekolah::find($id);
-        return Inertia::render('Operator/Profil sekolah/edit', $data);
+        return Inertia::render('Admin/Profil sekolah/edit', $data);
     }
     public function hapusProfil($id){
         $profil = Profil_sekolah::findOrFail($id);
         $profil->delete();
 
-        return redirect()->route('operatorProfilView')->with('message', 'Data profil sekolah berhasil dihapus.');
+        return redirect()->route('profilView')->with('message', 'Data profil sekolah berhasil dihapus.');
     }
 
     public function profilEdit(Request $request, $id)
@@ -130,6 +131,7 @@ class OperatorProfilSekolah extends Controller
         'instagram' => 'nullable|string',
         'facebook' => 'nullable|string',
         'youtube' => 'nullable|string',
+        'warna' => 'nullable|string',
     ]);
 
     $profil = Profil_sekolah::findOrFail($id);
@@ -146,6 +148,7 @@ class OperatorProfilSekolah extends Controller
         'instagram' => $request->instagram,
         'facebook' => $request->facebook,
         'youtube' => $request->youtube,
+        'warna' => $request->warna,
     ];
 
     if ($request->hasFile('logo')) {
@@ -182,6 +185,6 @@ class OperatorProfilSekolah extends Controller
 
     $profil->update($data);
 
-    return redirect()->route('operatorProfilView')->with('success', 'Profil sekolah berhasil diupdate');
+    return redirect()->route('profilView')->with('success', 'Profil sekolah berhasil diupdate');
 }
 }
