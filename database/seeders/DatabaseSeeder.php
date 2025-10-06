@@ -228,6 +228,13 @@ class DatabaseSeeder extends Seeder
             'id_user' => 2,
         ]);
         Berita::create([
+            'judul' => 'Job Fair',
+            'isi' => 'Job fair',
+            'gambar' => 'jobfair.jpg',
+            'tanggal' => '2024-11-15',
+            'id_user' => 2,
+        ]);
+        Berita::create([
             'judul' => 'Kejuaraan Lomba LKS',
             'isi' => 'Kejuaraan Lomba LKS Tingkat Nasional & Provinsi
                 Ridwan Juara 2 bidang lomba kabel jaringan,
