@@ -92,10 +92,10 @@ Route::middleware(['auth', 'verified'])
         Route::delete('profil-sekolah/hapus/{id}', [ProfilSekolahController::class, 'hapusProfil'])->name('profilHapus');
         //
         Route::get('mapel/tambah', [MapelController::class, 'tambahView'])->name('mapelTambahView');
-        Route::post('mapel/tambah', [MapelController::class, 'profilTambah'])->name('mapelSimpan');
-        Route::get('mapel/edit/{id}', [MapelController::class, 'profilEditView'])->name('mapelEditView');
-        Route::post('mapel/edit/{id}', [MapelController::class, 'profilEdit'])->name('mapelEdit');
-        Route::delete('mapel/hapus/{id}', [MapelController::class, 'hapusProfil'])->name('mapelHapus');
+        Route::post('mapel/tambah', [MapelController::class, 'mapelTambah'])->name('mapelSimpan');
+        Route::get('mapel/edit/{id}', [MapelController::class, 'mapelEditView'])->name('mapelEditView');
+        Route::post('mapel/edit/{id}', [MapelController::class, 'mapelEdit'])->name('mapelEdit');
+        Route::delete('mapel/hapus/{id}', [MapelController::class, 'mapelHapus'])->name('mapelHapus');
     });
 
 Route::middleware(['auth', 'verified'])

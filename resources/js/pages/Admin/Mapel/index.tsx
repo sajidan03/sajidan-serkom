@@ -11,13 +11,13 @@ const breadcrumbs: BreadcrumbItem[] = [
 
 interface Mapel {
   id: number
-  nama_mapel: string
+  mapel: string
   encrypted_id: string
 }
 
 export default function MapelIndex() {
   const { props } = usePage()
-  const mapelList = props.mapel as Mapel[]
+  const mapel = props.mapel as Mapel[]
 
   const handleDelete = (id: number) => {
     if (confirm('Apakah Anda yakin ingin menghapus mata pelajaran ini?')) {
@@ -60,13 +60,13 @@ export default function MapelIndex() {
               </tr>
             </thead>
             <tbody className="text-gray-600">
-              {mapelList.length > 0 ? (
-                mapelList.map((mapel, index) => (
+              {mapel.length > 0 ? (
+                mapel.map((mapel) => (
                   <tr key={mapel.id} className="border-b hover:bg-gray-50">
-                    <td className="px-4 py-3">{index + 1}</td>
+                    {/* <td className="px-4 py-3">{index + 1}</td> */}
                     <td className="px-4 py-3 font-medium">
                       <span className="px-3 py-2 bg-blue-100 text-blue-700 text-sm rounded-md">
-                        {mapel.nama_mapel}
+                        {mapel.mapel}
                       </span>
                     </td>
                     <td className="px-4 py-3 flex items-center justify-center gap-2">
