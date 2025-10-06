@@ -4,10 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Exports\GuruExport;
 use App\Models\Guru;
+use App\Models\Mapel;
 use App\Models\Profil_sekolah;
 use Illuminate\Contracts\Encryption\DecryptException;
-use Illuminate\Contracts\Encryption\Encrypter as EncryptionEncrypter;
-use Illuminate\Encryption\Encrypter;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Crypt;
 use Inertia\Inertia;
@@ -72,6 +71,7 @@ class GuruController extends Controller
             $id = Crypt::decrypt($id);
         } catch (DecryptException $d) {
         }
+        $data['mapel'] = Mapel::all();
         $data['profil'] = Profil_sekolah::first();
         $data['guru'] = Guru::findOrFail($id);
         return Inertia::render('Admin/Guru/edit', $data);

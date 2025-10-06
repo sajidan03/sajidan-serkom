@@ -647,6 +647,16 @@ namespace App\Models {
     /**
      * App\Models\Fax
      *
+     * @property string|null $pesan
+     * @property string|null $email
+     * @property \Illuminate\Support\Carbon|null $updated_at
+     * @property \Illuminate\Support\Carbon|null $created_at
+     * @property int $id
+     * @method static \Illuminate\Database\Eloquent\Builder<Fax>|Fax whereId($value)
+     * @method static \Illuminate\Database\Eloquent\Builder<Fax>|Fax whereCreatedAt($value)
+     * @method static \Illuminate\Database\Eloquent\Builder<Fax>|Fax whereUpdatedAt($value)
+     * @method static \Illuminate\Database\Eloquent\Builder<Fax>|Fax whereEmail($value)
+     * @method static \Illuminate\Database\Eloquent\Builder<Fax>|Fax wherePesan($value)
      * @method static \Illuminate\Database\Eloquent\Builder<Fax>|Fax newModelQuery()
      * @method static \Illuminate\Database\Eloquent\Builder<Fax>|Fax newQuery()
      * @method static \Illuminate\Database\Eloquent\Builder<Fax>|Fax query()

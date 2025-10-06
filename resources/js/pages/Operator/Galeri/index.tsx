@@ -1,11 +1,12 @@
 import AppLayout from '@/layouts/app-layout'
 import { type BreadcrumbItem } from '@/types'
 import { Head, usePage, router, Link } from '@inertiajs/react'
+import { useState } from 'react'
 
 const breadcrumbs: BreadcrumbItem[] = [
   {
     title: 'Kelola Galeri',
-    href: '/operator/galeri',
+    href: '/galeri',
   },
 ]
 
@@ -22,11 +23,34 @@ interface Galeri {
 export default function GaleriIndex() {
   const { props } = usePage()
   const galeriList = props.galeri as Galeri[]
+  const [playingVideo, setPlayingVideo] = useState<number | null>(null)
 
   const handleDelete = (id: number) => {
     if (confirm('Apakah Anda yakin ingin menghapus item galeri ini?')) {
       router.delete(`/operator/galeri/hapus/${id}`)
     }
+  }
+
+  const isImage = (filename: string) => {
+    const imageExtensions = ['.jpg', '.jpeg', '.png', '.gif', '.webp']
+    return imageExtensions.some(ext =>
+      filename.toLowerCase().endsWith(ext)
+    )
+  }
+
+  const isVideo = (filename: string) => {
+    const videoExtensions = ['.mp4', '.avi', '.mkv', '.mov', '.wmv', '.webm']
+    return videoExtensions.some(ext =>
+      filename.toLowerCase().endsWith(ext)
+    )
+  }
+
+  const handleVideoPlay = (id: number) => {
+    setPlayingVideo(id)
+  }
+
+  const handleVideoPause = () => {
+    setPlayingVideo(null)
   }
 
   return (
@@ -37,15 +61,16 @@ export default function GaleriIndex() {
         <div className="flex items-center justify-between mb-6">
           <h1 className="text-2xl font-bold">Daftar Galeri</h1>
 
-         <div className="flex items-center gap-3">
+          {/* Tombol Export + Tambah Galeri */}
+          <div className="flex items-center gap-3">
 
-        <Link
-            href="/operator/galeri/tambah"
-            className="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700"
-        >
-            + Tambah Galeri
-        </Link>
-        </div>
+            <Link
+              href="/operator/galeri/tambah"
+              className="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700"
+            >
+              + Tambah Galeri
+            </Link>
+          </div>
         </div>
 
         {/* Table */}
@@ -56,7 +81,7 @@ export default function GaleriIndex() {
                 <th className="px-4 py-3 text-left">ID</th>
                 <th className="px-4 py-3 text-left">Judul</th>
                 <th className="px-4 py-3 text-left">Keterangan</th>
-                <th className="px-4 py-3 text-left">File</th>
+                <th className="px-4 py-3 text-left w-48">File Preview</th>
                 <th className="px-4 py-3 text-left">Kategori</th>
                 <th className="px-4 py-3 text-left">Tanggal</th>
                 <th className="px-4 py-3 text-center">Aksi</th>
@@ -68,25 +93,57 @@ export default function GaleriIndex() {
                   <tr key={galeri.id} className="border-b hover:bg-gray-50">
                     <td className="px-4 py-3">{galeri.id}</td>
                     <td className="px-4 py-3 font-medium">{galeri.judul}</td>
-                    <td className="px-4 py-3">{galeri.keterangan}</td>
+                    <td className="px-4 py-3 max-w-xs truncate">{galeri.keterangan}</td>
                     <td className="px-4 py-3">
-                      {galeri.file.toLowerCase().endsWith('.jpg') ||
-                       galeri.file.toLowerCase().endsWith('.jpeg') ||
-                       galeri.file.toLowerCase().endsWith('.png') ||
-                       galeri.file.toLowerCase().endsWith('.gif') ? (
+                      {isImage(galeri.file) ? (
                         <img
                           src={`/storage/assets/${galeri.file}`}
                           alt={galeri.judul}
-                          className="h-12 w-12 object-cover rounded"
+                          className="h-32 w-48 object-cover rounded cursor-pointer hover:opacity-80 border"
+                          onClick={() => window.open(`/storage/assets/${galeri.file}`, '_blank')}
                         />
+                      ) : isVideo(galeri.file) ? (
+                        <div className="relative">
+                          <video
+                            src={`/storage/assets/${galeri.file}`}
+                            className="h-32 w-48 object-cover rounded cursor-pointer border"
+                            controls={playingVideo === galeri.id}
+                            onPlay={() => handleVideoPlay(galeri.id)}
+                            onPause={handleVideoPause}
+                            onEnded={handleVideoPause}
+                            muted
+                            preload="metadata"
+                          >
+                            Your browser does not support the video tag.
+                          </video>
+                          {playingVideo !== galeri.id && (
+                            <div
+                              className="absolute inset-0 flex items-center justify-center bg-black bg-opacity-40 rounded cursor-pointer hover:bg-opacity-30 transition-all"
+                              onClick={() => handleVideoPlay(galeri.id)}
+                            >
+                              <div className="bg-white bg-opacity-90 rounded-full p-3 hover:bg-opacity-100 transition-all">
+                                <svg
+                                  className="w-8 h-8 text-gray-800"
+                                  fill="currentColor"
+                                  viewBox="0 0 24 24"
+                                >
+                                  <path d="M8 5v14l11-7z"/>
+                                </svg>
+                              </div>
+                            </div>
+                          )}
+                        </div>
                       ) : (
                         <a
-                          href={`/storage/${galeri.file}`}
+                          href={`/storage/assets/${galeri.file}`}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="text-blue-600 hover:underline"
+                          className="text-blue-600 hover:underline flex items-center gap-2 p-3 border rounded-lg bg-gray-50 hover:bg-gray-100"
                         >
-                          Lihat File
+                          <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15.172 7l-6.586 6.586a2 2 0 102.828 2.828l6.414-6.586a4 4 0 00-5.656-5.656l-6.415 6.585a6 6 0 108.486 8.486L20.5 13" />
+                          </svg>
+                          <span className="text-sm">Download File</span>
                         </a>
                       )}
                     </td>

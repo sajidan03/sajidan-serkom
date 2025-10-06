@@ -90,20 +90,26 @@ class DatabaseSeeder extends Seeder
          Guru::create([
             'nama_guru' => 'Kim ji won',
             'nip' => '3987654321',
-            'mapel' => 'Biologi',
+            'mapel' => 'Bahasa indonesia',
             'foto' => 'kimjiwon.png',
         ]);
         Guru::create([
             'nama_guru' => 'Cho yi hyun',
             'nip' => '3987654321',
-            'mapel' => 'Kimia',
+            'mapel' => 'Bahasa inggris',
             'foto' => 'co.jpg',
         ]);
         Guru::create([
             'nama_guru' => 'Mun gayoung',
             'nip' => '3987654321',
-            'mapel' => 'Kimia',
+            'mapel' => 'IPA',
             'foto' => 'mungayoung.jpg',
+        ]);
+        Guru::create([
+            'nama_guru' => 'Goyounjoung',
+            'nip' => '3987654321',
+            'mapel' => 'Bahasa korea',
+            'foto' => 'gyj.jpg',
         ]);
         //
         Profil_sekolah::create([
@@ -168,6 +174,13 @@ class DatabaseSeeder extends Seeder
             'deskripsi' => 'Eskul taekwondo bertujuan untuk mengembangkan dan melatih potensi pada tiap siswa/siswi',
             'gambar' => 'taekwondo.jpg',
             'id_guru' => 4
+        ]);
+         Ekstrakulikuler::create([
+            'nama_eskul' => 'Seni Musik band',
+            'jadwal_latihan' => 'Setiap Jumat, 15.00 - 17.00',
+            'deskripsi' => 'Bertujuan untuk melestarikan karya seni modern dan mengembangkan bakat dan potensi yang ada pada siswa/siswi',
+            'gambar' => 'band.jpg',
+            'id_guru' => 5
         ]);
         Mapel::create([
             'mapel' => 'Matematika'

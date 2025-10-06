@@ -14,6 +14,11 @@ const breadcrumbs: BreadcrumbItem[] = [
   },
 ]
 
+interface Mapel {
+  id: number
+  mapel: string
+}
+
 interface Errors {
   nama_guru?: string
   nip?: string
@@ -21,9 +26,14 @@ interface Errors {
   foto?: string
 }
 
+interface PageProps {
+  mapel: Mapel[]
+  errors: Errors
+}
+
 export default function TambahGuru() {
-  const { props } = usePage()
-  const errors = props.errors as Errors
+  const { props } = usePage<PageProps>()
+  const { mapel, errors } = props
 
   const { data, setData, post, processing } = useForm({
     nama_guru: '',
@@ -55,27 +65,6 @@ export default function TambahGuru() {
       forceFormData: true,
     })
   }
-
-  const mataPelajaranOptions = [
-    'Matematika',
-    'Bahasa Indonesia',
-    'Bahasa Inggris',
-    'IPA',
-    'IPS',
-    'PKn',
-    'Seni Budaya',
-    'PJOK',
-    'Prakarya',
-    'Sejarah',
-    'Geografi',
-    'Ekonomi',
-    'Sosiologi',
-    'Fisika',
-    'Kimia',
-    'Biologi',
-    'Agama',
-    'BK',
-  ]
 
   return (
     <AppLayout breadcrumbs={breadcrumbs}>
@@ -166,9 +155,9 @@ export default function TambahGuru() {
                   }`}
                 >
                   <option value="">Pilih Mata Pelajaran</option>
-                  {mataPelajaranOptions.map((mapel) => (
-                    <option key={mapel} value={mapel}>
-                      {mapel}
+                  {mapel.map((item) => (
+                    <option key={item.id} value={item.mapel}>
+                      {item.mapel}
                     </option>
                   ))}
                 </select>

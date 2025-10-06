@@ -19,15 +19,21 @@ interface Guru {
   foto?: string
 }
 
+interface Mapel {
+  id: number
+  mapel: string
+}
+
 interface PageProps {
   errors: Errors
   guru: Guru
+  mapel: Mapel[] // Tambahkan mapel dari database
 }
 
 export default function EditGuru() {
   // Gunakan tipe PageProps
   const { props } = usePage<PageProps>()
-  const { errors, guru } = props
+  const { errors, guru, mapel } = props
 
   // Pastikan guru ada sebelum menggunakan useForm
   const { data, setData, post, processing } = useForm({
@@ -96,7 +102,7 @@ export default function EditGuru() {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
-    post(`/admin/guru/edit/${data.id}`, {
+    post(`/admin/guru/update/${data.id}`, {
       forceFormData: true,
       onError: (errors) => {
         console.log('Errors:', errors)
@@ -106,12 +112,6 @@ export default function EditGuru() {
       }
     })
   }
-
-  const mataPelajaranOptions = [
-    'Matematika', 'Bahasa Indonesia', 'Bahasa Inggris', 'IPA', 'IPS',
-    'PKn', 'Seni Budaya', 'PJOK', 'Prakarya', 'Sejarah', 'Geografi',
-    'Ekonomi', 'Sosiologi', 'Fisika', 'Kimia', 'Biologi', 'Agama', 'BK',
-  ]
 
   return (
     <AppLayout breadcrumbs={breadcrumbs}>
@@ -154,20 +154,20 @@ export default function EditGuru() {
 
               {/* Field Nama Guru */}
               <div>
-                <label htmlFor="nama" className="block text-sm font-medium text-gray-700 mb-1">
+                <label htmlFor="nama_guru" className="block text-sm font-medium text-gray-700 mb-1">
                   Nama Guru <span className="text-red-500">*</span>
                 </label>
                 <input
                   type="text"
-                  id="nama"
+                  id="nama_guru"
                   value={data.nama_guru}
                   onChange={(e) => setData('nama_guru', e.target.value)}
                   className={`w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 ${
-                    errors.nama ? 'border-red-500' : 'border-gray-300'
+                    errors.nama_guru ? 'border-red-500' : 'border-gray-300'
                   }`}
                   placeholder="Masukkan nama lengkap guru"
                 />
-                {errors.nama && <p className="mt-1 text-sm text-red-500">{errors.nama}</p>}
+                {errors.nama_guru && <p className="mt-1 text-sm text-red-500">{errors.nama_guru}</p>}
               </div>
 
               {/* Field NIP */}
@@ -188,7 +188,7 @@ export default function EditGuru() {
                 {errors.nip && <p className="mt-1 text-sm text-red-500">{errors.nip}</p>}
               </div>
 
-              {/* Field Mata Pelajaran */}
+              {/* Field Mata Pelajaran - Diambil dari database */}
               <div>
                 <label htmlFor="mapel" className="block text-sm font-medium text-gray-700 mb-1">
                   Mata Pelajaran <span className="text-red-500">*</span>
@@ -202,9 +202,9 @@ export default function EditGuru() {
                   }`}
                 >
                   <option value="">Pilih Mata Pelajaran</option>
-                  {mataPelajaranOptions.map((mapel) => (
-                    <option key={mapel} value={mapel}>
-                      {mapel}
+                  {mapel.map((item) => (
+                    <option key={item.id} value={item.mapel}>
+                      {item.mapel}
                     </option>
                   ))}
                 </select>
