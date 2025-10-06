@@ -981,10 +981,10 @@ export default function Welcome() {
                             <p className="mt-4 text-lg text-gray-300">
                                 Para pendidik profesional yang berdedikasi dalam mencerdaskan generasi bangsa
                             </p>
-                            <div className="flex">
+                            {/* <div className="flex">
                                 <User className='text-white align-middle'></User>
                                 <p className='mt-4 text-2xl text-white'>Total guru : {jumlah_guru.jumlah_guru}</p>
-                            </div>
+                            </div> */}
                         </div>
                         <div className="max-w-2xl mx-auto mt-16 sm:mt-20 lg:mt-24 lg:max-w-6xl">
                             <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">

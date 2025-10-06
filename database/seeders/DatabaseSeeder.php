@@ -98,6 +98,12 @@ class DatabaseSeeder extends Seeder
             'mapel' => 'Kimia',
             'foto' => 'co.jpg',
         ]);
+        Guru::create([
+            'nama_guru' => 'Mun gayoung',
+            'nip' => '3987654321',
+            'mapel' => 'Kimia',
+            'foto' => 'mungayoung.jpg',
+        ]);
         //
         Profil_sekolah::create([
             'nama_sekolah' => 'SMK YPC Tasikmalaya',
@@ -153,14 +159,14 @@ class DatabaseSeeder extends Seeder
             'jadwal_latihan' => 'Setiap Selasa & Sabtu, 15.00 - 17.00',
             'deskripsi' => 'Eskul badminton bertujuan untuk melatih dan menjadikan siswa atlet yang kompeten',
             'gambar' => 'badminton.jpg',
-            'id_guru' => 1
+            'id_guru' => 2
         ]);
         Ekstrakulikuler::create([
             'nama_eskul' => 'Taekwondo',
             'jadwal_latihan' => 'Setiap Jumat, 15.00 - 17.00',
             'deskripsi' => 'Eskul taekwondo bertujuan untuk mengembangkan dan melatih potensi pada tiap siswa/siswi',
             'gambar' => 'taekwondo.jpg',
-            'id_guru' => 1
+            'id_guru' => 4
         ]);
         //
         Berita::create([

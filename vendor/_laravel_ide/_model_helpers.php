@@ -1287,6 +1287,7 @@ namespace App\Models {
     /**
      * App\Models\Profil_sekolah
      *
+     * @property string|null $link_map
      * @property string|null $warna
      * @property string|null $deskripsi
      * @property mixed $tahun_berdiri
@@ -1325,6 +1326,7 @@ namespace App\Models {
      * @method static \Illuminate\Database\Eloquent\Builder<Profil_sekolah>|Profil_sekolah whereTahunBerdiri($value)
      * @method static \Illuminate\Database\Eloquent\Builder<Profil_sekolah>|Profil_sekolah whereDeskripsi($value)
      * @method static \Illuminate\Database\Eloquent\Builder<Profil_sekolah>|Profil_sekolah whereWarna($value)
+     * @method static \Illuminate\Database\Eloquent\Builder<Profil_sekolah>|Profil_sekolah whereLinkMap($value)
      * @method static \Illuminate\Database\Eloquent\Builder<Profil_sekolah>|Profil_sekolah newModelQuery()
      * @method static \Illuminate\Database\Eloquent\Builder<Profil_sekolah>|Profil_sekolah newQuery()
      * @method static \Illuminate\Database\Eloquent\Builder<Profil_sekolah>|Profil_sekolah query()
