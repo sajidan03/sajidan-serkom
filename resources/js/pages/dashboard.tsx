@@ -76,7 +76,7 @@ const breadcrumbs: BreadcrumbItem[] = [
   },
 ];
 export default function Dashboard() {
-  const { props } = usePage<{ dashboardData: DashboardData, p}>();
+  const { props } = usePage<{ dashboardData: DashboardData,}>();
   const dashboardData = props.dashboardData;
 
   const [currentTime, setCurrentTime] = useState(new Date());
@@ -165,7 +165,7 @@ export default function Dashboard() {
       <AppLayout breadcrumbs={breadcrumbs}>
         <Head title="Dashboard" />
         <div className="flex items-center justify-center h-64">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600"></div>
+          <div className="w-12 h-12 border-b-2 border-blue-600 rounded-full animate-spin"></div>
         </div>
       </AppLayout>
     );
@@ -176,12 +176,12 @@ export default function Dashboard() {
       <Head title="Dashboard Admin SMK YPC" />
       <div className="flex flex-col gap-6 p-6">
         {/* Header */}
-        <div className="flex justify-between items-center">
+        <div className="flex items-center justify-between">
           <div>
             <h1 className="text-3xl font-bold">Dashboard Admin {}</h1>
           </div>
           <div className="text-right">
-            <div className="text-2xl font-mono text-blue-600">
+            <div className="font-mono text-2xl text-blue-600">
               {currentTime.toLocaleTimeString('id-ID')}
             </div>
             <div className="text-sm text-muted-foreground">
@@ -212,30 +212,30 @@ export default function Dashboard() {
         </div>
 
         {/* Aktivitas Terbaru */}
-        <div className="rounded-lg border bg-white p-6 shadow-sm">
+        <div className="p-6 bg-white border rounded-lg shadow-sm">
           <h2 className="mb-4 text-lg font-semibold">Aktivitas Terbaru</h2>
           {dashboardData.recent_activities.length > 0 ? (
             <div className="space-y-4">
               {dashboardData.recent_activities.map((activity) => (
                 <div key={activity.id} className="flex items-center justify-between p-3 border rounded-lg">
-                  <div className="flex gap-3 items-center">
+                  <div className="flex items-center gap-3">
                     <div className="p-2 bg-blue-100 rounded-full">
-                      <Activity className="h-4 w-4 text-blue-600" />
+                      <Activity className="w-4 h-4 text-blue-600" />
                     </div>
                     <div>
                       <p className="font-medium">{activity.user_name}</p>
                       <p className="text-sm text-muted-foreground">{activity.activity}</p>
                     </div>
                   </div>
-                  <div className="text-right text-xs text-muted-foreground">
+                  <div className="text-xs text-right text-muted-foreground">
                     {formatDate(activity.created_at)} {formatTime(activity.created_at)}
                   </div>
                 </div>
               ))}
             </div>
           ) : (
-            <div className="text-center py-8 text-muted-foreground">
-              <Calendar className="h-12 w-12 mx-auto mb-2 opacity-50" />
+            <div className="py-8 text-center text-muted-foreground">
+              <Calendar className="w-12 h-12 mx-auto mb-2 opacity-50" />
               <p>Belum ada aktivitas</p>
             </div>
           )}
@@ -247,7 +247,7 @@ export default function Dashboard() {
 
 function StatCard({ title, value, icon, color }: { title: string; value: number; icon: any; color: string }) {
   return (
-    <div className="rounded-lg border bg-white p-4 shadow-sm flex justify-between items-center">
+    <div className="flex items-center justify-between p-4 bg-white border rounded-lg shadow-sm">
       <div>
         <h3 className="text-sm text-muted-foreground">{title}</h3>
         <p className="text-2xl font-bold">{value}</p>
@@ -259,7 +259,7 @@ function StatCard({ title, value, icon, color }: { title: string; value: number;
 
 function ChartBox({ title, data, options }: any) {
   return (
-    <div className="rounded-lg border bg-white p-6 shadow-sm">
+    <div className="p-6 bg-white border rounded-lg shadow-sm">
       <div className="h-80">
         <Bar options={options} data={data} />
       </div>

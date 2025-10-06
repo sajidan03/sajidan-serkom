@@ -2,7 +2,7 @@ import { login } from '@/routes';
 import { Head, Link, usePage } from '@inertiajs/react';
 import { useState } from 'react';
 import { motion } from 'framer-motion';
-import { Eye, Facebook, FileQuestion, ImageIcon, Instagram, Play, User, Youtube, MapPin } from 'lucide-react';
+import { Eye, Facebook, FileQuestion, ImageIcon, Instagram, Play, User, Youtube, MapPin, GraduationCap, Users } from 'lucide-react';
 
 interface Berita {
   id: number;
@@ -36,6 +36,13 @@ interface Galeri {
   tanggal: string;
 }
 
+interface jumlah_guru{
+    jumlah_guru : number
+}
+
+interface jumlah_siswa{
+    jumlah_siswa: number
+}
 interface ProfilSekolah {
   id: number;
   nama_sekolah: string;
@@ -71,10 +78,12 @@ interface WelcomeProps {
   galeri: Galeri[];
   guru: Guru[];
   gmap: ProfilSekolah[];
+  jumlah_guru : jumlah_guru;
+  jumlah_siswa: jumlah_siswa;
 }
 
 export default function Welcome() {
-    const { profil, berita, ekstrakulikuler, galeri, guru , gmap} = usePage<WelcomeProps>().props;
+    const { profil, berita, ekstrakulikuler, galeri, guru , gmap, jumlah_guru, jumlah_siswa} = usePage<WelcomeProps>().props;
     const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
     const [playingVideo, setPlayingVideo] = useState<number | null>(null);
 
@@ -112,7 +121,7 @@ export default function Welcome() {
 
     const lighterColor = adjustColor(themeColor, 30);
     const darkerColor = adjustColor(themeColor, -30);
-    const accentColor = '#fbbf24';  
+    const accentColor = '#fbbf24';
 
     const GoogleMapEmbed = ({ mapLink, address }: { mapLink: string, address: string }) => {
         if (mapLink) {
@@ -159,7 +168,6 @@ export default function Welcome() {
             );
         }
 
-        // Jika tidak ada link_map, gunakan OpenStreetMap sebagai fallback
         const openStreetMapUrl = `https://www.openstreetmap.org/export/embed.html?bbox=107.6,-6.9,107.7,-6.8&layer=mapnik&marker=${encodeURIComponent(address)}`;
 
         return (
@@ -176,7 +184,6 @@ export default function Welcome() {
         );
     };
 
-    // Fungsi untuk mendapatkan URL Google Maps yang aman
     const getSafeGoogleMapsUrl = (address: string, mapLink?: string) => {
         if (mapLink && !mapLink.includes('embed')) {
             return mapLink;
@@ -507,6 +514,86 @@ export default function Welcome() {
                                     </div>
                                 </div>
                             </div>
+                        </div>
+                    </div>
+                </motion.section>
+
+                {/* Stats Section - Total Guru & Siswa */}
+                <motion.section
+                    initial={{ y: 50, opacity: 0 }}
+                    whileInView={{ y: 0, opacity: 1 }}
+                    viewport={{ once: true, amount: 0.2 }}
+                    transition={{ duration: 1, ease: "easeOut" }}
+                    className="py-16 sm:py-20"
+                    style={{
+                        background: `linear-gradient(to bottom, ${darkerColor}, ${themeColor})`
+                    }}
+                >
+                    <div className="px-6 mx-auto max-w-7xl lg:px-8">
+                        <div className="max-w-4xl mx-auto">
+                            <div className="grid grid-cols-1 gap-8 md:grid-cols-2">
+                                {/* Total Guru */}
+                                <motion.div
+                                    initial={{ scale: 0.8, opacity: 0 }}
+                                    whileInView={{ scale: 1, opacity: 1 }}
+                                    viewport={{ once: true }}
+                                    transition={{ duration: 0.6, delay: 0.2 }}
+                                    className="p-8 text-center transition-all duration-300 border rounded-2xl bg-white/5 backdrop-blur-sm border-white/10 hover:bg-white/10"
+                                >
+                                    <div className="flex flex-col items-center">
+                                        <div className="p-4 mb-4 rounded-full" style={{ backgroundColor: `${accentColor}20` }}>
+                                            <Users className="w-8 h-8" style={{ color: accentColor }} />
+                                        </div>
+                                        <h3 className="mb-2 text-4xl font-bold text-white">
+                                            {jumlah_guru.jumlah_guru}
+                                        </h3>
+                                        <p className="text-lg font-semibold" style={{ color: accentColor }}>
+                                            Total Guru
+                                        </p>
+                                        <p className="mt-2 text-sm text-gray-300">
+                                            Tenaga pendidik profesional yang berdedikasi
+                                        </p>
+                                    </div>
+                                </motion.div>
+
+                                {/* Total Siswa */}
+                                <motion.div
+                                    initial={{ scale: 0.8, opacity: 0 }}
+                                    whileInView={{ scale: 1, opacity: 1 }}
+                                    viewport={{ once: true }}
+                                    transition={{ duration: 0.6, delay: 0.4 }}
+                                    className="p-8 text-center transition-all duration-300 border rounded-2xl bg-white/5 backdrop-blur-sm border-white/10 hover:bg-white/10"
+                                >
+                                    <div className="flex flex-col items-center">
+                                        <div className="p-4 mb-4 rounded-full" style={{ backgroundColor: `${accentColor}20` }}>
+                                            <GraduationCap className="w-8 h-8" style={{ color: accentColor }} />
+                                        </div>
+                                        <h3 className="mb-2 text-4xl font-bold text-white">
+                                            {jumlah_siswa.jumlah_siswa}
+                                        </h3>
+                                        <p className="text-lg font-semibold" style={{ color: accentColor }}>
+                                            Total Siswa
+                                        </p>
+                                        <p className="mt-2 text-sm text-gray-300">
+                                            Siswa aktif yang sedang menempuh pendidikan
+                                        </p>
+                                    </div>
+                                </motion.div>
+                            </div>
+
+                            {/* Additional Info */}
+                            <motion.div
+                                initial={{ y: 20, opacity: 0 }}
+                                whileInView={{ y: 0, opacity: 1 }}
+                                viewport={{ once: true }}
+                                transition={{ duration: 0.6, delay: 0.6 }}
+                                className="mt-8 text-center"
+                            >
+                                <p className="text-sm text-gray-300">
+                                    Komitmen kami dalam memberikan pendidikan terbaik untuk {jumlah_siswa.jumlah_siswa} siswa
+                                    dengan dukungan {jumlah_guru.jumlah_guru} guru profesional
+                                </p>
+                            </motion.div>
                         </div>
                     </div>
                 </motion.section>
@@ -894,8 +981,11 @@ export default function Welcome() {
                             <p className="mt-4 text-lg text-gray-300">
                                 Para pendidik profesional yang berdedikasi dalam mencerdaskan generasi bangsa
                             </p>
+                            <div className="flex">
+                                <User className='text-white align-middle'></User>
+                                <p className='mt-4 text-2xl text-white'>Total guru : {jumlah_guru.jumlah_guru}</p>
+                            </div>
                         </div>
-
                         <div className="max-w-2xl mx-auto mt-16 sm:mt-20 lg:mt-24 lg:max-w-6xl">
                             <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
                                 {guru.map((guruItem) => (
