@@ -37,14 +37,7 @@ export default function GaleriIndex() {
         <div className="flex items-center justify-between mb-6">
           <h1 className="text-2xl font-bold">Daftar Galeri</h1>
 
-          {/* Tombol Export + Tambah Galeri */}
          <div className="flex items-center gap-3">
-        <button
-            onClick={() => router.get('/operator/galeri/export')}
-            className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700"
-        >
-            Export
-        </button>
 
         <Link
             href="/operator/galeri/tambah"

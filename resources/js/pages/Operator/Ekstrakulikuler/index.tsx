@@ -43,12 +43,6 @@ export default function EkstrakurikulerIndex() {
 
           {/* Tombol Export + Tambah Ekstrakurikuler */}
           <div className="flex items-center gap-3">
-            <button
-              onClick={() => router.get('/operator/ekstrakurikuler/export')}
-              className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700"
-            >
-              Export
-            </button>
 
             <Link
               href="/operator/ekstrakulikuler/tambah"

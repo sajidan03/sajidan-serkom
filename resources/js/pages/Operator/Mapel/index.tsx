@@ -35,11 +35,6 @@ export default function MapelIndex() {
 
           {/* Tombol Export + Tambah Mapel */}
           <div className="flex items-center gap-3">
-            <a href="/operator/mapel/export">
-              <button className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700">
-                Export
-              </button>
-            </a>
             <Link
               href="/operator/mapel/tambah"
               className="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700"
