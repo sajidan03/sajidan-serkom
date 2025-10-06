@@ -14,7 +14,8 @@ import {
     BookOpen,
     School,
     GalleryVerticalEnd,
-    UserCircle
+    UserCircle,
+    LibrarySquare
 } from 'lucide-react';
 import AppLogo from './app-logo';
 
@@ -38,6 +39,11 @@ const adminNavItems: NavItem[] = [
         title: 'Guru',
         href: '/admin/guru',
         icon: School,
+    },
+    {
+        title: 'Mata pelajaran',
+        href: '/admin/mapel',
+        icon: LibrarySquare,
     },
     {
         title: 'Galeri',
@@ -76,6 +82,11 @@ const operatorNavItems: NavItem[] = [
         title: 'Guru',
         href: '/operator/guru',
         icon: School,
+    },
+    {
+        title: 'Mata pelajaran',
+        href: '/admin/mapel',
+        icon: LibrarySquare,
     },
     {
         title: 'Galeri',
