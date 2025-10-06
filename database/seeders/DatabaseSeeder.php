@@ -153,6 +153,13 @@ class DatabaseSeeder extends Seeder
             'kategori' => 'foto',
             'tanggal' => '2023-10-01',
         ]);
+         Galeri::create([
+            'judul' => 'Lari pagi',
+            'keterangan' => 'Lari pagi',
+            'file' => 'lari.mp4',
+            'kategori' => 'video',
+            'tanggal' => '2023-10-01',
+        ]);
         //
         Ekstrakulikuler::create([
             'nama_eskul' => 'Pramuka',
