@@ -66,11 +66,172 @@ class WelcomeController extends Controller
         $data['jumlah_guru'] = [
             'jumlah_guru' => Guru::count()
         ];
+        $tahunSekarang = date('Y');
+        $tigaTahunTerakhir = $tahunSekarang - 3;
+        $data['jumlah_siswa'] = [
+        'jumlah_siswa' => Siswa::whereBetween('tahun_masuk', [$tigaTahunTerakhir, $tahunSekarang])
+        ->count()
+        ];
+        $data['jumlah_eskul'] = [
+            'jumlah_eskul' => Ekstrakulikuler::count()
+        ];
+        return Inertia::render('welcome', $data);
+    }
+     public function daftarBerita(){
+        $data['profil'] = Profil_sekolah::all()->first();
+        $data['berita'] = Berita::all()->map(function ($berita) {
+            return [
+                'id' => $berita->id,
+                'judul' => $berita->judul,
+                'isi' => $berita->isi,
+                'gambar' => $berita->gambar,
+                'tanggal' => $berita->tanggal,
+                'created_at' => $berita->created_at,
+                'updated_at' => $berita->updated_at,
+                'encrypted_id' => Crypt::encrypt($berita->id),
+                'user' => $berita->user ? [
+                'id' => $berita->user->id,
+                'name' => $berita->user->name,
+            ] : null,
+            ];
+        });
+        return Inertia::render('berita', $data);
+    }
+    public function detailBerita($id)
+    {
+        $id = Crypt::decrypt($id);
+        $berita = Berita::with('user')->findOrFail($id);
+        $berita->update([
+            'dilihat' => ($berita->dilihat ?? 0) + 1
+        ]);
+
+        $beritaLain = Berita::with('user')
+            ->where('id', '!=', $id)
+            ->latest()
+            ->limit(3)
+            ->get();
+
+        $profil = Profil_sekolah::first();
+
+        return Inertia::render('detail-berita', [
+            'berita' => $berita,
+            'beritaLain' => $beritaLain,
+            'profil' => $profil
+        ]);
+    }
+
+    public function daftarGaleri(){
+         $galeri = Galeri::latest()->get()->map(function ($galeri) {
+             return [
+                'id' => $galeri->id,
+                'judul' => $galeri->judul,
+                'keterangan' => $galeri->keterangan,
+                'file'=> $galeri->file,
+                'kategori'=> $galeri->kategori,
+                'tanggal' => $galeri->tanggal,
+                'encrypted_id' => Crypt::encrypt($galeri->id),
+            ];
+         });
+        $profil = Profil_sekolah::first();
+
+        $kategoriList = Galeri::distinct()
+            ->whereNotNull('kategori')
+            ->where('kategori', '!=', '')
+            ->pluck('kategori')
+            ->toArray();
+
+        return Inertia::render('galeri', [
+            'galeri' => $galeri,
+            'profil' => $profil,
+            'kategoriList' => $kategoriList
+        ]);
+    }
+    public function detailGaleri($id) {
+        $id = Crypt::decrypt($id);
+         $galeri = Galeri::findOrFail($id);
+        $galeri->update([
+            'dilihat' => ($galeri->dilihat ?? 0) + 1
+        ]);
+
+        $galeriLain = Galeri::where('id', '!=', $id)
+            ->latest()
+            ->limit(3)
+            ->get();
+
+        $profil = Profil_sekolah::first();
+
+        return Inertia::render('detail-galeri', [
+            'galeri' => $galeri,
+            'galeriLain' => $galeriLain,
+            'profil' => $profil
+        ]);
+    }
+    public function daftarEskul(){
+        $data = [
+        'ekstrakurikuler' => Ekstrakulikuler::all()->map(function ($ekskul) {
+            return [
+                'id' => $ekskul->id,
+                'created_at' => $ekskul->created_at->format('d M Y'),
+                'updated_at' => $ekskul->updated_at->format('d M Y'),
+                'nama_eskul' => $ekskul->nama_eskul,
+                'pembina' => $ekskul->guru ? $ekskul->guru->nama_guru : 'Tidak ada pembina',
+                'guru_id' => $ekskul->pembina,
+                'jadwal_latihan' => $ekskul->jadwal_latihan,
+                'deskripsi' => $ekskul->deskripsi,
+                'gambar' => $ekskul->gambar,
+                'encrypted_id' => Crypt::encrypt($ekskul->id),
+            ];
+        })->toArray(),
+        'profil' => Profil_sekolah::first()
+    ];
+        $data['jumlah_guru'] = [
+            'jumlah_guru' => Guru::count()
+        ];
         $data['jumlah_siswa'] = [
             'jumlah_siswa' => Siswa::count()
         ];
 
+    return Inertia::render('ekstrakulikuler', $data);
         return Inertia::render('welcome', $data);
     }
 
+    public function detailEskul($id) {
+    try {
+        $id = Crypt::decrypt($id);
+        $ekstrakurikuler = Ekstrakulikuler::findOrFail($id);
+        $ekstrakurikulerLain = Ekstrakulikuler::where('id', '!=', $id)
+            ->latest()
+            ->limit(3)
+            ->get();
+
+        $profil = Profil_sekolah::first();
+
+        return Inertia::render('detail-eskul', [
+            'ekstrakurikuler' => [
+                'id' => $ekstrakurikuler->id,
+                'nama_eskul' => $ekstrakurikuler->nama_eskul,
+                'pembina' => $ekstrakurikuler->guru ? $ekstrakurikuler->guru->nama_guru : 'Tidak ada pembina',
+                'jadwal_latihan' => $ekstrakurikuler->jadwal_latihan,
+                'deskripsi' => $ekstrakurikuler->deskripsi,
+                'gambar' => $ekstrakurikuler->gambar,
+                'jumlah_anggota' => $ekstrakurikuler->jumlah_anggota ?? null,
+                'tempat_latihan' => $ekstrakurikuler->tempat_latihan ?? null,
+            ],
+            'ekstrakurikulerLain' => $ekstrakurikulerLain->map(function ($ekskul) {
+                return [
+                    'id' => $ekskul->id,
+                    'nama_eskul' => $ekskul->nama_eskul,
+                    'pembina' => $ekskul->guru ? $ekskul->guru->nama_guru : 'Tidak ada pembina',
+                    'jadwal_latihan' => $ekskul->jadwal_latihan,
+                    'deskripsi' => $ekskul->deskripsi,
+                    'gambar' => $ekskul->gambar,
+                    'encrypted_id' => Crypt::encrypt($ekskul->id),
+                ];
+            })->toArray(),
+            'profil' => $profil
+        ]);
+    } catch (\Exception $e) {
+        abort(404, 'Ekstrakurikuler tidak ditemukan');
+    }
+}
 }

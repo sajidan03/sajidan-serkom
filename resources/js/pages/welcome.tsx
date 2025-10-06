@@ -43,6 +43,9 @@ interface jumlah_guru{
 interface jumlah_siswa{
     jumlah_siswa: number
 }
+interface jumlah_eskul{
+    jumlah_eskul: number
+}
 interface ProfilSekolah {
   id: number;
   nama_sekolah: string;
@@ -80,10 +83,11 @@ interface WelcomeProps {
   gmap: ProfilSekolah[];
   jumlah_guru : jumlah_guru;
   jumlah_siswa: jumlah_siswa;
+  jumlah_eskul: jumlah_eskul;
 }
 
 export default function Welcome() {
-    const { profil, berita, ekstrakulikuler, galeri, guru , gmap, jumlah_guru, jumlah_siswa} = usePage<WelcomeProps>().props;
+    const { profil, berita, ekstrakulikuler, galeri, guru , gmap, jumlah_guru, jumlah_siswa, jumlah_eskul} = usePage<WelcomeProps>().props;
     const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
     const [playingVideo, setPlayingVideo] = useState<number | null>(null);
 
@@ -549,6 +553,29 @@ export default function Welcome() {
                                         </h3>
                                         <p className="text-lg font-semibold" style={{ color: accentColor }}>
                                             Total Guru
+                                        </p>
+                                        <p className="mt-2 text-sm text-gray-300">
+                                            Tenaga pendidik profesional yang berdedikasi
+                                        </p>
+                                    </div>
+                                </motion.div>
+
+                                 <motion.div
+                                    initial={{ scale: 0.8, opacity: 0 }}
+                                    whileInView={{ scale: 1, opacity: 1 }}
+                                    viewport={{ once: true }}
+                                    transition={{ duration: 0.6, delay: 0.2 }}
+                                    className="p-8 text-center transition-all duration-300 border rounded-2xl bg-white/5 backdrop-blur-sm border-white/10 hover:bg-white/10"
+                                >
+                                    <div className="flex flex-col items-center">
+                                        <div className="p-4 mb-4 rounded-full" style={{ backgroundColor: `${accentColor}20` }}>
+                                            <Users className="w-8 h-8" style={{ color: accentColor }} />
+                                        </div>
+                                        <h3 className="mb-2 text-4xl font-bold text-white">
+                                            {jumlah_eskul.jumlah_eskul}
+                                        </h3>
+                                        <p className="text-lg font-semibold" style={{ color: accentColor }}>
+                                            Total Ekstrakurikuler
                                         </p>
                                         <p className="mt-2 text-sm text-gray-300">
                                             Tenaga pendidik profesional yang berdedikasi

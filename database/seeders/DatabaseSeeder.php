@@ -14,6 +14,7 @@ use App\Models\Pemasukan;
 use App\Models\Pengeluaran;
 use App\Models\Ekstrakulikuler;
 use App\Models\Profil_sekolah;
+use App\Models\Mapel;
 use App\Models\Siswa;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
@@ -168,6 +169,13 @@ class DatabaseSeeder extends Seeder
             'gambar' => 'taekwondo.jpg',
             'id_guru' => 4
         ]);
+        Mapel::create([
+            'mapel' => 'Matematika'
+        ]);
+        Mapel::create([
+            'mapel' => "IPA"
+        ]);
+        //
         //
         Berita::create([
             'judul' => 'Juara 2 LKS Tingkat Nasional Maulana ridwan',
