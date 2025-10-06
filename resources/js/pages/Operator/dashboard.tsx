@@ -71,12 +71,12 @@ interface PageProps{
 }
 const breadcrumbs: BreadcrumbItem[] = [
   {
-    title: 'Dashboard',
+    title: 'Dashboard operator',
     href: dashboard().url,
   },
 ];
 export default function Dashboard() {
-  const { props } = usePage<{ dashboardData: DashboardData, p}>();
+  const { props } = usePage<{ dashboardData: DashboardData,}>();
   const dashboardData = props.dashboardData;
 
   const [currentTime, setCurrentTime] = useState(new Date());

@@ -64,7 +64,7 @@ class OperatorController extends Controller
             });
         $guru['guru'] = Guru::all();
         $profil['profil'] = Profil_sekolah::all()->first();
-        return Inertia::render('dashboard', [
+        return Inertia::render('Operator/dashboard', [
             'guru' => $guru['guru'],
             'profil' => $profil['profil'],
             'dashboardData' => [

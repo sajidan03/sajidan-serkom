@@ -35,13 +35,12 @@ export default function TambahSiswa() {
   const [tahunOptions, setTahunOptions] = useState<number[]>([])
 
   useEffect(() => {
-    // Generate tahun options (10 tahun terakhir hingga tahun depan)
     const currentYear = new Date().getFullYear()
     const years = []
     for (let i = -5; i <= 1; i++) {
       years.push(currentYear + i)
     }
-    setTahunOptions(years.sort((a, b) => b - a)) // Urutkan dari tahun terbaru
+    setTahunOptions(years.sort((a, b) => b - a)) 
   }, [])
 
   const handleSubmit = (e: React.FormEvent) => {

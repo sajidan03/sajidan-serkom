@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use App\Http\Controllers\BeritaController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\EkskulController;
@@ -34,7 +35,7 @@ Route::get('ekstrakulikuler', [WelcomeController::class, 'daftarEskul'])->name('
 Route::get('ekstrakulikuler/{id}', [WelcomeController::class, 'detailEskul'])->name('daftarEskul');
 //fax atau pesan
 Route::post('fax/tambah', [WelcomeController::class, 'fax'])->name('fax');
-
+Route::post('logout', [AuthenticatedSessionController::class, 'destroy'])->name('logout');
 Route::middleware(['auth', 'verified'])
     ->prefix('admin')
     ->group(function () {

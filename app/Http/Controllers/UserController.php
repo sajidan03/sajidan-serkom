@@ -55,7 +55,7 @@ class UserController extends Controller
         'name' => 'required|string|max:255',
         'username' => 'required|string|unique:users,username',
         'password' => 'required',
-        'role' => 'required|in:warga,admin,petugas',
+        'role' => 'required|in:admin,operator',
     ]);
 
     User::create([
@@ -76,7 +76,7 @@ return redirect()->route('userView')->with('success', 'User berhasil ditambahkan
         'name' => 'required|string|max:255',
         'username' => 'required|string|unique:users,username,' . $user->id,
         'password' => 'nullable|string|',
-        'role' => 'required|in:warga,admin,petugas',
+        'role' => 'required|in:admin,operator',
     ]);
 
     $data = [

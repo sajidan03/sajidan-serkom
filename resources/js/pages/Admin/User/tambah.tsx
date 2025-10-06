@@ -25,12 +25,12 @@ export default function Create() {
     name: '',
     username: '',
     password: '',
-    role: 'siswa',
+    role: 'operator',
   })
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
-    post('/admin/user/tambah')
+    post('/admin/user/simpan')
   }
 
   const getRoleIcon = (role: string) => {
@@ -154,13 +154,7 @@ export default function Create() {
                       <SelectValue placeholder="Pilih role" />
                     </SelectTrigger>
                     <SelectContent>
-                      <SelectItem value="warga">
-                        <div className="flex items-center gap-2">
-                          <Users className="w-4 h-4" />
-                            Siswa
-                        </div>
-                      </SelectItem>
-                      <SelectItem value="petugas">
+                      <SelectItem value="operator">
                         <div className="flex items-center gap-2">
                           <User className="w-4 h-4" />
                           Operator
