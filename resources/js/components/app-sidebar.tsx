@@ -85,7 +85,7 @@ const operatorNavItems: NavItem[] = [
     },
     {
         title: 'Mata pelajaran',
-        href: '/admin/mapel',
+        href: '/operator/mapel',
         icon: LibrarySquare,
     },
     {

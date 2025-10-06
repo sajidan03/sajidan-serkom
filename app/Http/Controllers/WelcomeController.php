@@ -239,4 +239,19 @@ class WelcomeController extends Controller
         abort(404, 'Ekstrakurikuler tidak ditemukan');
     }
 }
+    public function fax(Request $request) {
+        $request->validate([
+            'email' => 'nullable|string',
+            'pesan' => 'nullable|string'
+        ]);
+        Fax::create([
+            'email' => $request->email,
+            'pesan' => $request->pesan,
+        ]);
+        return response()->json([
+                'success' => true,
+                'message' => 'Terima kasih! Saran Anda telah berhasil dikirim.',
+                'data' => $fax
+            ], 201);
+    }
 }

@@ -23,14 +23,14 @@ class OperatorMapel extends Controller
                     'encrypted_id' => Crypt::encrypt($mapel->id),
                 ];
             })->toArray();
-            return Inertia::render('Admin/Mapel/index', $data);
+            return Inertia::render('Operator/Mapel/index', $data);
     }
 
     public function mapelEditView($id){
         $id = Crypt::decrypt($id);
         $data['profil'] = Profil_sekolah::all()->first();
         $data['mapel'] = Mapel::findOrFail($id);
-        return Inertia::render('Admin/Mapel/edit', $data);
+        return Inertia::render('Operator/Mapel/edit', $data);
     }
     public function mapelEdit(Request $request, $id){
         $data['profil'] = Profil_sekolah::all()->first();
@@ -42,7 +42,7 @@ class OperatorMapel extends Controller
         $mapel->update([
             'mapel' => $request->mapel,
         ]);
-        return redirect()->route('mapelView');
+        return redirect()->route('operatorMapelView');
     }
     public function mapelTambah(Request $request){
         $request->validate([
@@ -51,14 +51,14 @@ class OperatorMapel extends Controller
         Mapel::create([
             'mapel' => $request->mapel,
         ]);
-        return redirect()->route('mapelView');
+        return redirect()->route('operatorMapelView');
     }
     public function mapelTambahView(){
         $data['profil'] = Profil_sekolah::all()->first();
-        return Inertia::render('Admin/Mapel/tambah', $data);
+        return Inertia::render('Operator/Mapel/tambah', $data);
     }
     public function mapelHapus($id) {
         $hapus = Mapel::find($id)->delete();
-        return redirect()->route('mapelView');
+        return redirect()->route('operatorMapelView');
     }
 }

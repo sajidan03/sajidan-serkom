@@ -9,6 +9,7 @@ use App\Http\Controllers\OperatorBerita;
 use App\Http\Controllers\OperatorController;
 use App\Http\Controllers\OperatorEskul;
 use App\Http\Controllers\OperatorGaleri;
+use App\Http\Controllers\OperatorMapel;
 use App\Http\Controllers\OperatorGuru;
 use App\Http\Controllers\OperatorProfilSekolah;
 use App\Http\Controllers\OperatorSiswa;
@@ -30,6 +31,8 @@ Route::get('/galeri/{id}', [WelcomeController::class, 'detailGaleri'])->name('de
 //ekstrakulikuler
 Route::get('ekstrakulikuler', [WelcomeController::class, 'daftarEskul'])->name('daftarEskul');
 Route::get('ekstrakulikuler/{id}', [WelcomeController::class, 'detailEskul'])->name('daftarEskul');
+//fax atau pesan
+Route::post('fax', [WelcomeController::class, 'faxPost'])->name('fax');
 
 Route::middleware(['auth', 'verified'])
     ->prefix('admin')
@@ -109,6 +112,7 @@ Route::middleware(['auth', 'verified'])
         Route::get('ekstrakulikuler', [OperatorEskul::class, 'index'])->name('operatorEkskulView');
         Route::get('profil-sekolah', [OperatorProfilSekolah::class, 'index'])->name('operatorProfilView');
         Route::get('siswa', [OperatorSiswa::class, 'index'])->name('operatorSiswaView');
+        Route::get('mapel', [OperatorMapel::class, 'index'])->name('operatorMapelView');
         //export
         Route::get('guru/export', [OperatorGuru::class, 'export'])->name('guruExport');
 
@@ -154,11 +158,11 @@ Route::middleware(['auth', 'verified'])
         Route::post('profil-sekolah/edit/{id}', [OperatorProfilSekolah::class, 'profilEdit'])->name('profilEdit');
         Route::delete('profil-sekolah/hapus/{id}', [OperatorProfilSekolah::class, 'hapusProfil'])->name('profilHapus');
         //kelola-mapel
-        Route::get('mapel/tambah', [OperatorMapel::class, 'mapelTambahView'])->name('mapelTambahView');
-        Route::post('mapel/tambah', [OperatorMapel::class, 'mapelTambah'])->name('mapelSimpan');
-        Route::get('mapel/edit/{id}', [OperatorMapel::class, 'mapelEditView'])->name('mapelEditView');
-        Route::post('mapel/edit/{id}', [OperatorBerita::class, 'mapelEdit'])->name('mapelEdit');
-        Route::delete('mapel/hapus/{id}', [OperatorBerita::class, 'mapelHapus'])->name('mapelHapus');
+        Route::get('mapel/tambah', [OperatorMapel::class, 'mapelTambahView'])->name('operatorMapelTambahView');
+        Route::post('mapel/tambah', [OperatorMapel::class, 'mapelTambah'])->name('operatorMapelSimpan');
+        Route::get('mapel/edit/{id}', [OperatorMapel::class, 'mapelEditView'])->name('operatorMapelEditView');
+        Route::post('mapel/edit/{id}', [OperatorBerita::class, 'mapelEdit'])->name('operatorMapelEdit');
+        Route::delete('mapel/hapus/{id}', [OperatorBerita::class, 'mapelHapus'])->name('operatorMapelHapus');
         });
 
 require __DIR__ . '/settings.php';

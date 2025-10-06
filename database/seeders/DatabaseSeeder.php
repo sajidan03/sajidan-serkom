@@ -175,6 +175,36 @@ class DatabaseSeeder extends Seeder
         Mapel::create([
             'mapel' => "IPA"
         ]);
+        Mapel::create([
+            'mapel' => "IPS"
+        ]);
+        Mapel::create([
+            'mapel' => "Bahasa inggris"
+        ]);
+        Mapel::create([
+            'mapel' => "Bahasa indonesia"
+        ]);
+        Mapel::create([
+            'mapel' => "Bahasa jepang"
+        ]);
+        Mapel::create([
+            'mapel' => "Bahasa korea"
+        ]);
+        Mapel::create([
+            'mapel' => "Bahasa sunda"
+        ]);
+        Mapel::create([
+            'mapel' => "PAI"
+        ]);
+        Mapel::create([
+            'mapel' => "PKK"
+        ]);
+        Mapel::create([
+            'mapel' => "PPKN"
+        ]);
+        Mapel::create([
+            'mapel' => "PJOK"
+        ]);
         //
         //
         Berita::create([
