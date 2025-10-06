@@ -18,7 +18,24 @@ class FaxController extends Controller
             'profil' => Profil_sekolah::all()->first()
         ]);
     }
-    public function destroy($id){
+    public function indexOperator(){
+        $fax = Fax::orderBy('created_at', 'desc')->get();
+        return Inertia::render('Operator/Fax/index', [
+            'fax' => $fax,
+            'profil' => Profil_sekolah::all()->first()
+        ]);
+    }
+    public function hapus($id){
+    try {
+        $fax = Fax::findOrFail($id);
+        $fax->delete();
+
+        return redirect()->back()->with('success', 'Pesan berhasil dihapus');
+    } catch (\Exception $e) {
+        return redirect()->back()->with('error', 'Gagal menghapus pesan');
+    }
+}
+  public function hapusOperator($id){
     try {
         $fax = Fax::findOrFail($id);
         $fax->delete();

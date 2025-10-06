@@ -49,7 +49,7 @@ Route::middleware(['auth', 'verified'])
         Route::get('mapel', [MapelController::class, 'index'])->name('mapelView');
         Route::get('siswa', [SiswaController::class, 'index'])->name('siswaView');
         Route::get('fax', [FaxController::class, 'index'])->name('siswaView');
-        Route::delete('fax/hapus/{id}', [FaxController::class, 'destroy'])->name('hapusFax');
+        Route::delete('fax/hapus/{id}', [FaxController::class, 'hapus'])->name('hapusFax');
 
         //export
         Route::get('guru/export', [GuruController::class, 'export'])->name('guruExport');
@@ -61,13 +61,13 @@ Route::middleware(['auth', 'verified'])
         Route::get('galeri/edit/{id}', [GaleriController::class, 'galeriEditView'])->name('galeriEditView');
         Route::post('galeri/edit/{id}', [GaleriController::class, 'galeriEdit'])->name('galeriEdit');
         Route::delete('galeri/hapus/{id}', [GaleriController::class, 'galeriHapus'])->name('galeriHapus');
-        //
+        //kelola-guru
         Route::get('guru/tambah', [GuruController::class, 'tambahView'])->name('guruTambahView');
         Route::post('guru/simpan', [GuruController::class, 'simpan'])->name('guruSimpan');
         Route::get('guru/edit/{id}', [GuruController::class, 'guruEditView'])->name('guruEditView');
         Route::post('guru/edit/{id}', [GuruController::class, 'guruEdit'])->name('guruEdit');
         Route::delete('guru/hapus/{id}', [GuruController::class, 'guruHapus'])->name('guruHapus');
-        //
+        //kelola-user
         Route::get('user/tambah', [UserController::class, 'tambahView'])->name('userTambahView');
         Route::post('user/simpan', [UserController::class, 'simpan'])->name('userSimpan');
         Route::get('user/edit/{id}', [UserController::class, 'userEditView'])->name('userEditView');
@@ -117,6 +117,9 @@ Route::middleware(['auth', 'verified'])
         Route::get('profil-sekolah', [OperatorProfilSekolah::class, 'index'])->name('operatorProfilView');
         Route::get('siswa', [OperatorSiswa::class, 'index'])->name('operatorSiswaView');
         Route::get('mapel', [OperatorMapel::class, 'index'])->name('operatorMapelView');
+        Route::get('fax', [FaxController::class, 'indexOperator'])->name('siswaView');
+        Route::delete('fax/hapus/{id}', [FaxController::class, 'hapusOperator'])->name('hapusFax');
+
         //export
         Route::get('guru/export', [OperatorGuru::class, 'export'])->name('guruExport');
 

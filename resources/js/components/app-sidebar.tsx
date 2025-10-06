@@ -114,6 +114,11 @@ const operatorNavItems: NavItem[] = [
         href: '/operator/profil-sekolah',
         icon: Banknote,
     },
+        {
+        title: 'Pesan dari anonim',
+        href: '/operator/fax',
+        icon: MessageCircle,
+    },
 ];
 
 const footerNavItems: NavItem[] = [];
