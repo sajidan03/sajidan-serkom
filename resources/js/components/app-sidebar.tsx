@@ -15,7 +15,8 @@ import {
     School,
     GalleryVerticalEnd,
     UserCircle,
-    LibrarySquare
+    LibrarySquare,
+    MessageCircle
 } from 'lucide-react';
 import AppLogo from './app-logo';
 
@@ -64,6 +65,11 @@ const adminNavItems: NavItem[] = [
         title: 'Profil sekolah',
         href: '/admin/profil-sekolah',
         icon: UserCircle,
+    },
+    {
+        title: 'Pesan dari anonim',
+        href: '/admin/fax',
+        icon: MessageCircle,
     },
 ];
 

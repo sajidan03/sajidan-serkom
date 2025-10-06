@@ -9,7 +9,9 @@ use App\Models\Guru;
 use App\Models\Profil_sekolah;
 use App\Models\Siswa;
 use App\Models\User;
+use Illuminate\Http\Request;
 use App\Models\Mapel;
+use App\Models\Fax;
 use Illuminate\Support\Facades\Crypt;
 use Inertia\Inertia;
 
@@ -244,7 +246,7 @@ class WelcomeController extends Controller
             'email' => 'nullable|string',
             'pesan' => 'nullable|string'
         ]);
-        Fax::create([
+        $fax = Fax::create([
             'email' => $request->email,
             'pesan' => $request->pesan,
         ]);

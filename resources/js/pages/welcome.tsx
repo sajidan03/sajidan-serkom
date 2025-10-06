@@ -1,5 +1,5 @@
 import { login } from '@/routes';
-import { Head, Link, usePage } from '@inertiajs/react';
+import { Head, Link, usePage, router } from '@inertiajs/react';
 import { useState } from 'react';
 import { motion } from 'framer-motion';
 import { Eye, Facebook, FileQuestion, ImageIcon, Instagram, Play, User, Youtube, MapPin, GraduationCap, Users, Library, LibraryBig, SquareLibraryIcon, Factory } from 'lucide-react';
@@ -95,6 +95,12 @@ export default function Welcome() {
     const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
     const [playingVideo, setPlayingVideo] = useState<number | null>(null);
 
+    // State untuk form saran
+    const [email, setEmail] = useState('');
+    const [pesan, setPesan] = useState('');
+    const [isSubmitting, setIsSubmitting] = useState(false);
+    const [submitStatus, setSubmitStatus] = useState<'idle' | 'success' | 'error'>('idle');
+
     const themeColor = profil.warna || '#1e3a8a';
 
     const visiMisiArray = profil.visi_misi ? profil.visi_misi.split('\n') : [];
@@ -130,6 +136,31 @@ export default function Welcome() {
     const lighterColor = adjustColor(themeColor, 30);
     const darkerColor = adjustColor(themeColor, -30);
     const accentColor = '#fbbf24';
+
+    const handleSubmitSaran = (e: React.FormEvent) => {
+        e.preventDefault();
+        setIsSubmitting(true);
+        setSubmitStatus('idle');
+
+        router.post('/fax/tambah', {
+            email: email,
+            pesan: pesan
+        }, {
+            onSuccess: () => {
+                setSubmitStatus('success');
+                setEmail('');
+                setPesan('');
+                setIsSubmitting(false);
+                // Reset status setelah 5 detik
+                setTimeout(() => setSubmitStatus('idle'), 5000);
+            },
+            onError: (errors) => {
+                setSubmitStatus('error');
+                setIsSubmitting(false);
+            },
+            preserveScroll: true
+        });
+    };
 
     const GoogleMapEmbed = ({ mapLink, address }: { mapLink: string, address: string }) => {
         if (mapLink) {
@@ -1037,10 +1068,6 @@ export default function Welcome() {
                             <p className="mt-4 text-lg text-gray-300">
                                 Para pendidik profesional yang berdedikasi dalam mencerdaskan generasi bangsa
                             </p>
-                            {/* <div className="flex">
-                                <User className='text-white align-middle'></User>
-                                <p className='mt-4 text-2xl text-white'>Total guru : {jumlah_guru.jumlah_guru}</p>
-                            </div> */}
                         </div>
                         <div className="max-w-2xl mx-auto mt-16 sm:mt-20 lg:mt-24 lg:max-w-6xl">
                             <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
@@ -1203,6 +1230,118 @@ export default function Welcome() {
                         </div>
                     </div>
                 </section>
+
+                {/* Saran & Feedback Section */}
+                <motion.section
+                    initial={{ y: 50, opacity: 0 }}
+                    whileInView={{ y: 0, opacity: 1 }}
+                    viewport={{ once: true, amount: 0.2 }}
+                    transition={{ duration: 1, ease: "easeOut" }}
+                    className="py-16 sm:py-20"
+                    style={{
+                        background: `linear-gradient(to bottom, ${themeColor}, ${darkerColor})`
+                    }}
+                >
+                    <div className="px-6 mx-auto max-w-4xl lg:px-8">
+                        <div className="text-center">
+                            <h2 className="font-semibold text-base/7" style={{ color: accentColor }}>
+                                Saran & Feedback
+                            </h2>
+                            <p className="mt-2 text-3xl font-semibold tracking-tight text-white text-balance sm:text-4xl">
+                                Berikan Masukan Anda
+                            </p>
+                            <p className="mt-4 text-lg text-gray-300">
+                                Kami menghargai setiap saran dan masukan untuk meningkatkan kualitas pendidikan
+                            </p>
+                        </div>
+
+                        <div className="mt-12">
+                            <div className="p-8 border rounded-2xl bg-white/5 backdrop-blur-sm border-white/10">
+                                <form onSubmit={handleSubmitSaran} className="space-y-6">
+                                    {/* Email/No HP Field */}
+                                    <div>
+                                        <label htmlFor="email" className="block text-sm font-medium text-white mb-2">
+                                            Email atau Nomor HP <span className="text-red-400">*</span>
+                                        </label>
+                                        <input
+                                            type="text"
+                                            id="email"
+                                            name="email"
+                                            value={email}
+                                            onChange={(e) => setEmail(e.target.value)}
+                                            className="w-full px-4 py-3 text-white bg-white/10 border border-white/20 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-yellow-400 focus:border-yellow-400 text-base placeholder-gray-400"
+                                            placeholder="contoh: email@domain.com atau 081234567890"
+                                            required
+                                            disabled={isSubmitting}
+                                        />
+                                        <p className="mt-2 text-sm text-gray-400">
+                                            Kami akan menghubungi Anda melalui email atau WhatsApp
+                                        </p>
+                                    </div>
+
+                                    {/* Pesan Field */}
+                                    <div>
+                                        <label htmlFor="pesan" className="block text-sm font-medium text-white mb-2">
+                                            Saran atau Masukan <span className="text-red-400">*</span>
+                                        </label>
+                                        <textarea
+                                            id="pesan"
+                                            name="pesan"
+                                            value={pesan}
+                                            onChange={(e) => setPesan(e.target.value)}
+                                            rows={5}
+                                            className="w-full px-4 py-3 text-white bg-white/10 border border-white/20 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-yellow-400 focus:border-yellow-400 text-base placeholder-gray-400 resize-none"
+                                            placeholder="Tuliskan saran, masukan, atau kritik konstruktif untuk sekolah kami..."
+                                            required
+                                            disabled={isSubmitting}
+                                        />
+                                        <p className="mt-2 text-sm text-gray-400">
+                                            Minimal 10 karakter, maksimal 1000 karakter
+                                        </p>
+                                    </div>
+
+                                    {/* Status Message */}
+                                    {submitStatus === 'success' && (
+                                        <div className="p-4 text-green-800 bg-green-100 border border-green-200 rounded-lg">
+                                            ✅ Terima kasih! Saran Anda telah berhasil dikirim.
+                                        </div>
+                                    )}
+
+                                    {submitStatus === 'error' && (
+                                        <div className="p-4 text-red-800 bg-red-100 border border-red-200 rounded-lg">
+                                            ❌ Terjadi kesalahan. Silakan coba lagi.
+                                        </div>
+                                    )}
+
+                                    {/* Submit Button */}
+                                    <div className="flex justify-end">
+                                        <button
+                                            type="submit"
+                                            disabled={isSubmitting || !email.trim() || !pesan.trim() || pesan.length < 10}
+                                            className="px-6 py-3 text-base font-medium text-white transition-all duration-300 rounded-lg disabled:opacity-50 disabled:cursor-not-allowed hover:shadow-lg"
+                                            style={{
+                                                backgroundColor: isSubmitting ? '#6b7280' : accentColor,
+                                                color: themeColor
+                                            }}
+                                        >
+                                            {isSubmitting ? (
+                                                <span className="flex items-center">
+                                                    <svg className="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                                                        <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                                                        <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                                                    </svg>
+                                                    Mengirim...
+                                                </span>
+                                            ) : (
+                                                'Kirim Saran'
+                                            )}
+                                        </button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </motion.section>
 
                 {/* Footer */}
                 <footer id="kontak" className="py-12 border-t border-white/10" style={{

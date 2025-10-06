@@ -18,6 +18,7 @@ use App\Http\Controllers\MapelController;
 use App\Http\Controllers\SiswaController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\WelcomeController;
+use App\Http\Controllers\FaxController;
 use App\Models\Ekstrakulikuler;
 use Illuminate\Support\Facades\Route;
 
@@ -32,7 +33,7 @@ Route::get('/galeri/{id}', [WelcomeController::class, 'detailGaleri'])->name('de
 Route::get('ekstrakulikuler', [WelcomeController::class, 'daftarEskul'])->name('daftarEskul');
 Route::get('ekstrakulikuler/{id}', [WelcomeController::class, 'detailEskul'])->name('daftarEskul');
 //fax atau pesan
-Route::post('fax', [WelcomeController::class, 'faxPost'])->name('fax');
+Route::post('fax/tambah', [WelcomeController::class, 'fax'])->name('fax');
 
 Route::middleware(['auth', 'verified'])
     ->prefix('admin')
@@ -47,6 +48,9 @@ Route::middleware(['auth', 'verified'])
         Route::get('profil-sekolah', [ProfilSekolahController::class, 'index'])->name('profilView');
         Route::get('mapel', [MapelController::class, 'index'])->name('mapelView');
         Route::get('siswa', [SiswaController::class, 'index'])->name('siswaView');
+        Route::get('fax', [FaxController::class, 'index'])->name('siswaView');
+        Route::delete('fax/hapus/{id}', [FaxController::class, 'destroy'])->name('hapusFax');
+
         //export
         Route::get('guru/export', [GuruController::class, 'export'])->name('guruExport');
         Route::get('user/export', [UserController::class, 'export'])->name('userExport');
