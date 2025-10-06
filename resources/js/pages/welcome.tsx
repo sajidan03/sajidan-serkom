@@ -2,7 +2,7 @@ import { login } from '@/routes';
 import { Head, Link, usePage } from '@inertiajs/react';
 import { useState } from 'react';
 import { motion } from 'framer-motion';
-import { Eye, Facebook, FileQuestion, ImageIcon, Instagram, Play, User, Youtube, MapPin, GraduationCap, Users } from 'lucide-react';
+import { Eye, Facebook, FileQuestion, ImageIcon, Instagram, Play, User, Youtube, MapPin, GraduationCap, Users, Library, LibraryBig, SquareLibraryIcon, Factory } from 'lucide-react';
 
 interface Berita {
   id: number;
@@ -46,6 +46,9 @@ interface jumlah_siswa{
 interface jumlah_eskul{
     jumlah_eskul: number
 }
+interface jumlah_mapel{
+    jumlah_mapel: number
+}
 interface ProfilSekolah {
   id: number;
   nama_sekolah: string;
@@ -84,10 +87,11 @@ interface WelcomeProps {
   jumlah_guru : jumlah_guru;
   jumlah_siswa: jumlah_siswa;
   jumlah_eskul: jumlah_eskul;
+  jumlah_mapel: jumlah_mapel;
 }
 
 export default function Welcome() {
-    const { profil, berita, ekstrakulikuler, galeri, guru , gmap, jumlah_guru, jumlah_siswa, jumlah_eskul} = usePage<WelcomeProps>().props;
+    const { profil, berita, ekstrakulikuler, galeri, guru , jumlah_guru, jumlah_siswa, jumlah_eskul, jumlah_mapel} = usePage<WelcomeProps>().props;
     const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
     const [playingVideo, setPlayingVideo] = useState<number | null>(null);
 
@@ -560,30 +564,7 @@ export default function Welcome() {
                                     </div>
                                 </motion.div>
 
-                                 <motion.div
-                                    initial={{ scale: 0.8, opacity: 0 }}
-                                    whileInView={{ scale: 1, opacity: 1 }}
-                                    viewport={{ once: true }}
-                                    transition={{ duration: 0.6, delay: 0.2 }}
-                                    className="p-8 text-center transition-all duration-300 border rounded-2xl bg-white/5 backdrop-blur-sm border-white/10 hover:bg-white/10"
-                                >
-                                    <div className="flex flex-col items-center">
-                                        <div className="p-4 mb-4 rounded-full" style={{ backgroundColor: `${accentColor}20` }}>
-                                            <Users className="w-8 h-8" style={{ color: accentColor }} />
-                                        </div>
-                                        <h3 className="mb-2 text-4xl font-bold text-white">
-                                            {jumlah_eskul.jumlah_eskul}
-                                        </h3>
-                                        <p className="text-lg font-semibold" style={{ color: accentColor }}>
-                                            Total Ekstrakurikuler
-                                        </p>
-                                        <p className="mt-2 text-sm text-gray-300">
-                                            Tenaga pendidik profesional yang berdedikasi
-                                        </p>
-                                    </div>
-                                </motion.div>
-
-                                {/* Total Siswa */}
+                                   {/* Total Siswa */}
                                 <motion.div
                                     initial={{ scale: 0.8, opacity: 0 }}
                                     whileInView={{ scale: 1, opacity: 1 }}
@@ -606,6 +587,52 @@ export default function Welcome() {
                                         </p>
                                     </div>
                                 </motion.div>
+
+                                <motion.div
+                                    initial={{ scale: 0.8, opacity: 0 }}
+                                    whileInView={{ scale: 1, opacity: 1 }}
+                                    viewport={{ once: true }}
+                                    transition={{ duration: 0.6, delay: 0.2 }}
+                                    className="p-8 text-center transition-all duration-300 border rounded-2xl bg-white/5 backdrop-blur-sm border-white/10 hover:bg-white/10"
+                                >
+                                    <div className="flex flex-col items-center">
+                                        <div className="p-4 mb-4 rounded-full" style={{ backgroundColor: `${accentColor}20` }}>
+                                            <Factory className="w-8 h-8" style={{ color: accentColor }} />
+                                        </div>
+                                        <h3 className="mb-2 text-4xl font-bold text-white">
+                                            {jumlah_eskul.jumlah_eskul}
+                                        </h3>
+                                        <p className="text-lg font-semibold" style={{ color: accentColor }}>
+                                            Total Ekstrakurikuler
+                                        </p>
+                                        <p className="mt-2 text-sm text-gray-300">
+                                            Tenaga pendidik profesional yang berdedikasi
+                                        </p>
+                                    </div>
+                                </motion.div>
+
+                                   <motion.div
+                                    initial={{ scale: 0.8, opacity: 0 }}
+                                    whileInView={{ scale: 1, opacity: 1 }}
+                                    viewport={{ once: true }}
+                                    transition={{ duration: 0.6, delay: 0.2 }}
+                                    className="p-8 text-center transition-all duration-300 border rounded-2xl bg-white/5 backdrop-blur-sm border-white/10 hover:bg-white/10"
+                                >
+                                    <div className="flex flex-col items-center">
+                                        <div className="p-4 mb-4 rounded-full" style={{ backgroundColor: `${accentColor}20` }}>
+                                            <Library className="w-8 h-8" style={{ color: accentColor }} />
+                                        </div>
+                                        <h3 className="mb-2 text-4xl font-bold text-white">
+                                            {jumlah_mapel.jumlah_mapel}
+                                        </h3>
+                                        <p className="text-lg font-semibold" style={{ color: accentColor }}>
+                                            Total Mata pelajaran
+                                        </p>
+                                        <p className="mt-2 text-sm text-gray-300">
+                                            Tenaga pendidik profesional yang berdedikasi
+                                        </p>
+                                    </div>
+                                </motion.div>
                             </div>
 
                             {/* Additional Info */}
@@ -621,6 +648,8 @@ export default function Welcome() {
                                     dengan dukungan {jumlah_guru.jumlah_guru} guru profesional
                                 </p>
                             </motion.div>
+
+
                         </div>
                     </div>
                 </motion.section>

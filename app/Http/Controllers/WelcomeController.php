@@ -9,6 +9,7 @@ use App\Models\Guru;
 use App\Models\Profil_sekolah;
 use App\Models\Siswa;
 use App\Models\User;
+use App\Models\Mapel;
 use Illuminate\Support\Facades\Crypt;
 use Inertia\Inertia;
 
@@ -65,6 +66,10 @@ class WelcomeController extends Controller
 
         $data['jumlah_guru'] = [
             'jumlah_guru' => Guru::count()
+        ];
+
+        $data['jumlah_mapel'] = [
+            'jumlah_mapel' => Mapel::count()
         ];
         $tahunSekarang = date('Y');
         $tigaTahunTerakhir = $tahunSekarang - 3;

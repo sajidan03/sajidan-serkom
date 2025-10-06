@@ -8,7 +8,7 @@ use App\Models\Profil_sekolah;
 use Inertia\Inertia;
 use Illuminate\Support\Facades\Crypt;
 
-class MapelController extends Controller
+class OperatorMapel extends Controller
 {
     //
     public function index(){
@@ -33,7 +33,6 @@ class MapelController extends Controller
         return Inertia::render('Admin/Mapel/edit', $data);
     }
     public function mapelEdit(Request $request, $id){
-        // $id = Crypt::decrypt($id);
         $data['profil'] = Profil_sekolah::all()->first();
         $request->validate([
             'mapel' => 'required',
@@ -43,7 +42,6 @@ class MapelController extends Controller
         $mapel->update([
             'mapel' => $request->mapel,
         ]);
-        // dd($id);
         return redirect()->route('mapelView');
     }
     public function mapelTambah(Request $request){

@@ -35,7 +35,7 @@ Route::middleware(['auth', 'verified'])
     ->prefix('admin')
     ->group(function () {
         Route::get('dashboard', [DashboardController::class, 'index'])->name('admin.dashboard');
-        //
+        //view
         Route::get('user', [UserController::class, 'index'])->name('userView');
         Route::get('guru', [GuruController::class, 'index'])->name('guruView');
         Route::get('berita', [BeritaController::class, 'index'])->name('beritaView');
@@ -44,11 +44,11 @@ Route::middleware(['auth', 'verified'])
         Route::get('profil-sekolah', [ProfilSekolahController::class, 'index'])->name('profilView');
         Route::get('mapel', [MapelController::class, 'index'])->name('mapelView');
         Route::get('siswa', [SiswaController::class, 'index'])->name('siswaView');
-        //
+        //export
         Route::get('guru/export', [GuruController::class, 'export'])->name('guruExport');
         Route::get('user/export', [UserController::class, 'export'])->name('userExport');
         Route::get('siswa/export', [SiswaController::class, 'export'])->name('siswaExport');
-        //
+        //kelola-galeri
         Route::get('galeri/tambah', [GaleriController::class, 'galeriTambahView'])->name('galeriTambahView');
         Route::post('galeri/tambah', [GaleriController::class, 'galeriTambah'])->name('galeriTambah');
         Route::get('galeri/edit/{id}', [GaleriController::class, 'galeriEditView'])->name('galeriEditView');
@@ -91,7 +91,7 @@ Route::middleware(['auth', 'verified'])
         Route::post('profil-sekolah/edit/{id}', [ProfilSekolahController::class, 'profilEdit'])->name('profilEdit');
         Route::delete('profil-sekolah/hapus/{id}', [ProfilSekolahController::class, 'hapusProfil'])->name('profilHapus');
         //
-        Route::get('mapel/tambah', [MapelController::class, 'tambahView'])->name('mapelTambahView');
+        Route::get('mapel/tambah', [MapelController::class, 'mapelTambahView'])->name('mapelTambahView');
         Route::post('mapel/tambah', [MapelController::class, 'mapelTambah'])->name('mapelSimpan');
         Route::get('mapel/edit/{id}', [MapelController::class, 'mapelEditView'])->name('mapelEditView');
         Route::post('mapel/edit/{id}', [MapelController::class, 'mapelEdit'])->name('mapelEdit');
@@ -153,7 +153,12 @@ Route::middleware(['auth', 'verified'])
         Route::get('profil-sekolah/edit/{id}', [OperatorProfilSekolah::class, 'profilEditView'])->name('profilEditView');
         Route::post('profil-sekolah/edit/{id}', [OperatorProfilSekolah::class, 'profilEdit'])->name('profilEdit');
         Route::delete('profil-sekolah/hapus/{id}', [OperatorProfilSekolah::class, 'hapusProfil'])->name('profilHapus');
-        //
+        //kelola-mapel
+        Route::get('mapel/tambah', [OperatorMapel::class, 'mapelTambahView'])->name('mapelTambahView');
+        Route::post('mapel/tambah', [OperatorMapel::class, 'mapelTambah'])->name('mapelSimpan');
+        Route::get('mapel/edit/{id}', [OperatorMapel::class, 'mapelEditView'])->name('mapelEditView');
+        Route::post('mapel/edit/{id}', [OperatorBerita::class, 'mapelEdit'])->name('mapelEdit');
+        Route::delete('mapel/hapus/{id}', [OperatorBerita::class, 'mapelHapus'])->name('mapelHapus');
         });
 
 require __DIR__ . '/settings.php';

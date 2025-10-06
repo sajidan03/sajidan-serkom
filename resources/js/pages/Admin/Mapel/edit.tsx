@@ -28,7 +28,7 @@ export default function MapelEdit() {
   const { props } = usePage<PageProps>()
   const { mapel } = props
 
-  const { data, setData, put, processing, errors } = useForm({
+  const { data, setData, post, processing, errors } = useForm({
     mapel: mapel?.mapel || '',
   })
 
@@ -44,10 +44,9 @@ export default function MapelEdit() {
     e.preventDefault()
     setIsSubmitting(true)
 
-    put(`/admin/mapel/update/${mapel.encrypted_id}`, {
+    post(`/admin/mapel/edit/${mapel.id}`, {
       onSuccess: () => {
         setIsSubmitting(false)
-        // Optional: Tambahkan notifikasi sukses
         alert('Mata pelajaran berhasil diupdate!')
       },
       onError: () => {
@@ -73,7 +72,6 @@ export default function MapelEdit() {
               Ubah informasi mata pelajaran
             </p>
           </div>
-
           {/* Form */}
           <div className="bg-white shadow-md rounded-lg p-6">
             <form onSubmit={handleSubmit} className="space-y-6">

@@ -1287,6 +1287,14 @@ namespace App\Models {
     /**
      * App\Models\Mapel
      *
+     * @property string $mapel
+     * @property \Illuminate\Support\Carbon|null $updated_at
+     * @property \Illuminate\Support\Carbon|null $created_at
+     * @property int $id
+     * @method static \Illuminate\Database\Eloquent\Builder<Mapel>|Mapel whereId($value)
+     * @method static \Illuminate\Database\Eloquent\Builder<Mapel>|Mapel whereCreatedAt($value)
+     * @method static \Illuminate\Database\Eloquent\Builder<Mapel>|Mapel whereUpdatedAt($value)
+     * @method static \Illuminate\Database\Eloquent\Builder<Mapel>|Mapel whereMapel($value)
      * @method static \Illuminate\Database\Eloquent\Builder<Mapel>|Mapel newModelQuery()
      * @method static \Illuminate\Database\Eloquent\Builder<Mapel>|Mapel newQuery()
      * @method static \Illuminate\Database\Eloquent\Builder<Mapel>|Mapel query()
