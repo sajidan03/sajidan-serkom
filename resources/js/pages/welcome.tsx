@@ -54,7 +54,7 @@ interface ProfilSekolah {
   tahun_berdiri: string,
   deskripsi: string,
   link_map: string,
-  warna: string; // Tambahkan field warna
+  warna: string;
 }
 
 interface Guru {
@@ -78,8 +78,7 @@ export default function Welcome() {
     const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
     const [playingVideo, setPlayingVideo] = useState<number | null>(null);
 
-    // Warna tema dari database
-    const themeColor = profil.warna || '#1e3a8a'; // Fallback ke biru default jika tidak ada
+    const themeColor = profil.warna || '#1e3a8a';
 
     const visiMisiArray = profil.visi_misi ? profil.visi_misi.split('\n') : [];
 
@@ -105,17 +104,15 @@ export default function Welcome() {
         setPlayingVideo(null);
     }
 
-    // Fungsi untuk menghasilkan warna yang lebih terang atau gelap
     const adjustColor = (color: string, amount: number) => {
         return '#' + color.replace(/^#/, '').replace(/../g, color =>
             ('0' + Math.min(255, Math.max(0, parseInt(color, 16) + amount)).toString(16)).substr(-2)
         );
     }
 
-    // Warna turunan dari tema utama
     const lighterColor = adjustColor(themeColor, 30);
     const darkerColor = adjustColor(themeColor, -30);
-    const accentColor = '#fbbf24'; // Tetap kuning untuk aksen
+    const accentColor = '#fbbf24';  
 
     const GoogleMapEmbed = ({ mapLink, address }: { mapLink: string, address: string }) => {
         if (mapLink) {
