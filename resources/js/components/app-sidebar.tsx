@@ -122,7 +122,7 @@ const operatorNavItems: NavItem[] = [
     },
 ];
 
-const footerNavItems: NavItem[] = [];
+// const footerNavItems: NavItem[] = [];
 
 interface User {
     id: number;

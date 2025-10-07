@@ -38,20 +38,32 @@ class AuthenticatedSessionController extends Controller
 
     //     return redirect()->intended(route('dashboard', absolute: false));
     // }
-    public function store(LoginRequest $request)
-{
-    $request->authenticate();
-    $request->session()->regenerate();
+    public function store(LoginRequest $request){
+    try {
+        $request->authenticate();
+        $request->session()->regenerate();
 
-    $user = Auth::user();
+        $user = Auth::user();
 
-    if ($user->role === 'admin') {
-        return redirect()->route('admin.dashboard');
-    }elseif ($user->role === 'operator') {
-        return redirect()->route('operator.dashboard');
+        if ($user->role === 'admin') {
+            return redirect()->route('admin.dashboard')
+                ->with('success', 'Login berhasil! Selamat datang Administrator.');
+        } elseif ($user->role === 'operator') {
+            return redirect()->route('operator.dashboard')
+                ->with('success', 'Login berhasil! Selamat datang Operator.');
+        }
+
+        return redirect()->intended('/')
+            ->with('success', 'Login berhasil! Selamat datang.');
+
+    } catch (\Illuminate\Auth\AuthenticationException $e) {
+        return redirect()->back()
+            ->withInput($request->only('username'))
+            ->withErrors([
+                'username' => 'Username atau password yang Anda masukkan salah.',
+            ])
+            ->with('error', 'Login gagal. Periksa kembali username dan password Anda.');
     }
-
-    return redirect()->intended('/');
 }
 
 
