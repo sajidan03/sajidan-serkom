@@ -64,18 +64,18 @@ class DatabaseSeeder extends Seeder
             'role' => 'operator',
         ]);
         Siswa::create([
-            'nisn' => '0088630322',
+            'nisn' => '00881111',
             'nama_siswa' => 'Muhammad Sajidan Rifansyah',
             'jenis_kelamin' => 'Laki-laki',
             'tahun_masuk' => 2023,
         ]);
         Siswa::create([
-            'nisn' => '1233332221',
+            'nisn' => '00881122',
             'nama_siswa' => 'Rifat abdul manaf',
             'jenis_kelamin' => 'Laki-laki',
             'tahun_masuk' => 2023,
         ]);Siswa::create([
-            'nisn' => '9288809129',
+            'nisn' => '00881133',
             'nama_siswa' => 'Ami aprilia maulani akbar',
             'jenis_kelamin' => 'Perempuan',
             'tahun_masuk' => 2023,
@@ -83,31 +83,31 @@ class DatabaseSeeder extends Seeder
         //
          Guru::create([
             'nama_guru' => 'Fatin shidqia lubis',
-            'nip' => '2987654321',
+            'nip' => '00881111',
             'mapel' => 'Matematika',
             'foto' => 'fatin.jpeg',
         ]);
          Guru::create([
             'nama_guru' => 'Kim ji won',
-            'nip' => '3987654321',
+            'nip' => '00881122',
             'mapel' => 'Bahasa indonesia',
             'foto' => 'kimjiwon.png',
         ]);
         Guru::create([
             'nama_guru' => 'Cho yi hyun',
-            'nip' => '3987654321',
+            'nip' => '00881133',
             'mapel' => 'Bahasa inggris',
             'foto' => 'co.jpg',
         ]);
         Guru::create([
             'nama_guru' => 'Mun gayoung',
-            'nip' => '3987654321',
+            'nip' => '00881144',
             'mapel' => 'IPA',
             'foto' => 'mungayoung.jpg',
         ]);
         Guru::create([
             'nama_guru' => 'Goyounjoung',
-            'nip' => '3987654321',
+            'nip' => '00881155',
             'mapel' => 'Bahasa korea',
             'foto' => 'gyj.jpg',
         ]);
@@ -116,7 +116,7 @@ class DatabaseSeeder extends Seeder
             'nama_sekolah' => 'SMK YPC Tasikmalaya',
             'kepala_sekolah' => 'Drs. H. Ujang sanusi, M.M.',
             'foto_kepsek' => 'kepala.jpg',
-            'foto' => 'foto.jpg',
+            'foto' => 'hero.jpg',
             'logo' => 'logo.png',
             'npsn' => '1234567890',
             'alamat' => 'Jl. Garut-Tasikmalaya',

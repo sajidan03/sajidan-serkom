@@ -1,8 +1,7 @@
-import { login } from '@/routes';
 import { Head, Link, usePage, router } from '@inertiajs/react';
 import { useState } from 'react';
 import { motion } from 'framer-motion';
-import { Eye, Facebook, FileQuestion, ImageIcon, Instagram, Play, User, Youtube, MapPin, GraduationCap, Users, Library, LibraryBig, SquareLibraryIcon, Factory } from 'lucide-react';
+import { Eye, Facebook, FileQuestion, ImageIcon, Instagram, Play, User, Youtube, MapPin, GraduationCap, Users, Library, Factory } from 'lucide-react';
 
 interface Berita {
   id: number;
@@ -88,6 +87,7 @@ interface WelcomeProps {
   jumlah_siswa: jumlah_siswa;
   jumlah_eskul: jumlah_eskul;
   jumlah_mapel: jumlah_mapel;
+  [key: string]: unknown;
 }
 
 export default function Welcome() {
@@ -95,7 +95,6 @@ export default function Welcome() {
     const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
     const [playingVideo, setPlayingVideo] = useState<number | null>(null);
 
-    // State untuk form saran
     const [email, setEmail] = useState('');
     const [pesan, setPesan] = useState('');
     const [isSubmitting, setIsSubmitting] = useState(false);
@@ -135,7 +134,9 @@ export default function Welcome() {
 
     const lighterColor = adjustColor(themeColor, 30);
     const darkerColor = adjustColor(themeColor, -30);
+    // const darkerColor = '#121212';
     const accentColor = '#fbbf24';
+    const warnaHero = '#121212';
 
     const handleSubmitSaran = (e: React.FormEvent) => {
         e.preventDefault();
@@ -299,7 +300,7 @@ export default function Welcome() {
                                 href='/masuk'
                                 className="font-semibold text-gray-900 text-sm/6 hover:text-blue-600"
                             >
-                                Login<span aria-hidden="true">&rarr;</span>
+                                Masuk<span aria-hidden="true">&rarr;</span>
                             </Link>
                         </div>
                     </nav>
@@ -378,7 +379,7 @@ export default function Welcome() {
                                                 href={'/masuk'}
                                                 className="-mx-3 block rounded-lg px-3 py-2.5 text-base/7 font-semibold text-gray-900 hover:bg-gray-50"
                                             >
-                                                Login
+                                                Masuk
                                             </Link>
                                         </div>
                                     </div>
@@ -414,7 +415,7 @@ export default function Welcome() {
                                 className="object-cover w-full h-full opacity-100"
                             />
                             <div className="absolute inset-0" style={{
-                                background: `linear-gradient(to bottom, ${themeColor}80, ${darkerColor}80)`
+                                background: `linear-gradient(to bottom, ${themeColor}80, ${warnaHero})`
                             }}></div>
                         </div>
                     )}
@@ -451,7 +452,7 @@ export default function Welcome() {
                                     href={'/masuk'}
                                     className="font-semibold text-white text-sm/6 hover:text-yellow-400"
                                 >
-                                    Login <span aria-hidden="true">→</span>
+                                    Masuk <span aria-hidden="true">→</span>
                                 </Link>
                             </div>
                         </div>
@@ -748,7 +749,6 @@ export default function Welcome() {
                                             </p>
                                             <div className="flex items-center justify-between mt-auto text-xs text-gray-400">
                                                 <span>{new Date(item.tanggal).toLocaleDateString('id-ID')}</span>
-                                                <span>Oleh: {item.user?.name}</span>
                                             </div>
                                         </div>
                                     </div>

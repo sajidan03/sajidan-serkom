@@ -41,7 +41,7 @@ class GuruController extends Controller
 {
     $request->validate([
         'nama_guru' => 'required',
-        'nip' => 'required|unique:gurus,nip',
+        'nip' => 'required|unique:gurus,nip|max:12',
         'mapel' => 'required',
         'foto' => 'required|image|max:2048',
     ]);
