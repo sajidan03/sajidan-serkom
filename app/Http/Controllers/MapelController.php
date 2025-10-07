@@ -33,7 +33,6 @@ class MapelController extends Controller
         return Inertia::render('Admin/Mapel/edit', $data);
     }
     public function mapelEdit(Request $request, $id){
-        // $id = Crypt::decrypt($id);
         $data['profil'] = Profil_sekolah::all()->first();
         $request->validate([
             'mapel' => 'required',

@@ -42,7 +42,11 @@ class SiswaController extends Controller
             'nama_siswa' => 'required',
             'jenis_kelamin' => 'required',
             'tahun_masuk' => 'nullable|digits:4|integer|min:1900|max:' . (date('Y')),
-        ]);
+        ], [
+        'nisn.unique'=> 'Data nisn ini sudah ada, gunakan yang lain',
+        'nisn.required' => 'Tolong isi kolom ini',
+        ]
+    );
 
         Siswa::create([
             'nisn' => $request->nisn,
@@ -75,7 +79,11 @@ class SiswaController extends Controller
             'nama_siswa' => 'required',
             'jenis_kelamin' => 'required',
             'tahun_masuk' => 'nullable|digits:4|integer|min:1900|max:' . (date('Y')),
-        ]);
+        ], [
+        'nisn.unique'=> 'Data nisn ini sudah ada, gunakan yang lain',
+        'nisn.required' => 'Tolong isi kolom ini',
+        ]
+    );
 
         $siswa->update([
             'nisn' => $request->nisn,

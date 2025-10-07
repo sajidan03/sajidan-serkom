@@ -1,7 +1,7 @@
 import { Head, Link, usePage, router } from '@inertiajs/react';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { Eye, Facebook, FileQuestion, ImageIcon, Instagram, Play, User, Youtube, MapPin, GraduationCap, Users, Library, Factory } from 'lucide-react';
+import { Eye, Facebook, FileQuestion, ImageIcon, Instagram, Play, User, Youtube, MapPin, GraduationCap, Users, Library, Factory, FileText, ListChecks, Target, Mail, Phone, Calendar } from 'lucide-react';
 
 interface Berita {
   id: number;
@@ -76,6 +76,13 @@ interface Guru {
   foto: string | null;
 }
 
+interface Siswa{
+    id: number,
+    nisn: string,
+    nama_siswa: string,
+    tahun_masuk: string,
+}
+
 interface WelcomeProps {
   profil: ProfilSekolah;
   berita: Berita[];
@@ -87,22 +94,78 @@ interface WelcomeProps {
   jumlah_siswa: jumlah_siswa;
   jumlah_eskul: jumlah_eskul;
   jumlah_mapel: jumlah_mapel;
+  siswa: Siswa[];
   [key: string]: unknown;
 }
 
+type PageType = 'beranda' | 'berita' | 'galeri' | 'ekstrakulikuler' | 'guru' | 'siswa' | 'profil';
+
 export default function Welcome() {
-    const { profil, berita, ekstrakulikuler, galeri, guru , jumlah_guru, jumlah_siswa, jumlah_eskul, jumlah_mapel} = usePage<WelcomeProps>().props;
+    const { profil, berita, ekstrakulikuler, galeri, guru, siswa , jumlah_guru, jumlah_siswa, jumlah_eskul, jumlah_mapel} = usePage<WelcomeProps>().props;
     const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
     const [playingVideo, setPlayingVideo] = useState<number | null>(null);
+    const [activePage, setActivePage] = useState<PageType>('beranda');
 
     const [email, setEmail] = useState('');
     const [pesan, setPesan] = useState('');
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [submitStatus, setSubmitStatus] = useState<'idle' | 'success' | 'error'>('idle');
 
-    const themeColor = profil.warna || '#1e3a8a';
+const adjustColor = (color: string, amount: number) => {
+    return '#' + color.replace(/^#/, '').replace(/../g, color =>
+        ('0' + Math.min(255, Math.max(0, parseInt(color, 16) + amount)).toString(16)).substr(-2)
+    );
+}
+
+// const navbarColor = '#ffffff';
+const themeColor = profil.warna || '#1e40af';
+const lighterColor = adjustColor(themeColor, 30);
+const darkerColor = adjustColor(themeColor, -30);
+const accentColor = '#fbbf24';
+const warnaHero = '#121212';
 
     const visiMisiArray = profil.visi_misi ? profil.visi_misi.split('\n') : [];
+
+    useEffect(() => {
+        const handleScroll = () => {
+            const sections = [
+                { id: 'beranda', element: document.getElementById('beranda') },
+                { id: 'berita', element: document.getElementById('berita') },
+                { id: 'galeri', element: document.getElementById('galeri') },
+                { id: 'ekstrakulikuler', element: document.getElementById('ekstrakulikuler') },
+                { id: 'guru', element: document.getElementById('guru') },
+                { id: 'siswas', element: document.getElementById('siswas') },
+                { id: 'profil', element: document.getElementById('profil') }
+            ];
+
+            const currentSection = sections.find(section => {
+                if (!section.element) return false;
+                const rect = section.element.getBoundingClientRect();
+                return rect.top <= 100 && rect.bottom >= 100;
+            });
+
+            if (currentSection) {
+                const pageMap: { [key: string]: PageType } = {
+                    'beranda': 'beranda',
+                    'berita': 'berita',
+                    'galeri': 'galeri',
+                    'ekstrakulikuler': 'ekstrakulikuler',
+                    'guru': 'guru',
+                    'siswas': 'siswa',
+                    'profil': 'profil'
+                };
+                setActivePage(pageMap[currentSection.id] || 'beranda');
+            }
+        };
+
+        window.addEventListener('scroll', handleScroll);
+        return () => window.removeEventListener('scroll', handleScroll);
+    }, []);
+
+    const handleMenuClick = (page: PageType) => {
+        setActivePage(page);
+        setMobileMenuOpen(false);
+    };
 
     const isImage = (filename: string) => {
         const imageExtensions = ['.jpg', '.jpeg', '.png', '.gif', '.webp'];
@@ -126,17 +189,7 @@ export default function Welcome() {
         setPlayingVideo(null);
     }
 
-    const adjustColor = (color: string, amount: number) => {
-        return '#' + color.replace(/^#/, '').replace(/../g, color =>
-            ('0' + Math.min(255, Math.max(0, parseInt(color, 16) + amount)).toString(16)).substr(-2)
-        );
-    }
 
-    const lighterColor = adjustColor(themeColor, 30);
-    const darkerColor = adjustColor(themeColor, -30);
-    // const darkerColor = '#121212';
-    const accentColor = '#fbbf24';
-    const warnaHero = '#121212';
 
     const handleSubmitSaran = (e: React.FormEvent) => {
         e.preventDefault();
@@ -152,7 +205,6 @@ export default function Welcome() {
                 setEmail('');
                 setPesan('');
                 setIsSubmitting(false);
-                // Reset status setelah 5 detik
                 setTimeout(() => setSubmitStatus('idle'), 5000);
             },
             onError: (errors) => {
@@ -240,154 +292,212 @@ export default function Welcome() {
                 <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
             </Head>
 
-            {/* Gunakan warna tema dinamis */}
             <div className="min-h-screen" style={{
                 background: `linear-gradient(to bottom, ${lighterColor}, ${themeColor})`
             }}>
-                {/* Header - NAVBAR PUTIH DENGAN TEKS HITAM - FIXED */}
-                <motion.header
-                initial={{ y: 50, opacity: 0 }}
-                animate={{ y: 0, opacity: 1 }}
-                transition={{ duration: 1, ease: "easeOut" }}
-                className="fixed inset-x-0 top-0 z-50">
-                    <nav className="flex items-center justify-between p-6 bg-white shadow-lg lg:px-10">
-                        <div className="flex lg:flex-1">
-                        <Link href="/" className="-m-1.5 p-1.5 flex items-center">
-                            <div className="flex items-center justify-center w-10 h-10 mr-2 rounded-full">
-                            <img src={`/storage/assets/${profil.logo}`} alt="Logo SMK YPC" className="object-contain w-full h-full" />
-                            </div>
-                            <span className="text-xl font-bold text-gray-900">{profil.nama_sekolah}</span>
-                        </Link>
+                {/* Header - NAVBAR PUTIH DENGAN TEKS HITAM */}
+    <motion.header
+    initial={{ y: 50, opacity: 0 }}
+    animate={{ y: 0, opacity: 1 }}
+    transition={{ duration: 1, ease: "easeOut" }}
+    id="beranda"
+    className="fixed inset-x-0 top-0 z-50 bg-white shadow-lg"
+>
+    <nav className="flex items-center justify-between p-6 lg:px-10">
+        <div className="flex lg:flex-1">
+            <Link
+                href="/"
+                className="-m-1.5 p-1.5 flex items-center"
+                onClick={() => handleMenuClick('beranda')}
+            >
+                <div className="flex items-center justify-center w-10 h-10 mr-2 rounded-full">
+                    <img src={`/storage/assets/${profil.logo}`} alt="Logo SMK YPC" className="object-contain w-full h-full" />
+                </div>
+                <span className="text-xl font-bold text-gray-900">{profil.nama_sekolah}</span>
+            </Link>
+        </div>
+        <div className="flex lg:hidden">
+            <button
+                type="button"
+                onClick={() => setMobileMenuOpen(true)}
+                className="-m-2.5 inline-flex items-center justify-center rounded-md p-2.5 text-gray-700"
+            >
+                <span className="sr-only">Buka menu utama</span>
+                <svg
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="1.5"
+                    className="size-6"
+                    aria-hidden="true"
+                >
+                    <path d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" strokeLinecap="round" strokeLinejoin="round" />
+                </svg>
+            </button>
+        </div>
+        <div className="hidden lg:flex lg:gap-x-12">
+            <a
+                href="#siswa"
+                className={`font-semibold text-sm/6 transition-colors ${
+                    activePage === 'beranda'
+                        ? 'text-blue-600 font-bold'
+                        : 'text-gray-900 hover:text-blue-800'
+                }`}
+                onClick={() => handleMenuClick('beranda')}
+            >
+                Beranda
+            </a>
+            <a
+                href="#berita"
+                className={`font-semibold text-sm/6 transition-colors ${
+                    activePage === 'berita'
+                        ? 'text-blue-600 font-bold'
+                        : 'text-gray-900 hover:text-blue-800'
+                }`}
+                onClick={() => handleMenuClick('berita')}
+            >
+                Berita
+            </a>
+            <a
+                href="#galeri"
+                className={`font-semibold text-sm/6 transition-colors ${
+                    activePage === 'galeri'
+                        ? 'text-blue-600 font-bold'
+                        : 'text-gray-900 hover:text-blue-800'
+                }`}
+                onClick={() => handleMenuClick('galeri')}
+            >
+                Galeri
+            </a>
+            <a
+                href="#ekstrakulikuler"
+                className={`font-semibold text-sm/6 transition-colors ${
+                    activePage === 'ekstrakulikuler'
+                        ? 'text-blue-600 font-bold'
+                        : 'text-gray-900 hover:text-blue-800'
+                }`}
+                onClick={() => handleMenuClick('ekstrakulikuler')}
+            >
+                Ekstrakurikuler
+            </a>
+            <a
+                href="#guru"
+                className={`font-semibold text-sm/6 transition-colors ${
+                    activePage === 'guru'
+                        ? 'text-blue-600 font-bold'
+                        : 'text-gray-900 hover:text-blue-800'
+                }`}
+                onClick={() => handleMenuClick('guru')}
+            >
+                Guru
+            </a>
+            <a
+                href="#siswas"
+                className={`font-semibold text-sm/6 transition-colors ${
+                    activePage === 'siswa'
+                        ? 'text-blue-600 font-bold'
+                        : 'text-gray-900 hover:text-blue-800'
+                }`}
+                onClick={() => handleMenuClick('siswa')}
+            >
+                Siswa
+            </a>
+            <a
+                href="#profil"
+                className={`font-semibold text-sm/6 transition-colors ${
+                    activePage === 'profil'
+                        ? 'text-blue-600 font-bold'
+                        : 'text-gray-900 hover:text-blue-800'
+                }`}
+                onClick={() => handleMenuClick('profil')}
+            >
+                Profil
+            </a>
+        </div>
+        <div className="hidden lg:flex lg:flex-1 lg:justify-end">
+            <Link
+                href='/masuk'
+                className="font-semibold text-gray-900 text-sm/6 hover:text-blue-800 transition-colors"
+            >
+                Login<span aria-hidden="true">&rarr;</span>
+            </Link>
+        </div>
+    </nav>
+
+    {/* Mobile menu dialog - JUGA PUTIH */}
+    {mobileMenuOpen && (
+        <div className="lg:hidden">
+            <div className="fixed inset-0 z-50" />
+            <div className="fixed inset-y-0 right-0 z-50 w-full px-6 py-6 overflow-y-auto bg-white sm:max-w-sm sm:ring-1 sm:ring-gray-900/10">
+                <div className="flex items-center justify-between">
+                    <Link
+                        href="/"
+                        className="-m-1.5 p-1.5 flex items-center"
+                        onClick={() => handleMenuClick('beranda')}
+                    >
+                        <div className="flex items-center justify-center w-10 h-10 mr-2 rounded-full">
+                            <img src={`/storage/assets/${profil.logo}`} alt="" />
                         </div>
-                        <div className="flex lg:hidden">
-                            <button
-                                type="button"
-                                onClick={() => setMobileMenuOpen(true)}
-                                className="-m-2.5 inline-flex items-center justify-center rounded-md p-2.5 text-gray-700"
-                            >
-                                <span className="sr-only">Buka menu utama</span>
-                                <svg
-                                    viewBox="0 0 24 24"
-                                    fill="none"
-                                    stroke="currentColor"
-                                    strokeWidth="1.5"
-                                    className="size-6"
-                                    aria-hidden="true"
+                        <span className="text-xl font-bold text-gray-900">{profil.nama_sekolah}</span>
+                    </Link>
+                    <button
+                        type="button"
+                        onClick={() => setMobileMenuOpen(false)}
+                        className="-m-2.5 rounded-md p-2.5 text-gray-700"
+                    >
+                        <span className="sr-only">Tutup menu</span>
+                        <svg
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            strokeWidth="1.5"
+                            className="size-6"
+                            aria-hidden="true"
+                        >
+                            <path d="M6 18 18 6M6 6l12 12" strokeLinecap="round" strokeLinejoin="round" />
+                        </svg>
+                    </button>
+                </div>
+                <div className="flow-root mt-6">
+                    <div className="-my-6 divide-y divide-gray-500/10">
+                        <div className="py-6 space-y-2">
+                            {[
+                                { id: 'beranda', label: 'Beranda' },
+                                { id: 'berita', label: 'Berita' },
+                                { id: 'galeri', label: 'Galeri' },
+                                { id: 'ekstrakulikuler', label: 'Ekstrakurikuler' },
+                                { id: 'guru', label: 'Guru' },
+                                { id: 'siswa', label: 'Siswa' },
+                                { id: 'profil', label: 'Profil' }
+                            ].map((item) => (
+                                <a
+                                    key={item.id}
+                                    href={`#${item.id === 'siswa' ? 'siswas' : item.id}`}
+                                    className={`block px-3 py-2 -mx-3 font-semibold rounded-lg text-base/7 transition-colors ${
+                                        activePage === item.id as PageType
+                                            ? 'text-blue-600 bg-blue-50'
+                                            : 'text-gray-900 hover:bg-gray-50 hover:text-blue-800'
+                                    }`}
+                                    onClick={() => handleMenuClick(item.id as PageType)}
                                 >
-                                    <path d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" strokeLinecap="round" strokeLinejoin="round" />
-                                </svg>
-                            </button>
+                                    {item.label}
+                                </a>
+                            ))}
                         </div>
-                        <div className="hidden lg:flex lg:gap-x-12">
-                            <a href="#berita" className="font-semibold text-gray-900 text-sm/6 hover:text-blue-600">
-                                Berita
-                            </a>
-                            <a href="#galeri" className="font-semibold text-gray-900 text-sm/6 hover:text-blue-600">
-                                Galeri
-                            </a>
-                            <a href="#ekstrakulikuler" className="font-semibold text-gray-900 text-sm/6 hover:text-blue-600">
-                                Ekstrakurikuler
-                            </a>
-                            <a href="#guru" className="font-semibold text-gray-900 text-sm/6 hover:text-blue-600">
-                                Guru
-                            </a>
-                             <a href="#profil" className="font-semibold text-gray-900 text-sm/6 hover:text-blue-600">
-                                Profil
-                            </a>
-                        </div>
-                        <div className="hidden lg:flex lg:flex-1 lg:justify-end">
+                        <div className="py-6">
                             <Link
-                                href='/masuk'
-                                className="font-semibold text-gray-900 text-sm/6 hover:text-blue-600"
+                                href={'/masuk'}
+                                className="-mx-3 block rounded-lg px-3 py-2.5 text-base/7 font-semibold text-gray-900 hover:bg-gray-50 hover:text-blue-800 transition-colors"
                             >
-                                Masuk<span aria-hidden="true">&rarr;</span>
+                                Login
                             </Link>
                         </div>
-                    </nav>
-
-                    {/* Mobile menu dialog */}
-                    {mobileMenuOpen && (
-                        <div className="lg:hidden">
-                            <div className="fixed inset-0 z-50" />
-                            <div className="fixed inset-y-0 right-0 z-50 w-full px-6 py-6 overflow-y-auto bg-white sm:max-w-sm sm:ring-1 sm:ring-gray-900/10">
-                                <div className="flex items-center justify-between">
-                                    <Link href="/" className="-m-1.5 p-1.5 flex items-center">
-                                        <div className="flex items-center justify-center w-10 h-10 mr-2 text-white bg-blue-600 rounded-full">
-                                            <img src={`/storage/assets/${profil.logo}`} alt="" />
-                                        </div>
-                                        <span className="text-xl font-bold text-gray-900">{profil.nama_sekolah}</span>
-                                    </Link>
-                                    <button
-                                        type="button"
-                                        onClick={() => setMobileMenuOpen(false)}
-                                        className="-m-2.5 rounded-md p-2.5 text-gray-700"
-                                    >
-                                        <span className="sr-only">Tutup menu</span>
-                                        <svg
-                                            viewBox="0 0 24 24"
-                                            fill="none"
-                                            stroke="currentColor"
-                                            strokeWidth="1.5"
-                                            className="size-6"
-                                            aria-hidden="true"
-                                        >
-                                            <path d="M6 18 18 6M6 6l12 12" strokeLinecap="round" strokeLinejoin="round" />
-                                        </svg>
-                                    </button>
-                                </div>
-                                <div className="flow-root mt-6">
-                                    <div className="-my-6 divide-y divide-gray-500/10">
-                                        <div className="py-6 space-y-2">
-                                            <a
-                                                href="#profil"
-                                                className="block px-3 py-2 -mx-3 font-semibold text-gray-900 rounded-lg text-base/7 hover:bg-gray-50"
-                                                onClick={() => setMobileMenuOpen(false)}
-                                            >
-                                                Profil
-                                            </a>
-                                            <a
-                                                href="#berita"
-                                                className="block px-3 py-2 -mx-3 font-semibold text-gray-900 rounded-lg text-base/7 hover:bg-gray-50"
-                                                onClick={() => setMobileMenuOpen(false)}
-                                            >
-                                                Berita
-                                            </a>
-                                            <a
-                                                href="#galeri"
-                                                className="block px-3 py-2 -mx-3 font-semibold text-gray-900 rounded-lg text-base/7 hover:bg-gray-50"
-                                                onClick={() => setMobileMenuOpen(false)}
-                                            >
-                                                Galeri
-                                            </a>
-                                            <a
-                                                href="#ekstrakulikuler"
-                                                className="block px-3 py-2 -mx-3 font-semibold text-gray-900 rounded-lg text-base/7 hover:bg-gray-50"
-                                                onClick={() => setMobileMenuOpen(false)}
-                                            >
-                                                Ekstrakurikuler
-                                            </a>
-                                            <a
-                                                href="#guru"
-                                                className="block px-3 py-2 -mx-3 font-semibold text-gray-900 rounded-lg text-base/7 hover:bg-gray-50"
-                                                onClick={() => setMobileMenuOpen(false)}
-                                            >
-                                                Guru
-                                            </a>
-                                        </div>
-                                        <div className="py-6">
-                                            <Link
-                                                href={'/masuk'}
-                                                className="-mx-3 block rounded-lg px-3 py-2.5 text-base/7 font-semibold text-gray-900 hover:bg-gray-50"
-                                            >
-                                                Masuk
-                                            </Link>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    )}
-                </motion.header>
+                    </div>
+                </div>
+            </div>
+        </div>
+    )}
+</motion.header>
 
                 {/* Main Hero Section */}
                 <div className="relative px-6 pt-32 isolate lg:px-8 lg:pt-40">
@@ -448,12 +558,7 @@ export default function Welcome() {
                                 >
                                     Profil Sekolah
                                 </Link>
-                                <Link
-                                    href={'/masuk'}
-                                    className="font-semibold text-white text-sm/6 hover:text-yellow-400"
-                                >
-                                    Masuk <span aria-hidden="true">→</span>
-                                </Link>
+
                             </div>
                         </div>
                     </div>
@@ -1131,6 +1236,60 @@ export default function Welcome() {
                     </div>
                 </motion.section>
 
+                 {/* Siswa Section */}
+                <motion.section
+                initial={{ y: 50, opacity: 0 }}
+                whileInView={{ y: 0, opacity: 1 }}
+                viewport={{ once: true, amount: 0.2 }}
+                transition={{ duration: 1, ease: "easeOut" }}
+                id="siswas" className="py-24 sm:py-32" style={{
+                    background: `linear-gradient(to bottom, ${themeColor}, ${darkerColor})`
+                }}>
+                    <div className="px-6 mx-auto max-w-7xl lg:px-8">
+                        <div className="max-w-2xl mx-auto lg:text-center">
+                            <h2 className="font-semibold text-base/7" style={{ color: accentColor }}>Pelajar</h2>
+                            <p className="mt-2 text-3xl font-semibold tracking-tight text-white text-balance sm:text-4xl">
+                                Siswa SMK YPC Tasikmalaya
+                            </p>
+                            <p className="mt-4 text-lg text-gray-300">
+                                Para pelajar SMK YPC Tasikmalaya
+                            </p>
+                        </div>
+                        <div className="max-w-2xl mx-auto mt-16 sm:mt-20 lg:mt-24 lg:max-w-6xl">
+                            <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
+                                {siswa.map((siswaItem) => (
+                                    <div
+                                        key={siswaItem.id}
+                                        className="flex flex-col h-full overflow-hidden border bg-white/5 rounded-xl backdrop-blur-sm border-white/10"
+                                    >
+                                        <div className="flex flex-col flex-grow p-4">
+                                            <h3 className="mb-2 text-sm font-semibold text-white line-clamp-2">
+                                                NISN : {siswaItem.nisn}
+                                            </h3>
+                                            <p className="flex-grow mb-4 text-xs text-gray-300">
+                                                Nama pelajar : {siswaItem.nama_siswa}
+                                            </p>
+                                            <p className="flex-grow mb-4 text-xs text-gray-300">
+                                                Tahun masuk : {siswaItem.tahun_masuk}
+                                            </p>
+                                        </div>
+                                    </div>
+                                ))}
+                            </div>
+
+                            {siswa.length === 0 && (
+                                <div className="py-16 text-center">
+                                    <div className="flex flex-col items-center justify-center">
+                                        <User className="w-16 h-16 mb-4 text-gray-400 opacity-50" />
+                                        <p className="mb-2 text-lg font-medium text-gray-300">Belum ada data siswa tersedia</p>
+                                        <p className="text-sm text-gray-400">Data siswa akan ditampilkan di sini</p>
+                                    </div>
+                                </div>
+                            )}
+                        </div>
+                    </div>
+                </motion.section>
+
                 {/* Profil Section dengan Google Maps */}
                 <section id="profil" className="py-24 sm:py-32" style={{
                     background: `linear-gradient(to bottom, ${lighterColor}, ${themeColor})`
@@ -1141,74 +1300,166 @@ export default function Welcome() {
                             <p className="mt-2 text-3xl font-semibold tracking-tight text-white text-balance sm:text-4xl">
                                 {profil.nama_sekolah}
                             </p>
+                            <p className="mt-4 text-lg text-gray-300">
+                                Informasi lengkap tentang identitas dan visi misi sekolah
+                            </p>
                         </div>
-                        <div className="max-w-4xl mx-auto mt-16 sm:mt-20 lg:mt-24">
-                            <div className="p-8 border rounded-lg bg-white/5 backdrop-blur-sm border-white/10">
-                                <div className="grid grid-cols-1 gap-8 lg:grid-cols-2">
-                                    <div>
-                                        <h3 className="mb-4 text-xl font-semibold text-white">Identitas Sekolah</h3>
-                                        <div className="space-y-4 text-gray-200">
-                                            <div>
-                                                <strong className="block mb-1">NPSN:</strong>
-                                                <span>{profil.npsn}</span>
-                                            </div>
-                                            <div>
-                                                <strong className="block mb-1">Kepala Sekolah:</strong>
-                                                <span>{profil.kepala_sekolah}</span>
-                                            </div>
-                                            <div>
-                                                <strong className="block mb-1">Tahun Berdiri:</strong>
-                                                <span>{profil.tahun_berdiri}</span>
-                                            </div>
-                                            <div>
-                                                <strong className="block mb-1">Alamat:</strong>
-                                                <div className="flex items-start space-x-2">
-                                                    <MapPin className="w-4 h-4 mt-0.5 flex-shrink-0" style={{ color: accentColor }} />
-                                                    <span>{profil.alamat}</span>
-                                                </div>
-                                            </div>
-                                            <div>
-                                                <strong className="block mb-1">Kontak:</strong>
-                                                <span>{profil.kontak}</span>
-                                            </div>
-                                            <div>
-                                                <strong className="block mb-1">Email:</strong>
-                                                <a
-                                                    href={`mailto:${profil.email}`}
-                                                    className="transition-colors"
-                                                    style={{ color: accentColor }}
-                                                >
-                                                    {profil.email}
-                                                </a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div>
-                                        <h3 className="mb-4 text-xl font-semibold text-white">Visi & Misi</h3>
-                                        <div className="text-gray-200">
-                                            {visiMisiArray.length > 0 ? (
-                                                <div className="space-y-3">
-                                                    {visiMisiArray.map((item, index) => (
-                                                        <p key={index} className="leading-relaxed">{item}</p>
-                                                    ))}
-                                                </div>
-                                            ) : (
-                                                <p>Visi dan misi belum tersedia</p>
-                                            )}
-                                        </div>
+
+                        <div className="max-w-6xl mx-auto mt-16 sm:mt-20 lg:mt-24">
+                            <div className="p-8 border rounded-2xl bg-white/5 backdrop-blur-sm border-white/10">
+                                <div className="mb-12">
+                                    <h3 className="mb-6 text-2xl font-bold text-center text-white">Identitas Sekolah</h3>
+                                    <div className="overflow-hidden border border-white/20 rounded-xl">
+                                        <table className="w-full">
+                                            <tbody className="divide-y divide-white/10">
+                                                <tr className="transition-colors hover:bg-white/5">
+                                                    <td className="px-6 py-4 font-semibold text-white border-r border-white/10 w-1/3">
+                                                        <div className="flex items-center">
+                                                            <GraduationCap className="w-5 h-5 mr-3" style={{ color: accentColor }} />
+                                                            Nama Sekolah
+                                                        </div>
+                                                    </td>
+                                                    <td className="px-6 py-4 text-gray-200">{profil.nama_sekolah}</td>
+                                                </tr>
+                                                <tr className="transition-colors hover:bg-white/5">
+                                                    <td className="px-6 py-4 font-semibold text-white border-r border-white/10">
+                                                        <div className="flex items-center">
+                                                            <User className="w-5 h-5 mr-3" style={{ color: accentColor }} />
+                                                            Kepala Sekolah
+                                                        </div>
+                                                    </td>
+                                                    <td className="px-6 py-4 text-gray-200">{profil.kepala_sekolah}</td>
+                                                </tr>
+                                                <tr className="transition-colors hover:bg-white/5">
+                                                    <td className="px-6 py-4 font-semibold text-white border-r border-white/10">
+                                                        <div className="flex items-center">
+                                                            <Library className="w-5 h-5 mr-3" style={{ color: accentColor }} />
+                                                            NPSN
+                                                        </div>
+                                                    </td>
+                                                    <td className="px-6 py-4 text-gray-200">{profil.npsn}</td>
+                                                </tr>
+                                                <tr className="transition-colors hover:bg-white/5">
+                                                    <td className="px-6 py-4 font-semibold text-white border-r border-white/10">
+                                                        <div className="flex items-center">
+                                                            <Calendar className="w-5 h-5 mr-3" style={{ color: accentColor }} />
+                                                            Tahun Berdiri
+                                                        </div>
+                                                    </td>
+                                                    <td className="px-6 py-4 text-gray-200">{profil.tahun_berdiri}</td>
+                                                </tr>
+                                                <tr className="transition-colors hover:bg-white/5">
+                                                    <td className="px-6 py-4 font-semibold text-white border-r border-white/10">
+                                                        <div className="flex items-center">
+                                                            <MapPin className="w-5 h-5 mr-3" style={{ color: accentColor }} />
+                                                            Alamat
+                                                        </div>
+                                                    </td>
+                                                    <td className="px-6 py-4 text-gray-200">{profil.alamat}</td>
+                                                </tr>
+                                                <tr className="transition-colors hover:bg-white/5">
+                                                    <td className="px-6 py-4 font-semibold text-white border-r border-white/10">
+                                                        <div className="flex items-center">
+                                                            <Phone className="w-5 h-5 mr-3" style={{ color: accentColor }} />
+                                                            Kontak
+                                                        </div>
+                                                    </td>
+                                                    <td className="px-6 py-4 text-gray-200">{profil.kontak}</td>
+                                                </tr>
+                                                <tr className="transition-colors hover:bg-white/5">
+                                                    <td className="px-6 py-4 font-semibold text-white border-r border-white/10">
+                                                        <div className="flex items-center">
+                                                            <Mail className="w-5 h-5 mr-3" style={{ color: accentColor }} />
+                                                            Email
+                                                        </div>
+                                                    </td>
+                                                    <td className="px-6 py-4 text-gray-200">
+                                                        <a
+                                                            href={`mailto:${profil.email}`}
+                                                            className="transition-colors hover:text-yellow-400"
+                                                            style={{ color: accentColor }}
+                                                        >
+                                                            {profil.email}
+                                                        </a>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
                                     </div>
                                 </div>
+                                <div className="grid grid-cols-1 gap-8 mb-12 lg:grid-cols-2">
+                                    <div className="p-6 border border-white/20 rounded-xl">
+                                        <div className="flex items-center mb-4">
+                                            <div className="p-2 mr-3 rounded-lg" style={{ backgroundColor: `${accentColor}20` }}>
+                                                <Target className="w-6 h-6" style={{ color: accentColor }} />
+                                            </div>
+                                            <h3 className="text-xl font-bold text-white">Visi Sekolah</h3>
+                                        </div>
+                                        {visiMisiArray.length > 0 ? (
+                                            <div className="text-gray-200">
+                                                {visiMisiArray.filter(item => item.toLowerCase().includes('visi') || visiMisiArray.indexOf(item) === 0).map((item, index) => (
+                                                    <p key={index} className="mb-3 leading-relaxed text-justify">{item.replace('VISI:', '').replace('Visi:', '').trim()}</p>
+                                                ))}
+                                            </div>
+                                        ) : (
+                                            <p className="text-gray-400">Visi sekolah belum tersedia</p>
+                                        )}
+                                    </div>
+                                    <div className="p-6 border border-white/20 rounded-xl">
+                                        <div className="flex items-center mb-4">
+                                            <div className="p-2 mr-3 rounded-lg" style={{ backgroundColor: `${accentColor}20` }}>
+                                                <ListChecks className="w-6 h-6" style={{ color: accentColor }} />
+                                            </div>
+                                            <h3 className="text-xl font-bold text-white">Misi Sekolah</h3>
+                                        </div>
+                                        {visiMisiArray.length > 0 ? (
+                                            <div className="space-y-3 text-gray-200">
+                                                {visiMisiArray
+                                                    .filter(item => !item.toLowerCase().includes('visi'))
+                                                    .map((item, index) => (
+                                                        <div key={index} className="flex items-start">
 
-                                {/* Google Maps Section */}
-                                <div className="pt-8 mt-8 border-t border-white/10">
-                                    <h3 className="mb-4 text-xl font-semibold text-white">Lokasi Sekolah</h3>
+                                                            <p className="leading-relaxed text-justify">{item}</p>
+                                                        </div>
+                                                    ))
+                                                }
+                                            </div>
+                                        ) : (
+                                            <p className="text-gray-400">Misi sekolah belum tersedia</p>
+                                        )}
+                                    </div>
+                                </div>
+                                {profil.deskripsi && (
+                                    <div className="p-6 mb-12 border border-white/20 rounded-xl">
+                                        <div className="flex items-center mb-4">
+                                            <div className="p-2 mr-3 rounded-lg" style={{ backgroundColor: `${accentColor}20` }}>
+                                                <FileText className="w-6 h-6" style={{ color: accentColor }} />
+                                            </div>
+                                            <h3 className="text-xl font-bold text-white">Deskripsi Sekolah</h3>
+                                        </div>
+                                        <p className="leading-relaxed text-justify text-gray-200">{profil.deskripsi}</p>
+                                    </div>
+                                )}
+                                <div className="p-6 border border-white/20 rounded-xl">
+                                    <div className="flex items-center mb-6">
+                                        <div className="p-2 mr-3 rounded-lg" style={{ backgroundColor: `${accentColor}20` }}>
+                                            <MapPin className="w-6 h-6" style={{ color: accentColor }} />
+                                        </div>
+                                        <h3 className="text-xl font-bold text-white">Lokasi Sekolah</h3>
+                                    </div>
+
                                     <GoogleMapEmbed mapLink={profil.link_map} address={profil.alamat} />
-                                    <div className="mt-3 text-center">
+
+                                    <div className="flex flex-col gap-3 mt-4 sm:flex-row sm:justify-between">
+                                        <div className="flex items-center text-sm text-gray-300">
+                                            <MapPin className="w-4 h-4 mr-2" style={{ color: accentColor }} />
+                                            <span>{profil.alamat}</span>
+                                        </div>
                                         <a
                                             href={getSafeGoogleMapsUrl(profil.alamat, profil.link_map)}
                                             target="_blank"
                                             rel="noopener noreferrer"
-                                            className="inline-flex items-center px-4 py-2 font-semibold transition-all duration-300 transform rounded-lg hover:scale-105"
+                                            className="inline-flex items-center justify-center px-6 py-3 font-semibold transition-all duration-300 transform rounded-lg hover:scale-105 hover:shadow-lg"
                                             style={{
                                                 backgroundColor: accentColor,
                                                 color: themeColor
@@ -1219,13 +1470,6 @@ export default function Welcome() {
                                         </a>
                                     </div>
                                 </div>
-
-                                {profil.deskripsi && (
-                                    <div className="pt-8 mt-8 border-t border-white/10">
-                                        <h3 className="mb-4 text-xl font-semibold text-white">Deskripsi Sekolah</h3>
-                                        <p className="leading-relaxed text-justify text-gray-200">{profil.deskripsi}</p>
-                                    </div>
-                                )}
                             </div>
                         </div>
                     </div>

@@ -21,11 +21,11 @@ class LoginController extends Controller
             'password' => 'required|string|min:6',
         ]);
 
-        if (Auth::attempt($credentials)) {
-            $request->session()->regenerate();
+        // if (Auth::attempt($credentials)) {
+        //     $request->session()->regenerate();
 
-            return redirect()->intended('/dashboard');
-        }
+        //     return redirect()->intended('/dashboard');
+        // }
 
         return back()->withErrors([
             'username' => 'Username atau password salah.',

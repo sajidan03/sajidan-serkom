@@ -44,7 +44,11 @@ class GuruController extends Controller
         'nip' => 'required|unique:gurus,nip|max:12',
         'mapel' => 'required',
         'foto' => 'required|image|max:2048',
-    ]);
+    ],  [
+            'nip.required'=> 'Kolom ini harus diisi',
+            'nip.unique'=> 'Data sudah ada, mohon gunakan nip yang lain',
+            'nip.max' => 'TIdak boleh lebih dari 12 digit',
+       ]);
 
     $fileName = null;
 
@@ -81,10 +85,14 @@ class GuruController extends Controller
 
         $request->validate([
             'nama_guru' => 'required',
-            'nip' => 'required|unique:gurus,nip,'.$id,
+            'nip' => 'required|unique:gurus,nip',
             'mapel' => 'required',
             'foto' => 'nullable|image|max:2048',
-        ]);
+        ], [
+            'nip.required'=> 'Kolom ini harus diisi',
+            'nip.unique'=> 'Data sudah ada, mohon gunakan nip yang lain',
+       ]
+    );
         $fileName = $guru->foto;
         if ($request->hasFile('foto')) {
             $file = $request->file('foto');
@@ -97,6 +105,7 @@ class GuruController extends Controller
             'mapel' => $request->mapel,
             'foto' => $fileName,
         ]);
+        dd($guru);
         return redirect()->route('guruView')->with('message', 'Data guru berhasil diupdate');
     }
 

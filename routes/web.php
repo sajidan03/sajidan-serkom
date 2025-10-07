@@ -122,7 +122,7 @@ Route::middleware(['auth', 'verified'])
         Route::get('profil-sekolah', [OperatorProfilSekolah::class, 'index'])->name('operatorProfilView');
         Route::get('siswa', [OperatorSiswa::class, 'index'])->name('operatorSiswaView');
         Route::get('mapel', [OperatorMapel::class, 'index'])->name('operatorMapelView');
-        Route::get('fax', [FaxController::class, 'indexOperator'])->name('siswaView');
+        Route::get('fax', [FaxController::class, 'indexOperator'])->name('faxView');
         Route::delete('fax/hapus/{id}', [FaxController::class, 'hapusOperator'])->name('hapusFax');
 
         //export

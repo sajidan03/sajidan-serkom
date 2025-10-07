@@ -3,7 +3,6 @@ import { type BreadcrumbItem } from '@/types'
 import { Head, useForm, usePage, router } from '@inertiajs/react'
 import { useState, useEffect } from 'react'
 
-// Definisikan tipe data
 interface Errors {
   nama_guru?: string
   nip?: string
@@ -27,15 +26,14 @@ interface Mapel {
 interface PageProps {
   errors: Errors
   guru: Guru
-  mapel: Mapel[] // Tambahkan mapel dari database
+  mapel: Mapel[]
+  [key: string]: unknown;
 }
 
 export default function EditGuru() {
-  // Gunakan tipe PageProps
   const { props } = usePage<PageProps>()
   const { errors, guru, mapel } = props
 
-  // Pastikan guru ada sebelum menggunakan useForm
   const { data, setData, post, processing } = useForm({
     id: guru?.id || 0,
     nama_guru: guru?.nama_guru || '',
@@ -102,7 +100,7 @@ export default function EditGuru() {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
-    post(`/admin/guru/update/${data.id}`, {
+    post(`/admin/guru/edit/${data.id}`, {
       forceFormData: true,
       onError: (errors) => {
         console.log('Errors:', errors)

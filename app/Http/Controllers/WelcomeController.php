@@ -82,6 +82,7 @@ class WelcomeController extends Controller
         $data['jumlah_eskul'] = [
             'jumlah_eskul' => Ekstrakulikuler::count()
         ];
+        $data['siswa'] = Siswa::all()->take(8);
         return Inertia::render('welcome', $data);
     }
      public function daftarBerita(){
@@ -199,8 +200,8 @@ class WelcomeController extends Controller
         ];
 
     return Inertia::render('ekstrakulikuler', $data);
-        return Inertia::render('welcome', $data);
     }
+
 
     public function detailEskul($id) {
     try {
@@ -250,10 +251,10 @@ class WelcomeController extends Controller
             'email' => $request->email,
             'pesan' => $request->pesan,
         ]);
-        return response()->json([
-                'success' => true,
-                'message' => 'Terima kasih! Saran Anda telah berhasil dikirim.',
-                'data' => $fax
-            ], 201);
+        // return response()->json([
+        //         'success' => true,
+        //         'message' => 'Terima kasih! Saran Anda telah berhasil dikirim.',
+        //         'data' => $fax
+        //     ], 201);
     }
 }
