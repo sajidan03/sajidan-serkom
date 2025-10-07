@@ -1,40 +1,64 @@
 import AuthenticatedSessionController from '@/actions/App/Http/Controllers/Auth/AuthenticatedSessionController';
 import InputError from '@/components/input-error';
 import { Button } from '@/components/ui/button';
-import { Checkbox } from '@/components/ui/checkbox';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import AuthLayout from '@/layouts/auth-layout';
-import { Form, Head } from '@inertiajs/react';
+import { Form, Head, usePage } from '@inertiajs/react';
 import { LoaderCircle, LogIn } from 'lucide-react';
+import { useEffect } from 'react';
 
 interface LoginProps {
     status?: string;
     canResetPassword: boolean;
+    errors?: {
+        email?: string;
+        password?: string;
+        [key: string]: string | undefined;
+    };
 }
 
 export default function Login({ status }: LoginProps) {
+    const { errors, flash } = usePage().props;
+
+    useEffect(() => {
+        if (errors && (errors.email || errors.password)) {
+            alert('Login gagal! Username atau password salah.');
+        }
+
+        if (flash && flash.error) {
+            alert(flash.error);
+        }
+    }, [errors, flash]);
+
     return (
-        <AuthLayout title="Masuk akun anda" description="Masukan username dan password anda untuk login.">
+        <AuthLayout
+            title="Masuk akun anda"
+            description="Masukan username dan password anda untuk login."
+        >
             <Head title="Log in" />
 
-            <Form {...AuthenticatedSessionController.store.form()} resetOnSuccess={['password']} className="flex flex-col gap-6">
-                {({ processing, errors }) => (
+            <Form
+                {...AuthenticatedSessionController.store.form()}
+                resetOnSuccess={['password']}
+                className="flex flex-col gap-6"
+            >
+                {({ processing, errors: formErrors }) => (
                     <>
                         <div className="grid gap-6">
                             <div className="grid gap-2">
                                 <Label htmlFor="username">Username</Label>
-                           <Input
-                            id="username"
-                            type="text"
-                            name="username"
-                            required
-                            autoFocus
-                            tabIndex={1}
-                            autoComplete="username"
-                            placeholder="Username"
-                        />
-                                <InputError message={errors.email} />
+                                <Input
+                                    id="username"
+                                    type="text"
+                                    name="username"
+                                    required
+                                    autoFocus
+                                    tabIndex={1}
+                                    autoComplete="username"
+                                    placeholder="Username"
+                                />
+                                <InputError message={formErrors.email} />
                             </div>
 
                             <div className="grid gap-2">
@@ -50,19 +74,8 @@ export default function Login({ status }: LoginProps) {
                                     autoComplete="current-password"
                                     placeholder="Password"
                                 />
-                                <InputError message={errors.password} />
+                                <InputError message={formErrors.password} />
                             </div>
-
-                            {/* <div className="flex items-center space-x-3">
-                            <Checkbox
-                            id="remember"
-                            name="remember"
-                            tabIndex={3}
-                            className="data-[state=checked]:bg-[#30328b] data-[state=checked]:border-black-500"
-                            />
-                                <Label htmlFor="remember">Ingat saya</Label>
-                            </div> */}
-
 
                             <Button
                                 type="submit"

@@ -20,10 +20,14 @@ use App\Http\Controllers\SiswaController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\WelcomeController;
 use App\Http\Controllers\FaxController;
+use App\Http\Controllers\LoginController;
 use App\Models\Ekstrakulikuler;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', [WelcomeController::class, 'index'])->name('home');
+//login
+Route::get('/masuk', [LoginController::class,'loginShow'])->name('loginShow');
+Route::post('/masuk', [LoginController::class,'login'])->name('loginPost');
 //berita
 Route::get('/berita', [WelcomeController::class,'daftarBerita'])->name('daftarBerita');
 Route::get('/berita/{id}', [WelcomeController::class,'detailBerita'])->name('detailBerita');

@@ -296,7 +296,7 @@ export default function Welcome() {
                         </div>
                         <div className="hidden lg:flex lg:flex-1 lg:justify-end">
                             <Link
-                                href='/login'
+                                href='/masuk'
                                 className="font-semibold text-gray-900 text-sm/6 hover:text-blue-600"
                             >
                                 Login<span aria-hidden="true">&rarr;</span>
@@ -375,7 +375,7 @@ export default function Welcome() {
                                         </div>
                                         <div className="py-6">
                                             <Link
-                                                href={login()}
+                                                href={'/masuk'}
                                                 className="-mx-3 block rounded-lg px-3 py-2.5 text-base/7 font-semibold text-gray-900 hover:bg-gray-50"
                                             >
                                                 Login
@@ -448,7 +448,7 @@ export default function Welcome() {
                                     Profil Sekolah
                                 </Link>
                                 <Link
-                                    href={login()}
+                                    href={'/masuk'}
                                     className="font-semibold text-white text-sm/6 hover:text-yellow-400"
                                 >
                                     Login <span aria-hidden="true">→</span>

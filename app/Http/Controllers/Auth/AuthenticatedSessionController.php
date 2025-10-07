@@ -27,18 +27,8 @@ class AuthenticatedSessionController extends Controller
         ]);
     }
 
-    /**
-     * Handle an incoming authentication request.
-     */
-    // public function store(LoginRequest $request): RedirectResponse
-    // {
-    //     $request->authenticate();
-
-    //     $request->session()->regenerate();
-
-    //     return redirect()->intended(route('dashboard', absolute: false));
-    // }
-    public function store(LoginRequest $request){
+    public function store(LoginRequest $request)
+{
     try {
         $request->authenticate();
         $request->session()->regenerate();
@@ -56,8 +46,15 @@ class AuthenticatedSessionController extends Controller
         return redirect()->intended('/')
             ->with('success', 'Login berhasil! Selamat datang.');
 
+    } catch (\Illuminate\Validation\ValidationException $e) {
+        return back()
+            ->withInput($request->only('username'))
+            ->withErrors([
+                'username' => 'Username atau password yang Anda masukkan salah.',
+            ])
+            ->with('error', 'Login gagal. Periksa kembali username dan password Anda.');
     } catch (\Illuminate\Auth\AuthenticationException $e) {
-        return redirect()->back()
+        return back()
             ->withInput($request->only('username'))
             ->withErrors([
                 'username' => 'Username atau password yang Anda masukkan salah.',
