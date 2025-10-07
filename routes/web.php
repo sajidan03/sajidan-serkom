@@ -74,31 +74,31 @@ Route::middleware(['auth', 'verified'])
         Route::get('user/edit/{id}', [UserController::class, 'userEditView'])->name('userEditView');
         Route::post('user/edit/{id}', [UserController::class, 'editUser'])->name('userEdit');
         Route::delete('user/hapus/{id}', [UserController::class, 'hapusUser'])->name('userHapus');
-        //
+        //kelola-siswa
         Route::get('siswa/tambah', [SiswaController::class, 'tambahView'])->name('siswaTambahView');
         Route::post('siswa/simpan', [SiswaController::class, 'simpan'])->name('siswaSimpan');
         Route::get('siswa/edit/{id}', [SiswaController::class, 'siswaEditView'])->name('siswaEditView');
         Route::post('siswa/edit/{id}', [SiswaController::class, 'siswaEdit'])->name('siswaEdit');
         Route::delete('siswa/hapus/{id}', [SiswaController::class, 'hapusSiswa'])->name('siswaHapus');
-        //
+        //kelola-berita
         Route::get('berita/tambah', [BeritaController::class, 'beritaTambahView'])->name('beritaTambahView');
         Route::post('berita/tambah', [BeritaController::class, 'beritaTambah'])->name('beritaTambah');
         Route::get('berita/edit/{id}', [BeritaController::class, 'beritaEditView'])->name('beritaEditView');
         Route::post('berita/edit/{id}', [BeritaController::class, 'beritaEdit'])->name('beritaEdit');
         Route::delete('berita/hapus/{id}', [BeritaController::class, 'beritaHapus'])->name('beritaHapus');
-        //
+        //kelola-eskul
         Route::get('ekstrakulikuler/tambah', [EkskulController::class, 'ekskulTambahView'])->name('beritaTambahView');
         Route::post('ekstrakulikuler/tambah', [EkskulController::class, 'ekskulTambah'])->name('ekskulTambah');
         Route::get('ekstrakulikuler/edit/{id}', [EkskulController::class, 'ekskulEditView'])->name('ekskulEditView');
         Route::post('ekstrakulikuler/edit/{id}', [EkskulController::class, 'ekskulEdit'])->name('ekskulEdit');
         Route::delete('ekstrakulikuler/hapus/{id}', [EkskulController::class, 'ekskulHapus'])->name('ekskulHapus');
-        //
+        //kelola-profil
         Route::get('profil-sekolah/tambah', [ProfilSekolahController::class, 'tambahView'])->name('profilTambahView');
         Route::post('profil-sekolah/tambah', [ProfilSekolahController::class, 'profilTambah'])->name('profilSimpan');
         Route::get('profil-sekolah/edit/{id}', [ProfilSekolahController::class, 'profilEditView'])->name('profilEditView');
         Route::post('profil-sekolah/edit/{id}', [ProfilSekolahController::class, 'profilEdit'])->name('profilEdit');
         Route::delete('profil-sekolah/hapus/{id}', [ProfilSekolahController::class, 'hapusProfil'])->name('profilHapus');
-        //
+        //kelola-mapel
         Route::get('mapel/tambah', [MapelController::class, 'mapelTambahView'])->name('mapelTambahView');
         Route::post('mapel/tambah', [MapelController::class, 'mapelTambah'])->name('mapelSimpan');
         Route::get('mapel/edit/{id}', [MapelController::class, 'mapelEditView'])->name('mapelEditView');

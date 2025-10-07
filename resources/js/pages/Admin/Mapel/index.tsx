@@ -18,7 +18,6 @@ interface Mapel {
 export default function MapelIndex() {
   const { props } = usePage()
   const mapel = props.mapel as Mapel[]
-
   const handleDelete = (id: number) => {
     if (confirm('Apakah Anda yakin ingin menghapus mata pelajaran ini?')) {
       router.delete(`/admin/mapel/hapus/${id}`)

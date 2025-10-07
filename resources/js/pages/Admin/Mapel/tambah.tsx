@@ -83,7 +83,7 @@ export default function MapelCreate() {
                 </div>
 
                 <div className="p-4 sm:p-6">
-                  <form onSubmit={handleSubmit} className="space-y-6">
+                  <form onSubmit={ handleSubmit} className="space-y-6">
                     {/* Field Nama Mata Pelajaran */}
                     <div>
                       <label
@@ -161,7 +161,7 @@ export default function MapelCreate() {
                 </div>
               </div>
 
-    
+
 
             </div>
           </div>
